@@ -93,17 +93,49 @@ html, body {
 }
 
 #main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 0.3fr 2.4fr 0.3fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+
+  width: 100vw;
+  height: 100vh;
+  padding: 6% 12% 6% 12%;
+  box-sizing: border-box;
 }
 
-#tree {
-  max-width: 20em;
+.header { grid-area: 1 / 1 / 2 / 4; }
+
+.footer { grid-area: 3 / 1 / 4 / 4; }
+
+.content {
+  grid-area: 2 / 1 / 3 / 4;
+  place-self: center;
+}
+
+.logo { grid-area: 1 / 1 / 2 / 2; }
+
+#logo {
+  max-width: 9em;
   height: auto;
 }
+
+.funbox { grid-area: 3 / 1 / 4 / 2; }
+
+.copyright {
+  grid-area: 3 / 3 / 4 / 4;
+  place-self: end;
+}
+
+.buttons { grid-area: 1 / 3 / 2 / 4; }
+
+.copyright, .funbox {
+  font-size: 0.8em;
+  color: white;
+  white-space: nowrap;
+}
+
 
 #scape {
 
