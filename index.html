@@ -25,21 +25,21 @@
 
   <style>
     body {
-      background-image: url('img/scape1bg.png');
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      background-size: cover;
-      background-position: center;
+      background: rgb(183,205,213);
+      background: linear-gradient(0deg, rgba(183,205,213,1) 0%, rgba(164,214,249,1) 31%, rgba(135,194,245,1) 66%, rgba(121,180,238,1) 100%);
     }
 
-    #tree {
-      max-width: 20em;
-      height: auto;
+    #scape {
+      position: fixed;
+      bottom: 0;
+      width: 100vw;
+      pointer-events: none;
+      z-index: -1;
     }
   </style>
 </head>
 
-<body>
+<body onload="document.body.style.opacity='1'">
 
   <!-- Add your site or application content here -->
 
@@ -47,9 +47,6 @@
     <div class="header"></div>
     <div class="footer"></div>
     <div class="content">
-      <a href="music">
-        <img id="tree" src="img/transparenttree.gif" alt="life itself">
-      </a>
     </div>
     <div class="logo">
       <a href="https://odd.horse/">
@@ -70,6 +67,8 @@
     </div>
     <div class="buttons"></div>
   </div>
+  <img id="scape" src="img/scape1-fg.png" alt="a beautiful place">
+
 
   <script src="js/vendor/modernizr-3.11.2.min.js"></script>
   <script src="js/plugins.js"></script>
