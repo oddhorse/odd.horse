@@ -29,6 +29,8 @@
       display: table-cell;
       vertical-align: middle;
       margin: 2em auto;
+      opacity: 0;
+      transition: opacity 2s;
     }
 
     h1 {
@@ -87,6 +89,7 @@
         thisDiv.style.top = randomTop + 'px';
         thisDiv.style.left = randomLeft + 'px';
       }
+      document.body.style.opacity='1';
     }
 
     // function that returns a random number between the middle 40% of a min and max
