@@ -63,34 +63,42 @@
   </style>
 
   <script>
-    // collect all the divs
-    const divs = document.getElementsByTagName('div');
-    // get window width and height
-    const winWidth = window.innerWidth;
-    const winHeight = window.innerHeight;
 
-    // i stands for "index". you could also call this banana or haircut. it's a variable
-    let randomTop;
-    let randomLeft;
-    for (let i = 0; i < divs.length; i++) {
+    window.onload = function randPos () {
+      // collect all the divs
+      const divs = document.getElementsByTagName('div');
+      // get window width and height
+      const winWidth = window.innerWidth;
+      const winHeight = window.innerHeight;
 
-      // shortcut! the current div in the list
-      const thisDiv = divs[i];
+      // i stands for "index". you could also call this banana or haircut. it's a variable
+      let randomTop;
+      let randomLeft;
+      for (let i = 0; i < divs.length; i++) {
 
-      // get random numbers for each element
-      randomTop = getRandomNumber(0, winHeight);
-      randomLeft = getRandomNumber(0, winWidth);
+        // shortcut! the current div in the list
+        const thisDiv = divs[i];
 
-      // update top and left position
-      thisDiv.style.top = randomTop + 'px';
-      thisDiv.style.left = randomLeft + 'px';
+        // get random numbers for each element
+        randomTop = getRandomNumber(0, winHeight);
+        randomLeft = getRandomNumber(0, winWidth);
+
+        // update top and left position
+        thisDiv.style.top = randomTop + 'px';
+        thisDiv.style.left = randomLeft + 'px';
+      }
     }
 
     // function that returns a random number between the middle 40% of a min and max
     function getRandomNumber(min, max) {
       const range = max - min;
+      console.log("range:" + range);
       let rand = Math.random() * (max - min) + min;
-      while (rand > range * 0.7 || rand < 0.3) rand = Math.random() * (max - min) + min;
+      console.log("rand:" + rand);
+      while (rand > range * 0.7 || rand < 0.3) {
+        rand = Math.random() * (max - min) + min;
+        console.log("new rand:" + rand);
+      }
       return rand;
     }
   </script>
