@@ -95,13 +95,9 @@
     // function that returns a random number between the middle 40% of a min and max
     function getRandomNumber(min, max) {
       const range = max - min;
-      console.log("range:" + range);
       let rand = Math.random() * (max - min) + min;
-      console.log("rand:" + rand);
-      while (rand > range * 0.7 || rand < 0.3) {
-        rand = Math.random() * (max - min) + min;
-        console.log("new rand:" + rand);
-      }
+      // keep random number between middle 40% of screen dimension
+      while (rand > range * 0.7 || rand < 0.3) rand = Math.random() * (max - min) + min;
       return rand;
     }
   </script>
