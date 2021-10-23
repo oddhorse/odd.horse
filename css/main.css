@@ -92,6 +92,11 @@ html, body {
   margin: 0px;
 }
 
+p, a {
+  color: white;
+  font-style: italic;
+}
+
 #main {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -138,7 +143,6 @@ html, body {
 
 .buttons > a {
   font-size: 1.5em;
-  color: white;
   text-decoration: none;
 }
 
@@ -151,7 +155,6 @@ html, body {
 
 .copyright, .funbox {
   font-size: 0.8em;
-  color: white;
   white-space: nowrap;
 }
 
