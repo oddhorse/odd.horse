@@ -90,7 +90,7 @@ textarea {
 html, body {
   height: 100%;
   margin: 0px;
-  font-family: "Times New Roman", serif;
+  font-family: "Times New Roman", Times, serif;
 }
 
 p, a {
