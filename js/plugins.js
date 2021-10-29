@@ -1,3 +1,7 @@
+/*
+ * plugins.js copyright (c) 2021 oddhorse.  all rights reserved. ~uwu~
+ */
+
 // Avoid `console` errors in browsers that lack a console.
 (function() {
   var method;

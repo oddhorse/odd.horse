@@ -6,8 +6,8 @@
   "license": "",
   "author": "",
   "scripts": {
-    "build": "parcel build life.html",
-    "dev": "parcel life.html --open",
+    "build": "parcel build far.html",
+    "dev": "parcel far.html --open",
     "start": "npm run build && npm run dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
