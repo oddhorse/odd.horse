@@ -103,7 +103,6 @@ html, body {
 
 p, a {
   color: white;
-  font-style: italic;
 }
 
 #main {
@@ -166,6 +165,7 @@ p, a {
 .copyright, .funbox {
   font-size: 0.65em;
   white-space: nowrap;
+  font-style: italic;
 }
 
 .fade {
