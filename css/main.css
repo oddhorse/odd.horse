@@ -97,12 +97,9 @@ textarea {
 html, body {
   height: 100%;
   margin: 0;
-  /* font-family: 'Crimson Pro', 'Times New Roman', Times, serif; */
-  font-family: 'Poppins', sans-serif;
-}
-
-p, a {
-  color: white;
+  font-family: 'Crimson Pro', 'Times New Roman', Times, serif;
+  /* font-family: 'Poppins', sans-serif; */
+  font-style: italic;
 }
 
 #main {
@@ -140,6 +137,7 @@ p, a {
   max-width: 9em;
   height: auto;
   display: block;
+  filter: invert(100%);
 }
 
 .buttons {
@@ -150,9 +148,10 @@ p, a {
 }
 
 .buttons > a {
-  font-size: 1em;
+  font-size: 1.2em;
   text-decoration: none;
   font-weight: 600;
+  color: black;
 }
 
 .funbox { grid-area: 3 / 1 / 4 / 2; }
