@@ -160,6 +160,9 @@ html, body {
   grid-area: 3 / 3 / 4 / 4;
   place-self: end;
 }
+.copyright > p {
+  color: #dddddd;
+}
 
 .copyright, .funbox {
   font-size: 0.65em;
