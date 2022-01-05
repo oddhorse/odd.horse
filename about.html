@@ -1,5 +1,5 @@
 <!--
-  ~ about.html copyright (c) 2021-2021 oddhorse.  all rights reserved. ~uwu~
+  ~ about.html copyright (c) 2021-2022 oddhorse.  all rights reserved. ~uwu~
   -->
 
 <!doctype html>
@@ -33,9 +33,12 @@
     }
 
     .content {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      min-width: 10em;
+      width: calc(100% - 2em);
+      align-self: flex-start;
+    }
+    .content > * {
+      margin: initial;
     }
   </style>
 </head>
@@ -59,15 +62,16 @@
       </a>
       <div class="buttons">
         <a href="music.html">music</a>
+        <a href="about.html">who???</a>
       </div>
     </div>
     <div class="footer"></div>
     <div class="content">
-      <div class="album">
-        <a href="https://distrokid.com/hyperfollow/icebear1/retroprospective-vol1">
-          <h1>RETROPROSPECTIVE vol.1</h1>
-        </a>
-      </div>
+      <h1 class="title"><b>who are you, oddhorse...</b></h1>
+      <p>i make music</p>
+      <p>fka ice.bear</p>
+      <p><a href="music.html">take a listen</a>!</p>
+      <p>social media... <a href="https://instagram.com/oddhorse_">instagram</a></p>
     </div>
     <div class="funbox"></div>
     <div class="copyright">
