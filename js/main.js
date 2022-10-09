@@ -1,5 +1,5 @@
 /*
- * main.js copyright (c) 2021-2021 oddhorse.  all rights reserved. ~uwu~
+ * main.js copyright (c) 2021-2022 oddhorse all rights reserved uwu
  */
 
 window.onload = function(e){

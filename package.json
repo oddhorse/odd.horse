@@ -2,7 +2,7 @@
   "name": "odd.horse",
   "version": "0.0.1",
   "description": "oddhorse's website",
-  "keywords": "",
+  "keywords": [],
   "license": "",
   "author": "oddhorse",
   "source": ["index.html", "404.html"],
@@ -13,6 +13,6 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "parcel-bundler": "^1.12.4"
+    "parcel": "^2.0.0"
   }
 }

@@ -1,5 +1,5 @@
 /*
- * main.css copyright (c) 2021 oddhorse.  all rights reserved. ~uwu~
+ * main.css copyright (c) 2021-2022 oddhorse all rights reserved uwu
  */
 
 /*! HTML5 Boilerplate v8.0.0 | MIT License | https://html5boilerplate.com/ */
@@ -12,7 +12,7 @@
  */
 
 
-@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&family=Poppins:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&family=Poppins:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
 
 /* ==========================================================================
    Base styles: opinionated defaults
@@ -97,9 +97,13 @@ textarea {
 html, body {
   height: 100%;
   margin: 0;
-  font-family: 'Crimson Pro', 'Times New Roman', Times, serif;
+  font-family: 'Cormorant', 'Times New Roman', Times, serif;
   /* font-family: 'Poppins', sans-serif; */
   font-style: italic;
+}
+
+body {
+  background: white fixed;
 }
 
 #main {
