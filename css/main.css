@@ -97,7 +97,7 @@ textarea {
 html, body {
   height: 100%;
   margin: 0;
-  font-family: 'Cormorant', 'Times New Roman', Times, serif;
+  font-family: 'Cormorant', 'Times New Roman', 'Times', 'Times Roman', 'Georgia', serif;
   /* font-family: 'Poppins', sans-serif; */
 
 }

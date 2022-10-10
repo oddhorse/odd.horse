@@ -5,7 +5,10 @@
   "keywords": [],
   "license": "",
   "author": "oddhorse",
-  "source": ["index.html", "404.html"],
+  "source": [
+    "index.html",
+    "404.html"
+  ],
   "scripts": {
     "build": "parcel build index.html 404.html --public-url ./",
     "dev": "parcel index.html --open",
@@ -13,6 +16,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "parcel": "^2.0.0"
+    "parcel": "^2.0.0",
+    "prettier": "2.7.1"
+  },
+  "prettier": {
+    "semi": false
   }
 }

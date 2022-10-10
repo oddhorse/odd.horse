@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="75b97113-951e-4bd5-9766-f8b3480f0d73" name="oddhorse" url="https://odd.horse/">
+        <fileTransfer rootFolder="/home/oddhorse" accessType="SFTP" host="odd.horse" port="22" sshConfigId="b5302705-c192-49d9-b010-0f997fd754b4" sshConfig="oddhorse@odd.horse:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

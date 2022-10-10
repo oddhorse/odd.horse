@@ -1,0 +1,7 @@
+<component name="CopyrightManager">
+  <copyright>
+    <option name="keyword" value="copyright" />
+    <option name="notice" value="&amp;#36;file.fileName copyright (c) &amp;#36;originalComment.match(&quot;copyright \(c\) (\d+)&quot;, 1, &quot;-&quot;)&amp;#36;today.year oddhorse all rights reserved uwu" />
+    <option name="myName" value="odd.horse website" />
+  </copyright>
+</component>
