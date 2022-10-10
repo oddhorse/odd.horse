@@ -99,7 +99,7 @@ html, body {
   margin: 0;
   font-family: 'Cormorant', 'Times New Roman', Times, serif;
   /* font-family: 'Poppins', sans-serif; */
-  font-style: italic;
+
 }
 
 body {
@@ -133,15 +133,27 @@ body {
   place-self: center;
 }
 
-.header > a {
-  height: min-content;
+#logo {
+  height: 2em;
+  color: #000;
+  display: block;
 }
 
-#logo {
-  max-width: 9em;
-  height: auto;
-  display: block;
-  filter: invert(100%);
+#logo-hoverbox {
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+  padding: 0; /* changes to 2em on hover! */
+  margin: 0; /* changes to -2em on hover! */
+  pointer-events: auto;
+  text-decoration: none;
+}
+
+#logo-text {
+  font-size: 2em;
+  pointer-events: none;
+  margin: 0;
+  color: #000;
 }
 
 .buttons {
@@ -152,9 +164,9 @@ body {
 }
 
 .buttons > a {
-  font-size: 1.2em;
+  font-size: 1.4em;
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 700;
   color: black;
 }
 
