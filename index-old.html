@@ -1,0 +1,93 @@
+<!--
+  ~ index-old.html copyright (c) 2021-2022 oddhorse all rights reserved uwu
+  -->
+
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title>oddhorse</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:title" content="">
+  <meta property="og:type" content="">
+  <meta property="og:url" content="">
+  <meta property="og:image" content="">
+
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <!-- Place favicon.ico in the root directory -->
+
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/main.css">
+
+  <meta name="theme-color" content="#fafafa">
+
+  <style>
+    body {
+      background: white fixed;
+    }
+
+    #tree {
+      margin: 0 auto;
+      max-width: 20em;
+      height: auto;
+      display: block;
+      z-index: -1;
+    }
+    #story a, #story p {
+      margin: 0 auto;
+      font-size: 1em;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Add your site or application content here -->
+
+  <div id="main">
+    <div class="header">
+      <a href="./" id="logo-hoverbox" onmouseover="agitate('oddhorse', this, elLogoText)" onmouseout="returnTo('oddhorse', this, elLogoText)">
+        <p id="logo-text">oddhorse</p>
+      </a>
+      <div class="buttons">
+        <a href="music.html">music</a>
+        <a href="about.html">who???</a>
+      </div>
+      <script src="js/scatter.js"></script>
+    </div>
+    <div class="footer"></div>
+    <div class="content">
+      <img id="tree" class="fade scatter" src="img/tree.gif" alt="life itself">
+      <div id="story" class="scatter">
+        <p>There is something about this place—you feel trapped, caged.  There is no life left for you to live here.  And so, you must leave.</p>
+        <p>Be free.  <a href="far.html">Follow the wind, young wanderer....</a></p>
+      </div>
+    </div>
+
+    <div class="funbox"></div>
+    <div class="copyright">
+      <p>© 2021 oddhorse</p>
+    </div>
+  </div>
+
+
+  <script src="js/vendor/modernizr-3.11.2.min.js"></script>
+  <script src="js/plugins.js"></script>
+  <script src="js/main.js"></script>
+
+  <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+  <script>
+    window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
+    ga('create', 'UA-XXXXX-Y', 'auto'); ga('set', 'anonymizeIp', true); ga('set', 'transport', 'beacon'); ga('send', 'pageview')
+  </script>
+  <script src="https://www.google-analytics.com/analytics.js" async></script>
+</body>
+
+</html>

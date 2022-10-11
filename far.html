@@ -1,5 +1,5 @@
 <!--
-  ~ far.html copyright (c) 2021-2022 oddhorse all rights reserved uwu
+  ~ far.html copyright (c) 2022 oddhorse all rights reserved uwu
   -->
 
 <!doctype html>
@@ -24,16 +24,10 @@
 
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/main.css">
-
-  <meta name="theme-color" content="#fafafa">
-
   <style>
-    body {
-      background: white fixed;
-    }
-
     .content {
       margin: 0 auto;
+      place-self: center;
     }
 
     #img {
@@ -60,50 +54,36 @@
 
 <body>
 
-  <!-- Add your site or application content here -->
+<!-- Add your site or application content here -->
 
-  <div id="main">
-    <div class="header">
-      <a href="https://odd.horse/">
-        <img
-          id="logo"
-          alt="oddhorse's logo"
-          src="img/logos/site-main.png"
-          srcset="
-          img/logos/site-main@0.5x.png 0.5x,
-          img/logos/site-main@1.5x.png 1.5x,
-          img/logos/site-main@2x.png 2x
-        ">
-      </a>
-      <div class="buttons">
-        <a href="music.html">music</a>
-        <a href="about.html">who???</a>
-      </div>
+<div id="main">
+  <div class="header">
+    <a href="./" id="logo-hoverbox" onmouseover="agitate('oddhorse', this, elLogoText)" onmouseout="returnTo('oddhorse', this, elLogoText)">
+      <p id="logo-text">oddhorse</p>
+    </a>
+    <div class="buttons">
+      <a href="music.html">music</a>
+      <a href="about.html">who???</a>
     </div>
-    <div class="footer"></div>
-    <div class="content">
-      <img id="img" class="fade" src="img/far.png" alt="life itself">
-      <h1>So Far From Home</h1>
-      <p>A new album. A new journey. A new world. Coming 2022.</p>
+    <script src="js/scatter.js"></script>
+  </div>
+  <div class="content">
+    <img id="img" class="fade" src="img/far.png" alt="life itself">
+    <h1>So Far From Home</h1>
+    <p>A new album. A new journey. A new world. Coming 2022.</p>
 
-    </div>
+  </div>
+  <div class="footer">
     <div class="funbox"></div>
     <div class="copyright">
-      <p>© 2021 oddhorse</p>
+      <p>© 2022 oddhorse</p>
     </div>
-    <div class="buttons"></div>
   </div>
+</div>
 
-  <script src="js/vendor/modernizr-3.11.2.min.js"></script>
-  <script src="js/plugins.js"></script>
-  <script src="js/main.js"></script>
-
-  <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
-  <script>
-    window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
-    ga('create', 'UA-XXXXX-Y', 'auto'); ga('set', 'anonymizeIp', true); ga('set', 'transport', 'beacon'); ga('send', 'pageview')
-  </script>
-  <script src="https://www.google-analytics.com/analytics.js" async></script>
+<script src="js/vendor/modernizr-3.11.2.min.js"></script>
+<script src="js/plugins.js"></script>
+<script src="js/main.js"></script>
 </body>
 
 </html>
