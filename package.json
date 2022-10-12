@@ -10,7 +10,7 @@
     "404.html"
   ],
   "scripts": {
-    "build": "parcel build index.html 404.html  --public-url ./",
+    "build": "parcel build *.html  --public-url ./",
     "dev": "parcel index.html --open",
     "start": "npm run build && npm run dev",
     "test": "echo \"Error: no test specified\" && exit 1"
