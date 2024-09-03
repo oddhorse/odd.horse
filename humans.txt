@@ -3,13 +3,13 @@
 
 # TEAM
 
-    <name> -- <role> -- <twitter>
+    oddhorse -- every single thing -- @oddhorse_
 
 # THANKS
 
-    <name>
+    HTML5 Boilerplate
 
 # TECHNOLOGY COLOPHON
 
     CSS3, HTML5
-    Apache Server Configs, jQuery, Modernizr, Normalize.css
+    Apache Server Configs, Modernizr, Normalize.css
