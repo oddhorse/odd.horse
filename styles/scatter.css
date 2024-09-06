@@ -1,0 +1,19 @@
+#logo-hoverbox {
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    padding: 0;
+    /* changes to 2em on hover! */
+    margin: 0;
+    /* changes to -2em on hover! */
+    pointer-events: auto;
+    text-decoration: none;
+  }
+
+  #logo-text {
+    font-size: 2em;
+    font-family: 'Cormorant', 'Times New Roman', 'Times', 'Georgia', serif;
+    pointer-events: none;
+    margin: 0;
+    color: #000;
+  }

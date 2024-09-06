@@ -1,3 +1,8 @@
+/**
+ * from vite typescript template
+ * saved for reference on importing modules and shit
+ */
+
 import './style.css'
 import typescriptLogo from './typescript.svg'
 import viteLogo from '/vite.svg'
