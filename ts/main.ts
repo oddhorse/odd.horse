@@ -72,7 +72,7 @@ function injectLinks (containerId: string, links: Array<Link>) {
 	if (containerEl == null)
 		throw new Error(`no element found with id ${containerId}!`)
 	for (const link of links) {
-		let linkEl = document.createElement('a')
+		const linkEl = document.createElement('a')
 		linkEl.innerText = link.name
 		linkEl.style.color = link.color.hex()
 		linkEl.href = link.href
@@ -100,51 +100,11 @@ injectLinks('social-links', socialLinks)
 
 
 // randomize headings
-const headings = document.getElementById("home").getElementsByClassName("heading")
+const headings = document.getElementById("home")!.getElementsByClassName("heading")
 
 for (const el of headings) {
-	randomTranslate(el, 35, 5)
+	if (el instanceof HTMLElement) randomTranslate(el, 35, 5)
 }
-injectLinks()
-
-/*
-	random number generators
-*/
-
-/**
- * returns a random decimal number between `min` and `max` bounds, inclusive of `min` and exclusive of `max`
- * @param min minimum value that can be generated. inclusive
- * @param max maximum value that can be generated. exclusive!
- * @returns number duh
- */
-function getRandomDecimalBetween (min: number, max: number) {
-	if (min > max) throw Error('min should not be greater than max! try again')
-	return Math.random() * (max - min) + min
-}
-
-function getRandomDecimalUnidirectional (bound: number) {
-	if (bound <= 0) throw Error("bound cannot be 0 or negative! try again")
-	return Math.random() * bound
-}
-
-function getRandomDecimalBidirectional (bound: number) {
-	if (bound <= 0) throw Error("bound cannot be 0 or negative! try again")
-	let n = Math.random() * bound
-	if (Math.random() < 0.5) n *= -1 // 50% chance of being made negative
-	return n
-}
-
-/**
- * generates a random decimal value between 0 (inclusive) and `bound` (exclusive), applying an exponential curve to scale probability
- * @param bound maximum value (exclusive) that can be generated
- * @param exp exponential curve to apply to random value
- * @returns value
- */
-function getRandomDecimalUnidirectionalExponential (bound: number, exp: number) {
-	if (bound <= 0) throw Error("bound cannot be 0 or negative! try again")
-	return Math.pow(Math.random(), exp) * bound
-}
-
 
 /**
  * generates a random decimal value between `-bound` and `bound` (both exclusive), applying an exponential curve to scale probability
