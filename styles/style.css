@@ -1,0 +1,121 @@
+/*
+ * style.css
+ * modified from vite typescript template
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+/* color def */
+:root {
+
+	/* main ui colors */
+	--color-main: #242424;
+	--color-main-dark: #ffffffde;
+	--color-bg: #ffffff;
+	--color-bg-dark: #242424;
+	--color-subtle: #cecece;
+	--color-subtle-dark: #cecece;
+
+
+	/* link colors (currently unused) */
+	/* TODO: work on this */
+	--color-spotify: #46f448;
+	--color-applemusic: #ff4242;
+	--color-amazonmusic: #0084ff;
+	--color-soundcloud: #ff9d00;
+	--color-bandcamp: #00c0de;
+	--color-ig: #de006b;
+	--color-tiktok: #000000;
+	--color-yt: #ff0000;
+
+	color-scheme: light dark;
+
+	color: var(--color-main);
+	background-color: var(--color-bg);
+
+	/* dark mode */
+	@media (prefers-color-scheme: dark) {
+		--color-main: #ffffffde;
+		--color-bg: #242424;
+		--color-subtle: #575757;
+	}
+}
+
+:root {
+	font-family: 'Times New Roman', 'Times', 'Georgia', serif;
+}
+
+
+
+body {
+	margin: 0;
+	display: flex;
+	place-items: center;
+	min-width: 320px;
+	min-height: 100vh;
+	filter: url(#crunch-small);
+}
+
+/* element defaults */
+
+
+a {
+	color: inherit;
+}
+
+p {
+	margin-block: 0.5em;
+}
+
+/* site parts */
+
+.content {
+	max-width: 1280px;
+	margin: 0 auto;
+	padding: 2rem;
+	text-align: center;
+}
+
+#home {
+	#title {
+		font-size: 3em;
+		line-height: 1.1;
+		font-weight: normal;
+		text-decoration-line: none;
+	}
+
+	.heading {
+		margin-top: 1em;
+	}
+
+	/* for link text */
+	.links {
+		a {
+			font-size: 1.4em;
+			display: block;
+			margin: auto;
+			margin-block: 0.05em;
+			width: fit-content;
+		}
+	}
+}
+
+#github {
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	z-index: 0;
+
+	a {
+		color: var(--color-subtle);
+
+		svg {
+			fill: var(--color-subtle);
+		}
+	}
+}
+
+/* hides svg filters */
+.filter-def {
+	display: none;
+}
