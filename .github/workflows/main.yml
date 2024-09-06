@@ -27,7 +27,7 @@ jobs:
     - name: 📂 Sync Files
       uses: SamKirkland/web-deploy@v1
       with:
-        target-server: example.com
+        target-server: ${{ secrets.SSH_SERVER }}
         remote-user: ${{ secrets.SSH_USER }}
         private-ssh-key: ${{ secrets.SSH_KEY }}
         destination-path: ~/odd.horse/
