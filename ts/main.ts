@@ -98,12 +98,18 @@ function randomTranslate (el: HTMLElement, xBound: number, yBound: number) {
 injectLinks('streaming-links', streamingLinks)
 injectLinks('social-links', socialLinks)
 
+
+// randomize headings
 const headings = document.getElementById("home").getElementsByClassName("heading")
 
 for (const el of headings) {
 	randomTranslate(el, 35, 5)
 }
 injectLinks()
+
+/*
+	random number generators
+*/
 
 /**
  * returns a random decimal number between `min` and `max` bounds, inclusive of `min` and exclusive of `max`
