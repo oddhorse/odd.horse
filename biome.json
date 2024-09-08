@@ -20,12 +20,7 @@
 			"quoteStyle": "single"
 		}
 	},
-	"json": {
-		"formatter": {
-			"enabled": true,
-			"trailingCommas": "all"
-		}
-	},
+	"json": {},
 	"css": {
 		"formatter": {
 			"enabled": true,
