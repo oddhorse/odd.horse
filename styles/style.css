@@ -3,11 +3,10 @@
  * modified from vite typescript template
 */
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
 
 /* color def */
 :root {
-
 	/* main ui colors */
 	--color-main: #242424;
 	--color-main-dark: #ffffffde;
@@ -15,7 +14,6 @@
 	--color-bg-dark: #242424;
 	--color-subtle: #cecece;
 	--color-subtle-dark: #cecece;
-
 
 	/* link colors (currently unused) */
 	/* TODO: work on this */
@@ -42,10 +40,8 @@
 }
 
 :root {
-	font-family: 'Times New Roman', 'Times', 'Georgia', serif;
+	font-family: "Times New Roman", "Times", "Georgia", serif;
 }
-
-
 
 body {
 	margin: 0;
@@ -57,7 +53,6 @@ body {
 }
 
 /* element defaults */
-
 
 a {
 	color: inherit;
@@ -72,7 +67,7 @@ p {
 .content {
 	max-width: 1280px;
 	margin: 0 auto;
-	padding: 2rem;
+	padding-bottom: 4rem;
 	text-align: center;
 }
 
@@ -101,6 +96,7 @@ p {
 }
 
 #github {
+	filter: url(#crunch-small);
 	position: fixed;
 	bottom: 0;
 	right: 0;

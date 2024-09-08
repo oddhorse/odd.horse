@@ -35,12 +35,12 @@ const streamingLinks: Array<Link> = [
 	{
 		name: 'soundcloud',
 		color: Color('#ff9d00'),
-		href: 'https://oddhorse.bandcamp.com',
+		href: 'https://soundcloud.com/oddhorse',
 	},
 	{
 		name: 'bandcamp',
 		color: Color('#00c0de'),
-		href: 'https://soundcloud.com/oddhorse',
+		href: 'https://oddhorse.bandcamp.com',
 	},
 ]
 
@@ -67,16 +67,20 @@ const socialLinks: Array<Link> = [
  * @param containerId id of html element to inject links in
  * @param links array of `link`s to inject
  */
-function injectLinks (containerId: string, links: Array<Link>) {
+function injectLinks(containerId: string, links: Array<Link>) {
 	const containerEl = document.getElementById(containerId)
+
 	if (containerEl == null)
 		throw new Error(`no element found with id ${containerId}!`)
+
 	for (const link of links) {
 		const linkEl = document.createElement('a')
 		linkEl.innerText = link.name
 		linkEl.style.color = link.color.hex()
 		linkEl.href = link.href
-		randomTranslate(linkEl, 35, 10)
+		linkEl.target = '_blank' // opens links in new tabs
+		linkEl.rel = 'noopener noreferrer' // prevents tabnabbing exploit
+		randomTranslate(linkEl, 35, 6)
 		containerEl.append(linkEl)
 	}
 }
@@ -88,22 +92,22 @@ function injectLinks (containerId: string, links: Array<Link>) {
  * @param yBound max y axis offset, in pixels
  * @description offsets are applied in either direction—for example, an `hOffsetBounds` of `4` could move the element up *or* down by up to 4 pixels
  */
-function randomTranslate (el: HTMLElement, xBound: number, yBound: number) {
+function randomTranslate(el: HTMLElement, xBound: number, yBound: number) {
 	// generate decimal numbers between neg & pos bounds
-	const rx = getRandomDecimalBidirectionalExponential(xBound, .5)
-	const ry = getRandomDecimalBidirectionalExponential(yBound, .7)
+	const rx = getRandomDecimalBidirectionalExponential(xBound, 0.5)
+	const ry = getRandomDecimalBidirectionalExponential(yBound, 0.7)
 	el.style.transform = `translate(${rx}px, ${ry}px)`
 }
 
 injectLinks('streaming-links', streamingLinks)
 injectLinks('social-links', socialLinks)
 
-
-// randomize headings
-const headings = document.getElementById("home")!.getElementsByClassName("heading")
-
-for (const el of headings) {
-	if (el instanceof HTMLElement) randomTranslate(el, 35, 5)
+// randomize elements of rand class
+const randEls = document.getElementById('home')?.getElementsByClassName('rand')
+if (randEls) {
+	for (const el of randEls) {
+		if (el instanceof HTMLElement) randomTranslate(el, 35, 5)
+	}
 }
 
 /**
@@ -112,9 +116,9 @@ for (const el of headings) {
  * @param exp exponential curve to apply to random value on each side of axis
  * @returns number duh
  */
-function getRandomDecimalBidirectionalExponential (bound: number, exp: number) {
-	if (bound <= 0) throw Error("bound cannot be 0 or negative! try again")
-	let n = Math.pow(Math.random(), exp) * bound
+function getRandomDecimalBidirectionalExponential(bound: number, exp: number) {
+	if (bound <= 0) throw Error('bound cannot be 0 or negative! try again')
+	let n = Math.random() ** exp * bound
 	if (Math.random() < 0.5) n *= -1 // 50% chance of being made negative
 	return n
 }
