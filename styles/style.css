@@ -93,6 +93,17 @@ p {
 			width: fit-content;
 		}
 	}
+
+	/* for email signup form */
+	.mc-field-group {
+		margin: .5em 0;
+	}
+	input {
+		border-width: 2px;
+		border-color: var(--color-main);
+		background-color: unset;
+		color: var(--color-main);
+	}
 }
 
 #github {
