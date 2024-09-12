@@ -52,21 +52,23 @@ export function randomTranslateByQuerySelector(
 	}
 }
 
+function randomColorNavbarLinks() {
+	const links = document.querySelectorAll('#header-links a')
+	if (links) {
+		for (const link of links) {
+			if (!(link instanceof HTMLElement)) continue
+			link.style.color = `hsl(${Math.random() * 360}, 75%, 50%)`
+		}
+	}
+}
+
 /**
  * Applies random translation to all main elements.
  */
 export function randomTranslateAll() {
 	randomTranslateByQuerySelector('#home .rand', 35, 8)
 	randomTranslateByQuerySelector('#main-header .rand', 8, 8)
-}
-
-function randomColorNavbarLinks() {
-	const links = document.querySelectorAll('#header-links a')
-	if (links) {
-		for (const link of links) {
-			link.style.color = `hsl(${Math.random() * 360}, 100%, 50%)`
-		}
-	}
+	randomTranslateByQuerySelector('#contact .rand', 25, 8)
 }
 
 export function render() {

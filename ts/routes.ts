@@ -1,5 +1,5 @@
 interface Route {
-	paths: Array<string>
+	path: string
 	title: string
 	description: string
 	id: string
@@ -9,27 +9,33 @@ interface Routes {
 }
 export const routes: Routes = {
 	404: {
-		paths: ['404.html'],
-		title: '404',
-		description: 'Page not found',
+		path: '404.html',
+		title: 'oddhorse 404',
+		description: 'page not found',
 		id: '404',
 	},
 	'/': {
-		paths: ['home.html'],
-		title: 'home',
-		description: 'This is the home page',
+		path: 'home.html',
+		title: 'oddhorse',
+		description: 'oddhorse is him!',
 		id: 'home',
 	},
+	'/music': {
+		path: 'music.html',
+		title: 'oddhorse music',
+		description: 'this shit is crazy!',
+		id: 'music',
+	},
 	'/about': {
-		paths: ['about.html'],
-		title: 'About Us',
-		description: 'This is the about page',
+		path: 'about.html',
+		title: "who's oddhorse?",
+		description: 'find out more here...',
 		id: 'about',
 	},
 	'/contact': {
-		paths: ['contact.html'],
+		path: 'contact.html',
 		title: 'Contact Us',
-		description: 'This is the contact page',
+		description: 'hit me up or whateva',
 		id: 'contact',
 	},
 }
