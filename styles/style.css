@@ -8,7 +8,7 @@
 /* color def */
 :root {
 	/* main ui colors */
-	--color-main: #242424;
+	--color-main: #585858;
 	--color-main-dark: #ffffffde;
 	--color-bg: #ffffff;
 	--color-bg-dark: #242424;
@@ -22,9 +22,9 @@
 	--color-amazonmusic: #0084ff;
 	--color-soundcloud: #ff9d00;
 	--color-bandcamp: #00c0de;
-	--color-ig: #de006b;
+	--color-instagram: #de006b;
 	--color-tiktok: #000000;
-	--color-yt: #ff0000;
+	--color-youtube: #ff0000;
 
 	color-scheme: light dark;
 
@@ -34,9 +34,35 @@
 	/* dark mode */
 	@media (prefers-color-scheme: dark) {
 		--color-main: #ffffffde;
-		--color-bg: #242424;
+		--color-bg: #141414;
 		--color-subtle: #575757;
+		--color-tiktok: #ff48d1;
 	}
+}
+
+#link-spotify {
+	color: var(--color-spotify);
+}
+#link-applemusic {
+	color: var(--color-applemusic);
+}
+#link-amazonmusic {
+	color: var(--color-amazonmusic);
+}
+#link-soundcloud {
+	color: var(--color-soundcloud);
+}
+#link-bandcamp {
+	color: var(--color-bandcamp);
+}
+#link-instagram {
+	color: var(--color-instagram);
+}
+#link-tiktok {
+	color: var(--color-tiktok);
+}
+#link-youtube {
+	color: var(--color-youtube);
 }
 
 :root {
@@ -46,10 +72,15 @@
 body {
 	margin: 0;
 	display: flex;
+	flex-direction: column;
 	place-items: center;
 	min-width: 320px;
 	min-height: 100vh;
 	filter: url(#crunch-small);
+
+	@media (max-width: 600px) {
+		place-content: center;
+	}
 }
 
 /* element defaults */
@@ -66,17 +97,44 @@ p {
 
 .content {
 	max-width: 1280px;
-	margin: 0 auto;
+	place-self: center;
+	margin: auto auto;
 	padding-bottom: 4rem;
 	text-align: center;
 }
 
-#home {
+#main-header {
+	display: flex;
+	flex-direction: row;
+	place-items: center;
+	place-content: center;
+	margin-top: 2em;
+	justify-content: space-between;
+	min-width: 90%;
+	max-width: 90%;
+
+	@media (max-width: 600px) {
+		flex-direction: column;
+	}
+
+	a {
+		display: inline-block;
+		text-decoration: none;
+		font-size: 1.2em;
+	}
+
 	#title {
 		font-size: 3em;
 		line-height: 1.1;
 		font-weight: normal;
 		text-decoration-line: none;
+	}
+}
+
+#home {
+	#home-header {
+		margin-top: 0;
+		display: block;
 	}
 
 	.heading {
