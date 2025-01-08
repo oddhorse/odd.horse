@@ -26,6 +26,7 @@ git tree is shockingly fucked don't worry about it
 ## credits
 
 oddhorse
+[matthiasott](https://github.com/matthiasott)'s [eleventy-plus-vite](https://github.com/matthiasott/eleventy-plus-vite/tree/main) template
 
 ### fonts in use
 

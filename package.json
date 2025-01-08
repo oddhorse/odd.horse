@@ -1,22 +1,36 @@
 {
 	"name": "odd.horse",
 	"version": "6.0.0",
+	"type": "module",
 	"description": "website for the music artist [oddhorse](https://odd.horse)",
 	"main": "index.js",
 	"scripts": {
-		"build:11ty": "npx eleventy",
-		"build:vite": "vite build",
-		"build": "npm run build:11ty && npm run build:vite",
-		"dev:11ty": "npx eleventy --serve",
-		"dev:vite": "vite",
-		"dev": "npm-run-all --parallel dev:11ty dev:vite"
+		"start": "npx @11ty/eleventy --serve",
+		"watch": "npx @11ty/eleventy --watch",
+		"serve": "npx @11ty/eleventy --serve",
+		"bench": "DEBUG=Eleventy:Benchmark* npx @11ty/eleventy",
+		"build": "npx @11ty/eleventy",
+		"clean": "del-cli _site",
+		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"keywords": [],
+	"repository": {
+		"type": "git",
+		"url": "git+https://oddhorse@github.com/oddhorse/odd.horse.git"
+	},
 	"author": "oddhorse (John Trinh)",
 	"license": "ISC",
 	"devDependencies": {
 		"@11ty/eleventy": "^3.0.0",
+		"@11ty/eleventy-img": "^4.0.2",
+		"@11ty/eleventy-navigation": "^0.3.5",
+		"@11ty/eleventy-plugin-rss": "^2.0.2",
+		"@11ty/eleventy-plugin-syntaxhighlight": "^5.0.0",
+		"@11ty/eleventy-plugin-vite": "^5.0.0-alpha.1",
+		"markdown-it": "^14.1.0",
+		"markdown-it-anchor": "^9.2.0",
 		"npm-run-all": "^4.1.5",
+		"rollup-plugin-critical": "^1.0.14",
 		"sass": "^1.83.1",
 		"vite": "^6.0.7"
 	}
