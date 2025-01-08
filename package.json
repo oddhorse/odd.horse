@@ -4,13 +4,19 @@
 	"description": "website for the music artist [oddhorse](https://odd.horse)",
 	"main": "index.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"build:11ty": "npx eleventy",
+		"build:vite": "vite build",
+		"build": "npm run build:11ty && npm run build:vite",
+		"dev:11ty": "npx eleventy --serve",
+		"dev:vite": "vite",
+		"dev": "npm-run-all --parallel dev:11ty dev:vite"
 	},
 	"keywords": [],
 	"author": "oddhorse (John Trinh)",
 	"license": "ISC",
 	"devDependencies": {
 		"@11ty/eleventy": "^3.0.0",
-		"vite": "^6.0.7"
+		"vite": "^6.0.7",
+		"npm-run-all": "^4.1.5"
 	}
 }

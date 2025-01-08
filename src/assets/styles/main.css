@@ -1,0 +1,11 @@
+@font-face {
+	font-family: "Karrik";
+	src: url("../fonts/Karrik-Italic.woff2") format("woff2"),
+		url("../fonts/Karrik-Regular.woff2") format("woff2");
+	font-weight: normal;
+	font-style: normal;
+}
+
+body {
+	font-family: "Inter", sans-serif;
+}
