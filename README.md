@@ -15,6 +15,7 @@ version 5 was trying to be a single page app lmao
 - vite dev tooling for the nice dev server
 - 11ty for static site generation
 - nunjucks for template language
+- scss
 - biome for linting and formatting
 - github actions for auto deployment to server
 

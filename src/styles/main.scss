@@ -1,0 +1,87 @@
+@font-face {
+    font-family: "Karrik";
+    src: url("../assets/fonts/Karrik-Italic.woff2") format("woff2"),
+        url("../assets/fonts/Karrik-Regular.woff2") format("woff2");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Ensure the body and html stretch to the full viewport height */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    /* Remove default margin */
+    display: flex;
+    flex-direction: column;
+    /* Arrange header, main, and footer vertically */
+}
+
+body {
+    font-family: "Inter", sans-serif;
+}
+
+header {
+    display: flex;
+    /* Use flexbox for horizontal alignment */
+    justify-content: space-between;
+    /* Space out children to opposite ends */
+    align-items: center;
+    /* Vertically align items */
+    padding: 1rem;
+    /* Add some padding for breathing room */
+    background-color: #f9f9f9;
+    /* Optional: Give the header a background color */
+
+    h1 {
+        margin: 0;
+        /* Remove default margins */
+        font-size: 5rem;
+        /* Adjust font size as needed */
+    }
+
+    nav {
+        display: flex;
+        /* Make nav links appear in a horizontal row */
+        gap: 1rem;
+        /* Add spacing between links */
+
+
+        a {
+            text-decoration: none;
+            /* Remove underline from links */
+            color: #333;
+            transition: color 0.3s;
+            /* Set link color */
+            font-weight: bold;
+            /* Optional: Make links bold */
+            font-size: 1.5rem;
+        }
+
+        a:hover {
+            color: #007bff;
+            /* Optional: Change color on hover */
+        }
+    }
+}
+
+/* Main content takes up available space */
+main {
+    flex: 1;
+    /* Pushes footer to the bottom */
+    padding: 1rem;
+}
+
+/* Optional styling for the footer */
+footer {
+    text-align: center;
+    background-color: #f9f9f9;
+    font-size: 0.9rem;
+    justify-content: center;
+    display: flex;
+
+    p {
+        margin: 0.25rem;
+    }
+}
