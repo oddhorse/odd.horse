@@ -1,0 +1,17 @@
+/* Ensure the body and html stretch to the full viewport height */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    /* Remove default margin */
+    display: flex;
+    flex-direction: column;
+    /* Arrange header, main, and footer vertically */
+}
+
+/* Main content takes up available space */
+main {
+    flex: 1;
+    /* Pushes footer to the bottom */
+    padding: 1rem;
+}

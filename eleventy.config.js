@@ -105,6 +105,11 @@ export default function (eleventyConfig) {
 	eleventyConfig.addPassthroughCopy('src/assets/css')
 	eleventyConfig.addPassthroughCopy('src/assets/js')
 
+	// collections
+	eleventyConfig.addCollection('mainPages', (collectionApi) =>
+		collectionApi.getFilteredByGlob('./src/pages/*.njk'),
+	)
+
 	return {
 		templateFormats: ['md', 'njk', 'html', 'liquid'],
 		htmlTemplateEngine: 'njk',
