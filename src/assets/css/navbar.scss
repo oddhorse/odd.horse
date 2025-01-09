@@ -1,0 +1,59 @@
+@use 'user-vars' as *;
+
+nav {
+    .blog.navlink {
+
+        &:hover,
+        &.active {
+            color: $page-blog-color;
+        }
+    }
+
+    .music.navlink {
+
+        &:hover,
+        &.active {
+            color: $page-music-color;
+        }
+    }
+
+    .projects.navlink {
+
+        &:hover,
+        &.active {
+            color: $page-projects-color;
+        }
+    }
+
+    .plugins.navlink {
+
+        &:hover,
+        &.active {
+            color: $page-plugins-color;
+        }
+    }
+
+    .goodies.navlink {
+
+        &:hover,
+        &.active {
+            color: $page-goodies-color;
+        }
+    }
+
+    .videos.navlink {
+
+        &:hover,
+        &.active {
+            color: $page-videos-color;
+        }
+    }
+
+    .about.navlink {
+
+        &:hover,
+        &.active {
+            color: $page-about-color;
+        }
+    }
+}

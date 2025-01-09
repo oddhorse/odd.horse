@@ -1,0 +1,46 @@
+main {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    /* Full viewport height */
+    overflow: hidden;
+    /* Prevent scrollbars if not needed */
+}
+
+.text-logo {
+    font-size: 10rem;
+    text-align: center;
+}
+
+
+nav {
+    position: absolute;
+    top: 25%;
+    /* Positions the navbar 25% down from the top */
+    width: 100%;
+    /* Makes navbar span the full width */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 100%;
+    line-height: 0.5;
+    /* Make nav links appear in a horizontal row */
+    gap: 3rem;
+    /* Add spacing between links */
+    margin-bottom: 1rem;
+
+
+    a {
+        color: var(--textColor);
+        transition: color 0.1s;
+        /* Set link color */
+        font-weight: bold;
+        /* Optional: Make links bold */
+        font-size: 3rem;
+        text-decoration: none;
+    }
+}

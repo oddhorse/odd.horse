@@ -1,11 +1,23 @@
+@use "sass:color";
+
+@use 'user-vars' as *;
+
 footer {
     text-align: center;
-    background-color: #f9f9f9;
     font-size: 0.9rem;
     justify-content: center;
     display: flex;
 
     p {
         margin: 0.25rem;
+
+        color: $footerTextColor;
+        letter-spacing: -0.03rem;
+
+    }
+
+    a {
+        color: inherit;
+        text-decoration-color: color.adjust($footerTextColor, $lightness: 20%);
     }
 }

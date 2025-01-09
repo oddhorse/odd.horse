@@ -4,32 +4,31 @@ header {
     justify-content: space-between;
     /* Space out children to opposite ends */
     align-items: center;
+    gap: 2rem;
+
     /* Vertically align items */
-    padding: 1rem;
+    padding: 2rem 3rem;
     /* Add some padding for breathing room */
-    background-color: #f9f9f9;
     /* Optional: Give the header a background color */
 
     a {
         text-decoration: none;
     }
 
-    h1 {
-        margin: 0;
-        /* Remove default margins */
+    .text-logo {
         font-size: 5rem;
-
-        /* Adjust font size as needed */
-        a {
-            color: var(--primaryColor);
-        }
     }
 
     nav {
         display: flex;
         /* Make nav links appear in a horizontal row */
-        gap: 1rem;
+        justify-content: flex-end;
+        gap: 1.3rem;
         /* Add spacing between links */
+        flex-wrap: wrap;
+        max-width: 100%;
+        line-height: 0.5;
+        /* Ensure the navbar doesn't overflow */
 
 
         a {
@@ -38,12 +37,12 @@ header {
             /* Set link color */
             font-weight: bold;
             /* Optional: Make links bold */
-            font-size: 1.5rem;
-        }
+            font-size: 2rem;
 
-        a:hover {
-            color: #007bff;
-            /* Optional: Change color on hover */
+            flex-grow: 0;
+            /* Prevent links from growing */
+            flex-shrink: 0;
+            /* Prevent links from shrinking */
         }
     }
 }

@@ -1,9 +1,9 @@
-<nav>
-    <a href="/blog/">blog</a>
-    <a href="/music/">music</a>
-    <a href="/projects/">other projects</a>
-    <a href="/plugins/">plugins</a>
-    <a href="/goodies/">goodies</a>
-    <a href="/videos/">videos</a>
-    <a href="/about/">about</a>
+<nav class="navbar">
+    <a href="/blog/" class="blog navlink {% if page.url == '/blog/' %}active{% endif %}">blog</a>
+    <a href="/music/" class="music navlink {% if page.url == '/music/' %}active{% endif %}">music</a>
+    <a href="/projects/" class="projects navlink {% if page.url == '/projects/' %}active{% endif %}">projects</a>
+    <a href="/plugins/" class="plugins navlink {% if page.url == '/plugins/' %}active{% endif %}">plugins</a>
+    <a href="/goodies/" class="goodies navlink {% if page.url == '/goodies/' %}active{% endif %}">goodies</a>
+    <a href="/videos/" class="videos navlink {% if page.url == '/videos/' %}active{% endif %}">videos</a>
+    <a href="/about/" class="about navlink {% if page.url == '/about/' %}active{% endif %}">about</a>
 </nav>
