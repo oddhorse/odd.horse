@@ -1,3 +1,4 @@
 {
-	"permalink": "/{{ page.fileSlug }}/"
+	"permalink": "/{{ page.fileSlug }}/",
+	"testKey": "This is a test"
 }

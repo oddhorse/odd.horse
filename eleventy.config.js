@@ -7,6 +7,7 @@ import EleventyVitePlugin from '@11ty/eleventy-plugin-vite'
 
 import rollupPluginCritical from 'rollup-plugin-critical'
 
+/** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
 export default function (eleventyConfig) {
 	eleventyConfig.setServerPassthroughCopyBehavior('copy')
 	eleventyConfig.addPassthroughCopy('public')
