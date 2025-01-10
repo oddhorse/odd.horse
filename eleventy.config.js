@@ -120,7 +120,7 @@ export default function (eleventyConfig) {
 			// better not use "public" as the name of the output folder (see above...)
 			output: 'dist',
 			includes: '_includes',
-			layouts: 'layouts',
+			layouts: '_layouts',
 			data: '_data',
 		},
 	}

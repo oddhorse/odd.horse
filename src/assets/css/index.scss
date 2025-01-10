@@ -11,14 +11,17 @@ main {
 }
 
 .text-logo {
-    font-size: 10rem;
+    font-size: clamp(7rem, 15vw, 10rem);
     text-align: center;
+    max-width: min-content;
+    margin: 3rem 0;
 }
 
 
-nav {
-    position: absolute;
-    top: 25%;
+.navbar {
+
+
+
     /* Positions the navbar 25% down from the top */
     width: 100%;
     /* Makes navbar span the full width */
@@ -27,20 +30,14 @@ nav {
     justify-content: center;
     flex-wrap: wrap;
     max-width: 100%;
-    line-height: 0.5;
+    line-height: 0.2;
     /* Make nav links appear in a horizontal row */
     gap: 3rem;
     /* Add spacing between links */
-    margin-bottom: 1rem;
 
 
     a {
-        color: var(--textColor);
-        transition: color 0.1s;
-        /* Set link color */
-        font-weight: bold;
         /* Optional: Make links bold */
         font-size: 3rem;
-        text-decoration: none;
     }
 }

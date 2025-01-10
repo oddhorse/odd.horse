@@ -1,6 +1,5 @@
 @use "sass:color";
-
-@use 'user-vars' as *;
+@use '../2-globals/variables' as *;
 
 footer {
     text-align: center;
@@ -11,13 +10,13 @@ footer {
     p {
         margin: 0.25rem;
 
-        color: $footerTextColor;
+        color: var(--footerTextColor);
         letter-spacing: -0.03rem;
 
     }
 
     a {
         color: inherit;
-        text-decoration-color: color.adjust($footerTextColor, $lightness: 20%);
+        text-decoration-color: var(--footerTextColor);
     }
 }

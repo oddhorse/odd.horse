@@ -1,9 +1,30 @@
 {
-	"blog": "#ff00bb",
-	"music": "#31ddff",
-	"projects": "#00ff00",
-	"plugins": "#0000ff",
-	"goodies": "#ff0000",
-	"videos": "#ffbb00",
-	"about": "#ffbb00"
+	"blog": {
+		"color": "#ff00bb",
+		"icon": "📝"
+	},
+	"music": {
+		"color": "#31ddff",
+		"icon": "🎵"
+	},
+	"projects": {
+		"color": "#00ff00",
+		"icon": "🛠️"
+	},
+	"plugins": {
+		"color": "#0000ff",
+		"icon": "🔌"
+	},
+	"goodies": {
+		"color": "#ff0000",
+		"icon": "🎁"
+	},
+	"videos": {
+		"color": "#ffbb00",
+		"icon": "📹"
+	},
+	"about": {
+		"color": "#ffbb00",
+		"icon": "👨‍💻"
+	}
 }

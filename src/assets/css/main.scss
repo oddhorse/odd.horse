@@ -1,10 +1,23 @@
-@use '_user-vars.scss';
+/* 
+    This file is used to import all the scss files in the project
+    This file is the entry point for the scss files
+*/
+/* normalize and print defaults */
+@use '1-normals/normalize.scss';
+@use '1-normals/print.scss';
 
-@use '_fonts.scss';
+/* global styles */
+@use '2-globals/fonts.scss';
+@use '2-globals/variables.scss';
 
-@use '_layout.scss';
+/* per-element styling */
+@use '3-elements/elements.scss';
 
-@use '_logos.scss';
-@use 'navbar.scss';
-@use 'header.scss';
-@use 'footer.scss';
+/* layout styling */
+@use '4-layout/layout.scss';
+
+/* template parts */
+@use '5-template-parts/navbar.scss';
+@use '5-template-parts/header.scss';
+@use '5-template-parts/footer.scss';
+@use '5-template-parts/logos.scss';

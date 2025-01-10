@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="{{ meta.lang }}">
+    <head>
+        {% include "head.njk" %} <style>:root
+        {
+            --page-color: {{pages[parent].color}}
+            ;
+        }
+    </style>
+    <script>
+        const page = {
+            title: "{{ pages[parent].title }}",
+            parent: "{{ parent }}",
+            color: "{{ pages[parent].color }}"
+        };
+    </script>
+</head>
+<body>
+    {% include "header.njk" %}
+    <main>
+        {{ content | safe }}
+    </main>
+    {% include "footer.njk" %}
+</body></html>
