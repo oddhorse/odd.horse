@@ -100,16 +100,24 @@ export default function (eleventyConfig) {
 
 	// Layouts
 	eleventyConfig.addLayoutAlias('base', 'base.njk')
+	eleventyConfig.addLayoutAlias('subpage', 'subpage.njk')
 	//TODOeleventyConfig.addLayoutAlias('post', 'post.njk')
 
 	// Copy/pass-through files
 	eleventyConfig.addPassthroughCopy('src/assets/css')
 	eleventyConfig.addPassthroughCopy('src/assets/js')
 
-	// collections
-	eleventyConfig.addCollection('mainPages', (collectionApi) =>
-		collectionApi.getFilteredByGlob('./src/pages/*.njk'),
-	)
+	eleventyConfig.addGlobalData('eleventyComputed', {
+		parent: (data) => {
+			const pathParts = data.page.filePathStem.split('/')
+			return pathParts.length > 1 ? pathParts[1] : null
+		},
+		parentData: (data) => {
+			return data.collections.all.find(
+				(page) => page.filePathStem === `/${data.parent}`,
+			)
+		},
+	})
 
 	return {
 		templateFormats: ['md', 'njk', 'html', 'liquid'],

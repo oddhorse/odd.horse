@@ -2,12 +2,11 @@
 
 .navbar {
 
-    letter-spacing: -0.065rem;
+    letter-spacing: -0.08rem;
 
     a {
         color: var(--text-color);
         transition: color 0.1s;
-        font-weight: bold;
         font-size: 2rem;
         text-decoration: none;
 
@@ -15,59 +14,9 @@
         flex-shrink: 0;
     }
 
-    .blog.navlink {
-
-        &:hover,
-        &.active {
-            color: $page-blog-color;
-        }
-    }
-
-    .music.navlink {
-
-        &:hover,
-        &.active {
-            color: $page-music-color;
-        }
-    }
-
-    .projects.navlink {
-
-        &:hover,
-        &.active {
-            color: $page-projects-color;
-        }
-    }
-
-    .plugins.navlink {
-
-        &:hover,
-        &.active {
-            color: $page-plugins-color;
-        }
-    }
-
-    .goodies.navlink {
-
-        &:hover,
-        &.active {
-            color: $page-goodies-color;
-        }
-    }
-
-    .videos.navlink {
-
-        &:hover,
-        &.active {
-            color: $page-videos-color;
-        }
-    }
-
-    .about.navlink {
-
-        &:hover,
-        &.active {
-            color: $page-about-color;
+    .navlink {
+        &:hover {
+            color: var(--navbar-link-color);
         }
     }
 }

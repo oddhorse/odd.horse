@@ -1,0 +1,58 @@
+@use "sass:math";
+
+p.stanza {
+    font-style: italic;
+    font-size: 1.2rem;
+    max-width: 60%;
+    position: relative;
+
+    /* text-shadow: 0 0 15px #fff,
+        0 0 30px #fff,
+        0 0 45px #fff,
+        0 0 60px #fff,
+        0 0 75px #fff; */
+
+
+    @for $i from 1 through 10 {
+        &:nth-of-type(#{$i}) {
+            margin-top: math.random() * 2rem;
+            margin-bottom: math.random() * 2rem;
+            margin-left: (($i - 1) * 8%) + (math.random() * 2 - 1) * 3%;
+
+        }
+    }
+}
+
+.tallword {
+    display: inline-block;
+    font-size: 1.4rem;
+    transform: scaleX(70%) scaleY(140%) translateY(-4%);
+    margin: 0 -0.8rem;
+    text-decoration: inherit;
+    text-decoration-style: wavy;
+    color: var(--primary-color);
+}
+
+.glow {
+    // color: #fffaa4;
+    --glow-color: #fff98a;
+    // --glow-size: 
+    /* Adjust color as needed */
+    text-shadow: 0 0 15px var(--glow-color),
+        0 0 30px var(--glow-color),
+        0 0 45px var(--glow-color),
+        0 0 60px var(--glow-color);
+}
+
+img {
+    max-width: 35rem;
+    height: auto;
+    margin: -0.7rem 0;
+    position: relative;
+    z-index: -1;
+}
+
+main {
+
+    overflow-x: clip;
+}

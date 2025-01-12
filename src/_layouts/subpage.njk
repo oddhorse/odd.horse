@@ -3,21 +3,17 @@
     <head>
         {% include "head.njk" %} <style>:root
         {
-            --page-color: {{pages[parent].color}}
+            --page-color: {{parentData.data.color}}
             ;
         }
     </style>
-    <script>
-        const page = {
-            title: "{{ pages[parent].title }}",
-            parent: "{{ parent }}",
-            color: "{{ pages[parent].color }}"
-        };
-    </script>
 </head>
 <body>
     {% include "header.njk" %}
     <main>
+        <p>subpage</p>
+        <p>parent: {{ parent }}</p>
+        <p>parentData.data.color: {{ parentData.data["color"] | safe }}</p>
         {{ content | safe }}
     </main>
     {% include "footer.njk" %}

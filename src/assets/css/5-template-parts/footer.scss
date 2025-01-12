@@ -1,5 +1,4 @@
 @use "sass:color";
-@use '../2-globals/variables' as *;
 
 footer {
     text-align: center;
@@ -12,6 +11,7 @@ footer {
 
         color: var(--footerTextColor);
         letter-spacing: -0.03rem;
+        font-size: 1rem;
 
     }
 

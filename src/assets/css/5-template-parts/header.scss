@@ -11,7 +11,7 @@ header {
     /* Add some padding for breathing room */
     /* Optional: Give the header a background color */
 
-    .text-logo>h1 {
+    .text-logo * {
         font-size: 5rem;
     }
 
@@ -31,7 +31,6 @@ header {
             color: var(--textColor);
             transition: color 0.1s;
             /* Set link color */
-            font-weight: bold;
             /* Optional: Make links bold */
             font-size: 2rem;
 
@@ -39,6 +38,7 @@ header {
             /* Prevent links from growing */
             flex-shrink: 0;
             /* Prevent links from shrinking */
+
         }
     }
 }
