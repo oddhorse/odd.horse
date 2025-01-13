@@ -32,5 +32,8 @@
 		"rollup-plugin-critical": "^1.0.14",
 		"sass": "^1.83.1",
 		"vite": "^6.0.7"
+	},
+	"optionalDependencies": {
+		"@rollup/rollup-linux-x64-gnu": "4.30.1"
 	}
 }
