@@ -25,5 +25,3 @@ dist-ssr
 
 unused
 .htaccess
-
-package-lock.json
