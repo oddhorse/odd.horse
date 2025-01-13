@@ -1,17 +1,28 @@
 <!DOCTYPE html>
 <html lang="{{ meta.lang }}">
     <head>
-        {% include "head.njk" %} <style>:root
-        {
-            --page-color: {{color}}
-            ;
-        }
-    </style>
-</head>
-<body>
-    {% include "header.njk" %}
-    <main>
-        {{ content | safe }}
-    </main>
-    {% include "footer.njk" %}
-</body></html>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ title }}</title>
+        <meta name="theme-color" content="{{ color }}">
+        <link rel="preload" href="/assets/fonts/Karrik-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="preload" href="/assets/fonts/Karrik-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="stylesheet" href="/assets/css/main.scss">
+        <script type="module" src="/assets/js/main.js"></script>
+        <style>
+            :root {
+                --page-color: {{color or parentData.data.color}};
+            }
+        </style>
+    </head>
+    <body>
+        {# put header for every page but index #}
+        {% if page.url != "/" %}
+            {% include "header.njk" %}
+        {% endif %}
+        <main>
+            {{ content | safe }}
+        </main>
+        {% include "footer.njk" %}
+    </body>
+</html>

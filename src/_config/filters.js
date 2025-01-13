@@ -1,3 +1,7 @@
+//TODO: understand this file!!
+
+// from https://github.com/11ty/eleventy-base-blog
+
 import { DateTime } from 'luxon'
 
 export default function (eleventyConfig) {

@@ -2,17 +2,7 @@
 title: home
 ---
 
-<!DOCTYPE html>
-<html lang="{{ meta.lang }}">
-    <head>
-        {% include "head.njk" %} <link rel="stylesheet" href="/assets/css/pages/index.scss">
-    </head>
-    <body>
-        <main>
-            {% include "navbar.njk" %}
-            <h1 class="text-logo">oddhorse</h1>
-            <script src="/assets/js/pages/index.js" defer="defer"></script>
-        </main>
-        {% include "footer.njk" %}
-    </body>
-</html>
+<link rel="stylesheet" href="/assets/css/pages/index.scss">
+<script type="module" src="/assets/js/pages/index.js"></script>
+{% include "navbar.njk" %}
+<h1 class="text-logo">oddhorse</h1>

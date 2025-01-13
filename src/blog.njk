@@ -2,23 +2,10 @@
 title: blog
 layout: base
 color: "#ff00bb"
-tags: main
+# tags: main
 ---
 
 <h1>horse blog 🐴🐴🐴🐴🐴🐴🐴</h1>
 <p>oddhorse loves any chance he can get to ramble</p>
 {% set postslist = collections.posts %}
-{%- css %}.postlist { counter-reset: start-from {{ (postslistCounter or postslist.length) + 1 }} }{% endcss %}
-<ol reversed class="postlist">
-    {%- for post in postslist | reverse %}
-        <li class="postlist-item{% if post.url == url %} postlist-item-active{% endif %}">
-            <a href="{{ post.url }}" class="postlist-link">
-                {% if post.data.title %}{{ post.data.title }}
-                {% else %}
-                    <code>{{ post.url }}</code>
-                {% endif %}
-            </a>
-            <time class="postlist-date" datetime="{{ post.date | htmlDateString }}">{{ post.date | readableDate("LLLL yyyy") }}</time>
-        </li>
-    {%- endfor %}
-</ol>
+{% include "postslist.njk" %}

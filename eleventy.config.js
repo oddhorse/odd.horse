@@ -1,5 +1,6 @@
 import markdownIt from 'markdown-it'
 import markdownItAnchor from 'markdown-it-anchor'
+import { DateTime } from 'luxon'
 
 import EleventyPluginNavigation from '@11ty/eleventy-navigation'
 import EleventyPluginBundle from '@11ty/eleventy-plugin-bundle'
@@ -108,6 +109,14 @@ export default function (eleventyConfig) {
 	eleventyConfig.addLayoutAlias('subpage', 'subpage.njk')
 	eleventyConfig.addLayoutAlias('music-release', 'music-release.njk')
 	//TODOeleventyConfig.addLayoutAlias('post', 'post.njk')
+
+	eleventyConfig.addGlobalData('layout', 'base')
+
+	eleventyConfig.addDateParsing((dateValue) => {
+		if (typeof dateValue === 'string') {
+			return DateTime.fromFormat(dateValue, 'M/d/yyyy')
+		}
+	})
 
 	// Copy/pass-through files
 	eleventyConfig.addPassthroughCopy('src/assets/css')

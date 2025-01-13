@@ -8,7 +8,7 @@ tags: main
 <link rel="stylesheet" href="/assets/css/pages/music.scss">
 <h1>music</h1>
 <div class="music-grid">
-    {% for item in collections.music %}
+    {% for item in collections.releases %}
         <div class="music-item">
             <a href="{{ item.url }}" class="release-link" style="--link-color: {{ item.data.color }};">
                 <img src="{{ item.data.img }}" alt="{{ item.data.title }} album cover" class="release-pic"><br/>

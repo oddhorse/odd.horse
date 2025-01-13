@@ -1,20 +1,7 @@
-<!DOCTYPE html>
-<html lang="{{ meta.lang }}">
-    <head>
-        {% include "head.njk" %} <style>:root
-        {
-            --page-color: {{color}}
-            ;
-        }
-    </style>
-</head>
-<body>
-    {% include "header.njk" %}
-    <main>
-        <p>subpage</p>
-        <p>parent: {{ parent }}</p>
-        <p>parentData.data.color: {{ parentData.data["color"] | safe }}</p>
-        {{ content | safe }}
-    </main>
-    {% include "footer.njk" %}
-</body></html>
+---
+layout: base
+---
+<p>subpage</p>
+<p>parent: {{ parent }}</p>
+<p>parentData.data.color: {{ parentData.data["color"] | safe }}</p>
+{{ content | safe }}
