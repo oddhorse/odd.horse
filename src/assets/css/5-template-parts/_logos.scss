@@ -1,8 +1,8 @@
-.text-logo,
-.text-logo>h1 {
+.text-logo {
     margin: 0;
     font-weight: normal;
     color: var(--text-logo-color);
+    transition: color var(--link-hover-transition-speed);
     letter-spacing: -0.08em;
     /* Adjust text color */
     text-decoration: none;

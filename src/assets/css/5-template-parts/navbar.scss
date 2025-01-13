@@ -6,7 +6,7 @@
 
     a {
         color: var(--text-color);
-        transition: color 0.1s;
+        transition: color var(--link-hover-transition-speed);
         font-size: 2rem;
         text-decoration: none;
 
@@ -15,7 +15,9 @@
     }
 
     .navlink {
-        &:hover {
+
+        &:hover,
+        &[aria-current="page"] {
             color: var(--navbar-link-color);
         }
     }

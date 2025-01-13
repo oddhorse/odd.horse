@@ -11,8 +11,13 @@ header {
     /* Add some padding for breathing room */
     /* Optional: Give the header a background color */
 
-    .text-logo * {
+    .logo-link {
+        text-decoration: none;
+    }
+
+    .text-logo {
         font-size: 5rem;
+        color: var(--page-color);
     }
 
     nav {
