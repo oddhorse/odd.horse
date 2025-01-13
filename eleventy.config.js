@@ -2,8 +2,11 @@ import markdownIt from 'markdown-it'
 import markdownItAnchor from 'markdown-it-anchor'
 
 import EleventyPluginNavigation from '@11ty/eleventy-navigation'
+import EleventyPluginBundle from '@11ty/eleventy-plugin-bundle'
 import EleventyPluginSyntaxhighlight from '@11ty/eleventy-plugin-syntaxhighlight'
 import EleventyVitePlugin from '@11ty/eleventy-plugin-vite'
+
+import pluginFilters from './src/_config/filters.js'
 
 import rollupPluginCritical from 'rollup-plugin-critical'
 
@@ -15,6 +18,8 @@ export default function (eleventyConfig) {
 	// Plugins
 	eleventyConfig.addPlugin(EleventyPluginNavigation)
 	eleventyConfig.addPlugin(EleventyPluginSyntaxhighlight)
+	eleventyConfig.addPlugin(EleventyPluginBundle)
+	eleventyConfig.addPlugin(pluginFilters)
 	eleventyConfig.addPlugin(EleventyVitePlugin, {
 		tempFolderName: '.11ty-vite', // Default name of the temp folder
 
@@ -101,6 +106,7 @@ export default function (eleventyConfig) {
 	// Layouts
 	eleventyConfig.addLayoutAlias('base', 'base.njk')
 	eleventyConfig.addLayoutAlias('subpage', 'subpage.njk')
+	eleventyConfig.addLayoutAlias('music-release', 'music-release.njk')
 	//TODOeleventyConfig.addLayoutAlias('post', 'post.njk')
 
 	// Copy/pass-through files

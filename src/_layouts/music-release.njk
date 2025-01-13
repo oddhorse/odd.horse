@@ -3,7 +3,7 @@
     <head>
         {% include "head.njk" %} <style>:root
         {
-            --page-color: {{parentData.data.color}}
+            --page-color: {{color}}
             ;
         }
     </style>
@@ -11,6 +11,9 @@
 <body>
     {% include "header.njk" %}
     <main>
+        <p>subpage</p>
+        <p>parent: {{ parent }}</p>
+        <p>parentData.data.color: {{ parentData.data["color"] | safe }}</p>
         {{ content | safe }}
     </main>
     {% include "footer.njk" %}

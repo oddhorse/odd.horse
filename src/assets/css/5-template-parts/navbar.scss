@@ -20,5 +20,9 @@
         &[aria-current="page"] {
             color: var(--navbar-link-color);
         }
+
+        &:hover[aria-current="page"] {
+            color: var(--link-hover-color);
+        }
     }
 }

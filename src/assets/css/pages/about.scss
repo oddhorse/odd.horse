@@ -30,7 +30,7 @@ p.stanza {
     margin: 0 -0.8rem;
     text-decoration: inherit;
     text-decoration-style: wavy;
-    color: var(--primary-color);
+    color: var(--oddhorse-color);
 }
 
 .glow {
@@ -42,14 +42,33 @@ p.stanza {
         0 0 30px var(--glow-color),
         0 0 45px var(--glow-color),
         0 0 60px var(--glow-color);
+    cursor: help;
 }
 
-img {
+.about-img {
     max-width: 35rem;
     height: auto;
     margin: -0.7rem 0;
     position: relative;
-    z-index: -1;
+}
+
+#god-image {
+    width: 400px;
+    /* Adjust size as needed */
+    height: auto;
+    display: none;
+    /* Initially hidden */
+    position: absolute;
+    z-index: 1000;
+    /* Ensure it appears above other content */
+
+    pointer-events: none;
+
+    --glow-color: #fff98a;
+    box-shadow: 0 0 15px var(--glow-color),
+        0 0 30px var(--glow-color),
+        0 0 45px var(--glow-color),
+        0 0 60px var(--glow-color);
 }
 
 main {

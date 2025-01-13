@@ -1,24 +1,18 @@
 :root {
-    --textColor: #000000;
-    --primary-color: #ff00bb;
-    --focusColor: #31ddff;
-    --backgroundColor: #ffffff;
-    --footerTextColor: #7e7e7e;
-    --link-color: #3c3c3c;
-    --link-underline-color: #7e7e7e;
+    --text-color: #000000;
+    --oddhorse-color: #ff00bb;
+    --background-color: #ffffff;
+    --footer-text-color: #7e7e7e;
 
-    --text-logo-color: var(--textColor);
+    --text-logo-color: var(--text-color);
 
     // default
     --page-color: #000000;
+    --link-color: #000000;
+    --link-hover-color: #ff00bb;
+    --button-background-color: #ff00bb;
+    --accent-background-color: #ff00bb;
+    --hover-background-color: #ff00bb;
 
     --link-hover-transition-speed: 0.1s;
 }
-
-$page-blog-color: #ff00bb;
-$page-music-color: #31ddff;
-$page-projects-color: #00ff00;
-$page-plugins-color: #0000ff;
-$page-goodies-color: #ff0000;
-$page-videos-color: #ffbb00;
-$page-about-color: #ffbb00;

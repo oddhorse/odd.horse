@@ -9,7 +9,7 @@ footer {
     p {
         margin: 0.25rem;
 
-        color: var(--footerTextColor);
+        color: var(--footer-text-color);
         letter-spacing: -0.03rem;
         font-size: 1rem;
 
@@ -17,6 +17,6 @@ footer {
 
     a {
         color: inherit;
-        text-decoration-color: var(--footerTextColor);
+        text-decoration-color: var(--footer-text-color);
     }
 }

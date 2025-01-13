@@ -1,0 +1,34 @@
+.release-text {
+    color: var(--link-color);
+    // text-decoration-color: var(--link-color);
+
+    text-decoration: none;
+    margin: 0.5rem 0;
+    display: inline-block;
+    font-size: 1.2rem;
+}
+
+.music-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.music-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.release-pic {
+    width: 100%;
+    height: auto;
+    border-radius: 2px;
+    transition: var(--link-hover-transition-speed);
+}
+
+.release-link:hover .release-pic {
+    transform: scale(1.05);
+}

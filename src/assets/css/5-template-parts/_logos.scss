@@ -6,4 +6,8 @@
     letter-spacing: -0.08em;
     /* Adjust text color */
     text-decoration: none;
+
+    &:hover {
+        color: var(--link-hover-color);
+    }
 }
