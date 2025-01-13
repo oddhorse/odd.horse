@@ -1,9 +1,11 @@
-name: Deploy to GitHub Pages
+name: beta deploy to github pages
 
 on:
   push:
     branches:
       - beta
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -24,29 +26,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: checkout
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Install dependencies
+      - name: install dependencies
         run: npm ci
 
-      - name: Build
+      - name: build
         run: npm run build
 
-      - name: Setup Pages
+      - name: setup gh pages
         uses: actions/configure-pages@v5
 
-      - name: Upload artifact
+      - name: upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
+          # Upload just output folder
           path: './dist'
 
-      - name: Deploy to GitHub Pages
+      - name: deploy to gh pages
         id: deployment
         uses: actions/deploy-pages@v4

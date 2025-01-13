@@ -1,3 +1,7 @@
+# main deploy to hosting server. real bitch to set up.
+# methods gleaned from this beautiful post :3
+# https://zellwk.com/blog/github-actions-deploy/
+
 on:
   # Runs on pushes targeting the default branch
   push:
