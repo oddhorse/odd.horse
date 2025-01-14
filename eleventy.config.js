@@ -40,6 +40,7 @@ export default function (eleventyConfig) {
 				manifest: true,
 				// This puts CSS and JS in subfolders – remove if you want all of it to be in /assets instead
 				rollupOptions: {
+					input: 'src/assets/js/main.js',
 					output: {
 						assetFileNames: 'assets/css/main.[hash].css',
 						chunkFileNames: 'assets/js/[name].[hash].js',
