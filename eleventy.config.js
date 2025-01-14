@@ -2,8 +2,6 @@ import markdownIt from 'markdown-it'
 import markdownItAnchor from 'markdown-it-anchor'
 import { DateTime } from 'luxon'
 
-import { HtmlBasePlugin } from '@11ty/eleventy'
-
 import EleventyPluginNavigation from '@11ty/eleventy-navigation'
 import EleventyPluginBundle from '@11ty/eleventy-plugin-bundle'
 import EleventyPluginSyntaxhighlight from '@11ty/eleventy-plugin-syntaxhighlight'
@@ -23,7 +21,6 @@ export default function (eleventyConfig) {
 	eleventyConfig.addPlugin(EleventyPluginSyntaxhighlight)
 	eleventyConfig.addPlugin(EleventyPluginBundle)
 	eleventyConfig.addPlugin(pluginFilters)
-	eleventyConfig.addPlugin(HtmlBasePlugin)
 	eleventyConfig.addPlugin(EleventyVitePlugin, {
 		tempFolderName: '.11ty-vite', // Default name of the temp folder
 
