@@ -11,7 +11,7 @@
 		"build": "npx @11ty/eleventy",
 		"build-ghpages": "npx @11ty/eleventy --pathprefix=/odd.horse/",
 		"start-ghpages": "npx @11ty/eleventy --pathprefix=/odd.horse/ --serve --quiet",
-		"clean": "del-cli _site",
+		"clean": "del-cli dist",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"keywords": [],
@@ -37,5 +37,8 @@
 	},
 	"optionalDependencies": {
 		"@rollup/rollup-linux-x64-gnu": "4.30.1"
+	},
+	"dependencies": {
+		"del-cli": "^6.0.0"
 	}
 }
