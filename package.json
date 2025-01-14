@@ -39,6 +39,7 @@
 		"@rollup/rollup-linux-x64-gnu": "4.30.1"
 	},
 	"dependencies": {
-		"del-cli": "^6.0.0"
+		"del-cli": "^6.0.0",
+		"simple-git": "^3.27.0"
 	}
 }

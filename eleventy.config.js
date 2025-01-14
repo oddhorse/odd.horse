@@ -11,8 +11,24 @@ import pluginFilters from './src/_config/filters.js'
 
 import rollupPluginCritical from 'rollup-plugin-critical'
 
+import simpleGit from 'simple-git'
+
+const git = simpleGit()
+
+async function getGitInfo() {
+	const branchSummary = await git.branch()
+	const log = await git.log({ n: 1 })
+	return {
+		branch: branchSummary.current,
+		commit: log.latest.hash,
+		shortcommit: log.latest.hash.slice(0, 7),
+	}
+}
+
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
-export default function (eleventyConfig) {
+export default async function (eleventyConfig) {
+	const gitInfo = await getGitInfo()
+
 	eleventyConfig.setServerPassthroughCopyBehavior('copy')
 	eleventyConfig.addPassthroughCopy('public')
 
@@ -112,6 +128,9 @@ export default function (eleventyConfig) {
 	//TODOeleventyConfig.addLayoutAlias('post', 'post.njk')
 
 	eleventyConfig.addGlobalData('layout', 'base')
+
+	// Pass the current branch and commit hash to templates
+	eleventyConfig.addGlobalData('gitInfo', gitInfo)
 
 	eleventyConfig.addDateParsing((dateValue) => {
 		if (typeof dateValue === 'string') {
