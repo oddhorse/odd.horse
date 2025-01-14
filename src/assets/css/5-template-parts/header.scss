@@ -1,3 +1,5 @@
+@use '../4-layout/media-queries.scss' as *;
+
 header {
     display: flex;
     /* Use flexbox for horizontal alignment */
@@ -20,7 +22,7 @@ header {
         color: var(--page-color);
     }
 
-    nav {
+    .navbar {
         display: flex;
         /* Make nav links appear in a horizontal row */
         justify-content: flex-end;
@@ -44,6 +46,34 @@ header {
             flex-shrink: 0;
             /* Prevent links from shrinking */
 
+        }
+    }
+}
+
+@media #{$mq-small} {
+    header {
+        padding: 1rem;
+        padding-top: 0;
+
+        flex-direction: column;
+
+        gap: 0;
+
+
+
+        .text-logo {
+            font-size: 25vw;
+            width: 100%;
+
+        }
+
+        .navbar {
+            gap: .7rem;
+            justify-content: flex-start;
+
+            a {
+                font-size: 1.5rem;
+            }
         }
     }
 }

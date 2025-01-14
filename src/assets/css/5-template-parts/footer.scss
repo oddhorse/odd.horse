@@ -5,13 +5,14 @@ footer {
     font-size: 0.9rem;
     justify-content: center;
     display: flex;
+    padding-top: 2rem;
 
     p {
         margin: 0.25rem;
 
         color: var(--footer-text-color);
         letter-spacing: -0.03rem;
-        font-size: 1rem;
+        font-size: 0.75rem;
 
     }
 

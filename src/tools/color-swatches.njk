@@ -3,12 +3,18 @@ title: color swatches
 ---
 
 <style>
-    main {
+    #container {
         margin: 0;
         padding: 20px;
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
+    }
+    a.sub {
+        font-size: 0.8em;
+        text-decoration: none;
+        text-align: center;
+        display: block;
     }
     .color-swatch {
         width: 100px;
@@ -49,7 +55,7 @@ title: color swatches
             '#00ccff',
             '#ff9966'
         ];
-        const container = document.querySelector('main');
+        const container = document.getElementById('container');
         colors.forEach(color => {
             const swatch = document.createElement('div');
             swatch.className = 'color-swatch';
@@ -70,6 +76,6 @@ title: color swatches
         });
     });
 </script>
-<p>
-    <a href="https://github.com/oddhorse/odd.horse/tree/main/{{ page.inputPath | replace('./', '') }}">link to page in github repo</a>
-</p>
+<h1>{{ title }}</h1>
+<a href="https://github.com/oddhorse/odd.horse/tree/{{ gitInfo.branch }}/{{ page.inputPath | replace('./', '') }}" class="sub" target="_blank">(view source?)</a>
+<div id="container"></div>

@@ -1,16 +1,15 @@
 @use "sass:math";
 
+@use '../4-layout/media-queries.scss' as *;
+
 p.stanza {
     font-style: italic;
     font-size: 1.2rem;
     max-width: 60%;
     position: relative;
 
-    /* text-shadow: 0 0 15px #fff,
-        0 0 30px #fff,
-        0 0 45px #fff,
-        0 0 60px #fff,
-        0 0 75px #fff; */
+    text-shadow:
+        0 0 150px #fff;
 
 
     @for $i from 1 through 10 {
@@ -48,7 +47,9 @@ p.stanza {
 .about-img {
     max-width: 35rem;
     height: auto;
-    margin: -0.7rem 0;
+    margin: -0.7rem -0.7rem;
+    margin-right: -10%;
+    float: right;
     position: relative;
 }
 
@@ -74,4 +75,30 @@ p.stanza {
 main {
 
     overflow-x: clip;
+}
+
+@media #{$mq-small} {
+    p.stanza {
+        max-width: 100%;
+        font-size: 1rem;
+
+        @for $i from 1 through 10 {
+            &:nth-of-type(#{$i}) {
+                margin-top: math.random() * 2rem;
+                margin-bottom: math.random() * 2rem;
+                margin-left: math.random() * 2rem;
+
+            }
+        }
+    }
+
+    .tallword {
+        font-size: 1.2rem;
+        margin: 0 -0.6rem;
+    }
+
+    .about-img {
+        max-width: 60%;
+        margin: -0.3rem;
+    }
 }

@@ -15,6 +15,7 @@
 
 /* layout styling */
 @use '4-layout/layout.scss';
+@use '4-layout/media-queries.scss';
 
 /* template parts */
 @use '5-template-parts/navbar.scss';

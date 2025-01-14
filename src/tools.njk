@@ -1,10 +1,13 @@
 ---
 title: tools
-layout: base.njk
 color: "#d76aff"
 tags: main
 ---
 
-<h2>toollls</h2>
-{% set postslist = collections.tools %}
-{% include "postslist.njk" %}
+<h1>tools</h1>
+<p>for internal testing! may add more later...</p>
+{% for item in collections.tools %}
+    <div class="tool-item">
+        <a href="{{ item.url }}" class="tool-link">{{ item.data.title }}</a>
+    </div>
+{% endfor %}

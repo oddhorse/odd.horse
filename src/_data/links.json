@@ -1,0 +1,37 @@
+{
+	"spotify": {
+		"color": "#1db954",
+		"icon": "🎵",
+		"url": "https://spotify.com"
+	},
+	"apple music": {
+		"color": "#ff2d55",
+		"icon": "🍏",
+		"url": "https://music.apple.com"
+	},
+	"amazon music": {
+		"color": "#ff9900",
+		"icon": "🔊",
+		"url": "https://music.amazon.com"
+	},
+	"soundcloud": {
+		"color": "#ff3300",
+		"icon": "🎵",
+		"url": "https://soundcloud.com"
+	},
+	"bandcamp": {
+		"color": "#629aa9",
+		"icon": "🎵",
+		"url": "https://bandcamp.com"
+	},
+	"youtube": {
+		"color": "#ff0000",
+		"icon": "📹",
+		"url": "https://youtube.com"
+	},
+	"instagram": {
+		"color": "#e4405f",
+		"icon": "📸",
+		"url": "https://instagram.com"
+	}
+}

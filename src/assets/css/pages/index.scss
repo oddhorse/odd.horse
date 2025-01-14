@@ -1,3 +1,5 @@
+@use '../4-layout/media-queries.scss' as *;
+
 main {
     margin: 0;
     display: flex;
@@ -11,7 +13,7 @@ main {
 }
 
 .text-logo {
-    font-size: clamp(7rem, 15vw, 10rem);
+    font-size: clamp(6rem, 15vw, 10rem);
     text-align: center;
     max-width: min-content;
     margin: 3rem 0;
@@ -39,6 +41,23 @@ main {
 
     a {
         /* Optional: Make links bold */
-        font-size: 3rem;
+        font-size: clamp(1rem, 3rem, 3rem);
+    }
+}
+
+@media #{$mq-small} {
+
+    .text-logo {
+        // font-size: clamp(5rem, 10vw, 7rem);
+    }
+
+    .navbar {
+
+        gap: 1rem;
+        line-height: 0.5;
+
+        a {
+            // font-size: 1.7rem;
+        }
     }
 }
