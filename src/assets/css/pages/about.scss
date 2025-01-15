@@ -53,24 +53,49 @@ p.stanza {
     position: relative;
 }
 
-#god-image {
-    width: 400px;
-    /* Adjust size as needed */
+#god-image,
+#pbuh-popup {
     height: auto;
     display: none;
     /* Initially hidden */
     position: absolute;
     z-index: 1000;
-    /* Ensure it appears above other content */
 
     pointer-events: none;
 
     --glow-color: #fff98a;
+}
+
+#god-image {
+    width: 400px;
     box-shadow: 0 0 15px var(--glow-color),
         0 0 30px var(--glow-color),
         0 0 45px var(--glow-color),
         0 0 60px var(--glow-color);
 }
+
+#pbuh-popup {
+    background-color: var(--background-color);
+    font-size: 9vw;
+    text-align: center;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+@keyframes fadeOutSustain {
+    0% {
+        opacity: 1;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
 
 main {
 
@@ -100,5 +125,6 @@ main {
     .about-img {
         max-width: 60%;
         margin: -0.3rem;
+        margin-right: -10%;
     }
 }

@@ -5,6 +5,7 @@ footer {
     font-size: 0.9rem;
     justify-content: center;
     display: flex;
+    flex-direction: column;
     padding-top: 2rem;
 
     p {
@@ -20,4 +21,10 @@ footer {
         color: inherit;
         text-decoration-color: var(--footer-text-color);
     }
+
+    #beta-notice {
+        font-size: 1rem;
+        color: red;
+    }
+
 }

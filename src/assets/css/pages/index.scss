@@ -14,6 +14,7 @@ main {
 
 .text-logo {
     font-size: clamp(6rem, 15vw, 10rem);
+    max-width: 95%;
     text-align: center;
     max-width: min-content;
     margin: 3rem 0;

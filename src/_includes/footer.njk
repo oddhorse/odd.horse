@@ -1,7 +1,11 @@
 <footer>
+    {% if gitInfo.branch == 'beta' %}
+        <p id="beta-notice">beta preview @ <a>https://beta.odd.horse</a>. <a href="https://odd.horse/" target="_blank">click to visit the current version!</a>
+        </p>
+    {% endif %}
     <p>
         <i>copyright {% year %} oddhorse •
-            <a href="https://github.com/oddhorse/odd.horse/tree/{{ gitInfo.branch }}" target="_blank" {% if gitInfo.branch == 'beta' %}style="color: red"{% endif %}>github {% if gitInfo.branch == 'beta' %}beta preview{% endif %}
+            <a href="https://github.com/oddhorse/odd.horse/tree/{{ gitInfo.branch }}" target="_blank">github
             </a> • <a href="https://github.com/oddhorse/odd.horse/commit/{{ gitInfo.commit }}" target="_blank" {% if gitInfo.branch == 'beta' %}style="color: red"{% endif %}>{{ gitInfo.shortcommit }}</a>
         </i>
     </p>
