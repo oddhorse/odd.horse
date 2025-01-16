@@ -2,36 +2,31 @@
 	"spotify": {
 		"color": "#1db954",
 		"icon": "🎵",
-		"url": "https://spotify.com"
+		"url": "https://open.spotify.com/artist/1gS6MWOwbDZLj9nqDBLdel"
 	},
 	"apple music": {
 		"color": "#ff2d55",
 		"icon": "🍏",
-		"url": "https://music.apple.com"
-	},
-	"amazon music": {
-		"color": "#ff9900",
-		"icon": "🔊",
-		"url": "https://music.amazon.com"
+		"url": "https://music.apple.com/artist/1710449134"
 	},
 	"soundcloud": {
-		"color": "#ff3300",
+		"color": "#ff8800",
 		"icon": "🎵",
-		"url": "https://soundcloud.com"
+		"url": "https://soundcloud.com/oddhorse"
 	},
 	"bandcamp": {
 		"color": "#629aa9",
 		"icon": "🎵",
-		"url": "https://bandcamp.com"
-	},
-	"youtube": {
-		"color": "#ff0000",
-		"icon": "📹",
-		"url": "https://youtube.com"
+		"url": "https://oddhorse.bandcamp.com/"
 	},
 	"instagram": {
 		"color": "#e4405f",
 		"icon": "📸",
-		"url": "https://instagram.com"
+		"url": "https://instagram.com/oddhorse_"
+	},
+	"youtube": {
+		"color": "#ff0000",
+		"icon": "📹",
+		"url": "https://www.youtube.com/@oddhorse"
 	}
 }

@@ -1,5 +1,5 @@
 {
-	"layout": "music-release",
+	"layout": "base",
 	"tags": "releases",
 	"parent": "music"
 }

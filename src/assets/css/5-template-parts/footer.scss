@@ -1,5 +1,7 @@
 @use "sass:color";
 
+@use '../4-layout/media-queries.scss' as *;
+
 footer {
     text-align: center;
     font-size: 0.9rem;
@@ -27,4 +29,10 @@ footer {
         color: red;
     }
 
+}
+
+@media #{$mq-small} {
+    footer {
+        padding-top: 0.5rem;
+    }
 }

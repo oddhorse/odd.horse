@@ -138,6 +138,10 @@ export default async function (eleventyConfig) {
 		}
 	})
 
+	eleventyConfig.addFilter('lyrics', (data) => {
+		return 'hi!' + data
+	})
+
 	// Copy/pass-through files
 	eleventyConfig.addPassthroughCopy('src/assets/css')
 	eleventyConfig.addPassthroughCopy('src/assets/js')
