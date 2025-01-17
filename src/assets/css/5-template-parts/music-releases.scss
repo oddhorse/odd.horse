@@ -6,3 +6,19 @@
         flex-direction: column;
     }
 }
+
+.release-card {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: fit-content;
+
+    .info-box {
+        height: fit-content;
+    }
+
+    .release-img {
+        height: auto;
+        width: 40vw;
+    }
+}
