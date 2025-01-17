@@ -22,3 +22,17 @@
         width: 40vw;
     }
 }
+
+#release-link-frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    /* Optional: remove border */
+
+    .page-background * {
+        display: none;
+    }
+}
