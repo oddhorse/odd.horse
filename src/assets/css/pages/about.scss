@@ -64,22 +64,12 @@ p.stanza {
     pointer-events: none;
 
     --glow-color: #fff98a;
-}
 
-#god-image {
     width: 400px;
     box-shadow: 0 0 15px var(--glow-color),
         0 0 30px var(--glow-color),
         0 0 45px var(--glow-color),
         0 0 60px var(--glow-color);
-}
-
-#pbuh-popup {
-    background-color: var(--background-color);
-    font-size: 9vw;
-    text-align: center;
-    padding: 1rem;
-    border-radius: 1rem;
 }
 
 @keyframes fadeOutSustain {

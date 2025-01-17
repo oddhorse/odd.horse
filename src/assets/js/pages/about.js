@@ -42,23 +42,23 @@ function triggerPopup(popup, event) {
 	popup.style.opacity = 1
 	popup.style.animation = 'none'
 	popup.offsetHeight
-	popup.style.animation = 'fadeOutSustain 2s forwards'
+	popup.style.animation = 'fadeOutSustain 2.5s forwards'
 	updateImagePosition(popup, event)
 }
 
 function updateImagePosition(image, event) {
-	const godImageRect = image.getBoundingClientRect()
+	const popupImageRect = image.getBoundingClientRect()
 	const viewportWidth = window.innerWidth
 	const viewportHeight = window.innerHeight
 
 	let left = event.pageX + 10
 	let top = event.pageY + 10
 
-	if (left + godImageRect.width > viewportWidth) {
-		left = viewportWidth - godImageRect.width - 10
+	if (left + popupImageRect.width > viewportWidth) {
+		left = viewportWidth - popupImageRect.width - 10
 	}
-	if (top + godImageRect.height > viewportHeight) {
-		top = viewportHeight - godImageRect.height - 10
+	if (top + popupImageRect.height > viewportHeight) {
+		top = viewportHeight - popupImageRect.height - 10
 	}
 
 	image.style.left = `${left}px`

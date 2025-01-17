@@ -1,14 +1,27 @@
 <div class="release-card">
     <h2>{{ title }}</h2>
     <img src="{{ img }}" alt="{{ title }} cover" class="img-fluid">
-    <p>release date: {{ date }}</p>
+    <p>release date:
+        {{ date }}</p>
     {# if >1 producer say producers #}
-    <p>producer{% if producers.length > 1 %}s{% endif %}: {% for name in producers %}
-            {{ name }}
-            {# add comma (>2) or & (2) between names #}
-            {% if loop.index < producers.length %}
-                {% if producers.length > 2 %}, {% else %} & {% endif %}
-            {% endif %}
-        {% endfor %}
-    </p>
+    {% if not producers %}
+        {% set producers = "oddhorse" %}
+    {% endif %}
+    {% if producers is not string %}
+        <p>producers:
+            {% for name in producers %}
+                {{ name }}
+                {# add comma (>2) or & (2) between names #}
+                {% if not loop.last %}
+                    {% if producers.length > 2 %},
+                    {% else %}
+                        &
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </p>
+    {% elif producers is string %}
+        <p>producer:
+            {{ producers }}</p>
+    {% endif %}
 </div>
