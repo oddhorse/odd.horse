@@ -1,15 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
-	const iframe = document.getElementById('release-link-frame')
-	iframe.onload = () => {
-		const iframeDocument =
-			iframe.contentDocument || iframe.contentWindow.document
-		const style = iframeDocument.createElement('style')
-		style.innerHTML = `
-            .page-background {
-                /* Your styles here */
-                display: none;
-            }
-        `
-		iframeDocument.head.appendChild(style)
-	}
+	const linksPopup = document.getElementById('release-popup')
+	const popupButton = document.getElementById('release-popup-button')
+
+	popupButton.addEventListener('click', () => {
+		linksPopup.style.display = 'block'
+	})
+
+	linksPopup.addEventListener('click', () => {
+		linksPopup.style.display = 'none'
+	})
 })

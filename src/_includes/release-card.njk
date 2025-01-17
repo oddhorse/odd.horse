@@ -28,8 +28,10 @@
         <div class="links">
             <a href="{{ apple_link }}" class="btn btn-primary" target="_blank">apple music</a>
             <a href="{{ spotify_link }}" class="btn btn-primary" target="_blank">spotify</a>
-            <a href="{{ release_link }}" class="btn btn-primary" target="_blank">other platforms</a>
-            <iframe src="{{ release_link }}" frameborder="0" allowtransparency="true" allow="encrypted-media" id="release-link-frame"></iframe>
+            <a href="#" class="btn btn-primary" id="release-popup-button">other platforms</a>
+            <div id="release-popup">
+                <iframe src="{{ release_link }}" width="320" frameborder="0" allowtransparency="true" allow="encrypted-media" id="release-link-frame"></iframe>
+            </div>
         </div>
     </div>
     <img src="{{ img }}" alt="{{ title }} cover" class="img-fluid release-img">
