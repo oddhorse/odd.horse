@@ -12,20 +12,7 @@ main {
     /* Prevent scrollbars if not needed */
 }
 
-.text-logo {
-    font-size: clamp(6rem, 15vw, 10rem);
-    max-width: 95%;
-    text-align: center;
-    max-width: min-content;
-    margin: 3rem 0;
-    cursor: default;
-}
-
-
 .navbar {
-
-
-
     /* Positions the navbar 25% down from the top */
     width: 100%;
     /* Makes navbar span the full width */
@@ -34,15 +21,23 @@ main {
     justify-content: center;
     flex-wrap: wrap;
     max-width: 100%;
-    line-height: 0.2;
-    /* Make nav links appear in a horizontal row */
-    gap: 3rem;
-    /* Add spacing between links */
+    column-gap: 3rem;
 
-
-    a {
-        /* Optional: Make links bold */
+    .navlink {
         font-size: 3rem;
+    }
+}
+
+.logo-container {
+    --logo-size: clamp(6rem, 15vw, 10rem);
+
+    .text-logo {
+        font-size: var(--logo-size);
+        max-width: 95%;
+        text-align: center;
+        max-width: min-content;
+        margin: 3rem 0;
+        cursor: default;
     }
 }
 
@@ -53,7 +48,7 @@ main {
         gap: 1rem;
         line-height: 0.5;
 
-        a {
+        .navlink {
             font-size: 2.75rem;
         }
     }

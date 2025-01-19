@@ -8,44 +8,26 @@ header {
     align-items: center;
     gap: 2rem;
 
+
+
     /* Vertically align items */
     padding: 2rem 3rem;
     /* Add some padding for breathing room */
     /* Optional: Give the header a background color */
 
-    .logo-link {
-        text-decoration: none;
-    }
-
-    .text-logo {
-        font-size: 5rem;
-        color: var(--page-color);
+    .logo-container {
+        --logo-size: 5rem;
     }
 
     .navbar {
-        display: flex;
-        /* Make nav links appear in a horizontal row */
         justify-content: flex-end;
-        gap: 1.3rem;
-        /* Add spacing between links */
+        column-gap: 1.3rem;
         flex-wrap: wrap;
         max-width: 100%;
-        line-height: 0.5;
-        /* Ensure the navbar doesn't overflow */
+        line-height: 1;
 
-
-        a {
-            color: var(--text-color);
-            transition: color 0.1s;
-            /* Set link color */
-            /* Optional: Make links bold */
+        .navlink {
             font-size: 2rem;
-
-            flex-grow: 0;
-            /* Prevent links from growing */
-            flex-shrink: 0;
-            /* Prevent links from shrinking */
-
         }
     }
 }
@@ -59,12 +41,13 @@ header {
 
         gap: 0;
 
+        .logo-container {
+            --logo-size: 25vw;
+        }
 
 
         .text-logo {
-            font-size: 25vw;
             width: 100%;
-
         }
 
         .navbar {

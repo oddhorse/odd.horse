@@ -1,3 +1,5 @@
+@use '../4-layout/media-queries.scss' as *;
+
 .release-text {
     color: var(--link-color);
     // text-decoration-color: var(--link-color);
@@ -6,6 +8,7 @@
     margin: 0.5rem 0;
     display: inline-block;
     font-size: 1.2rem;
+    transition: var(--link-hover-transition-speed);
 }
 
 .music-grid {
@@ -29,6 +32,16 @@
     transition: var(--link-hover-transition-speed);
 }
 
-.release-link:hover .release-pic {
-    transform: scale(1.05);
+.release-link:hover {
+
+    .release-pic,
+    .release-text {
+        transform: scale(1.05);
+    }
+}
+
+@media #{$mq-small} {
+    .music-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    }
 }

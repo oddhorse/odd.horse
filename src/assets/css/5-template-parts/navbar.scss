@@ -2,23 +2,25 @@
 
 .navbar {
 
+    display: flex;
     letter-spacing: -0.08rem;
 
-    a {
+    .navlink {
         color: var(--text-color);
         transition: color var(--link-hover-transition-speed);
-        font-size: 2rem;
         text-decoration: none;
 
         flex-grow: 0;
         flex-shrink: 0;
-    }
 
-    .navlink {
+        transition:
+            transform var(--link-hover-transition-speed),
+            color var(--link-hover-transition-speed);
 
         &:hover,
         &[aria-current="page"] {
             color: var(--navbar-link-color);
+            transform: scale(1.1);
         }
 
         &:hover[aria-current="page"] {

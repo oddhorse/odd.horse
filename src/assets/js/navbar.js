@@ -1,15 +1,15 @@
 export function setupNavbar() {
 	const navlinks = document.querySelectorAll('.navlink')
-	const textLogo = document.querySelector('.text-logo')
+	const logoContainer = document.querySelector('.logo-container')
 	for (const link of navlinks) {
 		const navlinkColor = getComputedStyle(link)
 			.getPropertyValue('--navbar-link-color')
 			.trim()
 		link.addEventListener('mouseenter', () => {
-			textLogo.style.color = navlinkColor
+			logoContainer.style.setProperty('--logo-color', navlinkColor)
 		})
 		link.addEventListener('mouseleave', () => {
-			textLogo.style.color = '' //defaultColor
+			logoContainer.style.setProperty('--logo-color', '') //defaultColor
 		})
 	}
 }
