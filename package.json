@@ -40,6 +40,7 @@
 	},
 	"dependencies": {
 		"del-cli": "^6.0.0",
+		"sharp": "^0.33.5",
 		"simple-git": "^3.27.0"
 	}
 }
