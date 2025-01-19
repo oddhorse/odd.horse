@@ -6,6 +6,7 @@ import EleventyPluginNavigation from '@11ty/eleventy-navigation'
 import EleventyPluginBundle from '@11ty/eleventy-plugin-bundle'
 import EleventyPluginSyntaxhighlight from '@11ty/eleventy-plugin-syntaxhighlight'
 import EleventyVitePlugin from '@11ty/eleventy-plugin-vite'
+import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
 
 import pluginFilters from './src/_config/filters.js'
 
@@ -37,6 +38,7 @@ export default async function (eleventyConfig) {
 	eleventyConfig.addPlugin(EleventyPluginSyntaxhighlight)
 	eleventyConfig.addPlugin(EleventyPluginBundle)
 	eleventyConfig.addPlugin(pluginFilters)
+	eleventyConfig.addPlugin(eleventyImageTransformPlugin)
 	eleventyConfig.addPlugin(EleventyVitePlugin, {
 		tempFolderName: '.11ty-vite', // Default name of the temp folder
 
@@ -152,6 +154,13 @@ export default async function (eleventyConfig) {
 				(page) => page.filePathStem === `/${data.parent}`,
 			)
 		},
+	})
+
+	// add "draft: true" to front matter to hide a page from production builds
+	eleventyConfig.addPreprocessor('drafts', '*', (data, content) => {
+		if (data.draft && process.env.ELEVENTY_RUN_MODE === 'build') {
+			return false
+		}
 	})
 
 	return {
