@@ -1,0 +1,30 @@
+@keyframes floatUpDown {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+        /* Adjust height as needed */
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+
+// used for pbuh and god images on about page
+@keyframes fadeOutSustain {
+    0% {
+        opacity: 1;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}

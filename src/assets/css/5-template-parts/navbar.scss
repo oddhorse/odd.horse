@@ -14,17 +14,26 @@
         flex-shrink: 0;
 
         transition:
-            transform var(--link-hover-transition-speed),
+            scale var(--link-hover-transition-speed),
             color var(--link-hover-transition-speed);
+
+
+        &:hover {
+            scale: 1.1;
+        }
+
+        &[aria-current="page"] {
+            scale: 1.2;
+        }
 
         &:hover,
         &[aria-current="page"] {
             color: var(--navbar-link-color);
-            transform: scale(1.1);
         }
 
         &:hover[aria-current="page"] {
             color: var(--link-hover-color);
+            scale: 1.4;
         }
     }
 }
