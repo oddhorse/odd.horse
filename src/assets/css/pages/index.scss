@@ -24,7 +24,7 @@ main {
     column-gap: 3rem;
 
     .navlink {
-        font-size: 3rem;
+        font-size: 3.25rem;
     }
 }
 
@@ -44,7 +44,7 @@ main {
 @media #{$mq-small} {
 
     .logo-container {
-        --logo-size: clamp(3rem, 8vw, 6rem);
+        --logo-size: clamp(5rem, 20vw, 9rem);
     }
 
     .navbar {

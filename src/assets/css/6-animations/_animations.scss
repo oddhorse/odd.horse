@@ -4,8 +4,7 @@
     }
 
     50% {
-        transform: translateY(-10px);
-        /* Adjust height as needed */
+        transform: translateY(var(--translation-animation-amount));
     }
 
     100% {

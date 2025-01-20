@@ -6,5 +6,6 @@ import { roundToPlace } from './util.js'
 document.addEventListener('DOMContentLoaded', () => {
 	setupNavbar()
 	defineColors()
-	registerAnimations()
+	// will try gsap, this doesn't seem very flexible
+	//registerAnimations()
 })
