@@ -43,6 +43,10 @@ main {
 
 @media #{$mq-small} {
 
+    .logo-container {
+        --logo-size: clamp(3rem, 8vw, 6rem);
+    }
+
     .navbar {
 
         gap: 1rem;

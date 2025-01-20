@@ -10,7 +10,7 @@ tags: main
     {% for item in collections.releases | reverse %}
         <div class="music-item">
             <a href="{{ item.url }}" class="release-link" style="--link-color: {{ item.data.color }};">
-                <img src="{{ item.data.img }}" alt="{{ item.data.title }} album cover" class="release-pic"><br/>
+                <img src="{{ item.data.img }}" alt="{{ item.data.title }} album cover" sizes="(max-width: 47.9375em) 75vw, 50vw" class="release-pic"><br/>
                 <span class="release-text">{{ item.data.title }}</span>
             </a>
         </div>

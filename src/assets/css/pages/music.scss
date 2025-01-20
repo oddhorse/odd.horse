@@ -9,6 +9,12 @@
     display: inline-block;
     font-size: 1.2rem;
     transition: var(--link-hover-transition-speed);
+
+    // Enable word wrapping for long words
+    overflow-wrap: break-word;
+    word-wrap: break-word; // Legacy support
+    word-break: break-word; // Optional for older browsers
+    hyphens: auto;
 }
 
 .music-grid {
@@ -36,12 +42,12 @@
 
     .release-pic,
     .release-text {
-        transform: scale(1.05);
+        scale: 1.05;
     }
 }
 
 @media #{$mq-small} {
     .music-grid {
-        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     }
 }

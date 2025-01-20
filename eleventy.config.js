@@ -40,15 +40,15 @@ export default async function (eleventyConfig) {
 	eleventyConfig.addPlugin(pluginFilters)
 	eleventyConfig.addPlugin(eleventyImageTransformPlugin, {
 		// output image formats
-		// formats: ["avif", "webp", "jpeg"],
+		formats: ['avif', 'webp', 'svg', 'jpeg'],
 
 		// output image widths
-		widths: [250, 500, 750, 1000, 1500, 2000, 'auto'],
+		widths: [400, 800, 1600, 2400],
 
 		// optional, attributes assigned on <img> nodes override these values
 		htmlOptions: {
 			imgAttributes: {
-				loading: 'lazy',
+				loading: 'eager',
 				decoding: 'async',
 			},
 			pictureAttributes: {},
