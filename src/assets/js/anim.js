@@ -1,4 +1,4 @@
-import { wrapInSpan } from './util.js'
+import { wrapInSpan, randIntBtwn } from './util.js'
 
 export function registerAnimations() {
 	const floatingItems = document.querySelectorAll('.floating')
