@@ -6,7 +6,7 @@ import EleventyPluginNavigation from '@11ty/eleventy-navigation'
 import EleventyPluginBundle from '@11ty/eleventy-plugin-bundle'
 import EleventyPluginSyntaxhighlight from '@11ty/eleventy-plugin-syntaxhighlight'
 import EleventyVitePlugin from '@11ty/eleventy-plugin-vite'
-import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
+import { eleventyImageTransformPlugin } from '@11ty/eleventy-img'
 
 import pluginFilters from './src/_config/filters.js'
 
@@ -38,7 +38,22 @@ export default async function (eleventyConfig) {
 	eleventyConfig.addPlugin(EleventyPluginSyntaxhighlight)
 	eleventyConfig.addPlugin(EleventyPluginBundle)
 	eleventyConfig.addPlugin(pluginFilters)
-	eleventyConfig.addPlugin(eleventyImageTransformPlugin)
+	eleventyConfig.addPlugin(eleventyImageTransformPlugin, {
+		// output image formats
+		// formats: ["avif", "webp", "jpeg"],
+
+		// output image widths
+		widths: [250, 500, 750, 1000, 1500, 2000, 'auto'],
+
+		// optional, attributes assigned on <img> nodes override these values
+		htmlOptions: {
+			imgAttributes: {
+				loading: 'lazy',
+				decoding: 'async',
+			},
+			pictureAttributes: {},
+		},
+	})
 	eleventyConfig.addPlugin(EleventyVitePlugin, {
 		tempFolderName: '.11ty-vite', // Default name of the temp folder
 
