@@ -5,4 +5,6 @@ tags: main
 ---
 
 <h1>projects</h1>
-<p>...that aren't <a href="/music/">music</a>, of course... duh!</p>
+<p>...that aren't <a href="/music/">music</a>, of course...</p>
+{% set postslist = collections.projects %}
+{% include "postslist.njk" %}

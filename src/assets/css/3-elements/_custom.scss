@@ -1,0 +1,12 @@
+// for specific reoccuring custom elements
+
+.oddhorse-inline {
+    display: inline-block;
+    font-size: 1.4rem;
+    transform: scaleX(70%) scaleY(140%) translateY(-4%);
+    margin: 0 -0.8rem;
+    text-decoration: inherit;
+    text-decoration-style: wavy;
+    color: var(--oddhorse-color);
+    font-style: italic;
+}

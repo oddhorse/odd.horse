@@ -1,5 +1,5 @@
 {
 	"layout": "subpage",
-	"tags": "projects",
-	"parent": "projects"
+	"tags": "plugins",
+	"parent": "plugins"
 }

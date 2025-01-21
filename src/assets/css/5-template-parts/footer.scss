@@ -16,7 +16,7 @@ footer {
         margin: 0.25rem;
         font-size: inherit;
 
-        color: var(--footer-text-color);
+        color: var(--lighter-text-color);
         letter-spacing: -0.03rem;
 
     }
@@ -24,7 +24,7 @@ footer {
     a {
         color: inherit;
         font-size: inherit;
-        text-decoration-color: var(--footer-text-color);
+        text-decoration-color: var(--lighter-text-color);
 
         &:hover {
             .github-logo {
@@ -45,7 +45,7 @@ footer {
         width: auto;
         vertical-align: -18%;
 
-        fill: var(--footer-text-color);
+        fill: var(--lighter-text-color);
     }
 
 }

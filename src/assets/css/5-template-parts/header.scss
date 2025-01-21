@@ -10,10 +10,8 @@ header {
 
 
 
-    /* Vertically align items */
     padding: 2rem 3rem;
     /* Add some padding for breathing room */
-    /* Optional: Give the header a background color */
 
     .logo-container {
         --logo-size: 5rem;
@@ -22,7 +20,6 @@ header {
     .navbar {
         justify-content: flex-end;
         column-gap: 1.3rem;
-        flex-wrap: wrap;
         max-width: 100%;
         line-height: 1;
 
