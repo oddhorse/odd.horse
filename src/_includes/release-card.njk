@@ -4,7 +4,9 @@
 
         <p>release date:
         {{ date }}</p>
-        {# if >1 producer say producers #}
+
+        {# producer credits #}
+        {# 
         {% if not producers %}
             {% set producers = "oddhorse" %}
         {% endif %}
@@ -12,7 +14,6 @@
             <p>producers:
             {% for name in producers %}
                     {{ name }}
-                    {# add comma (>2) or & (2) between names #}
                     {% if not loop.last %}
                         {% if producers.length > 2 %},
                     {% else %}
@@ -25,12 +26,24 @@
             <p>producer:
             {{ producers }}</p>
         {% endif %}
-        <div class="links">
-            <a href="{{ apple_link }}" class="btn btn-primary" target="_blank">apple music</a>
-            <a href="{{ spotify_link }}" class="btn btn-primary" target="_blank">spotify</a>
+         #}
+
+        {# streaming links #}
+        <div class="streaming-links">
+            <p>listen:</p>
+            <a href="{{ apple_link }}" class="btn btn-primary" id="release-apple-music" style="color: {{ links['apple music'].color }};" target="_blank">apple music</a>
+            <a href="{{ spotify_link }}" class="btn btn-primary" id="release-spotify" style="color: {{ links['spotify'].color }};" target="_blank">spotify</a>
             <a href="#" class="btn btn-primary" id="release-popup-button">other platforms</a>
             <div id="release-popup">
+                <p id="release-popup-bg-textbox">
+
+                    {% for i in range(300) %}
+                        {{ title }}
+                    {% endfor %}
+
+                </p>
                 <iframe src="{{ release_link }}" width="320" frameborder="0" allowtransparency="true" allow="encrypted-media" id="release-link-frame"></iframe>
+                {% include "logos/paren-X.svg" %}
             </div>
         </div>
     </div>
