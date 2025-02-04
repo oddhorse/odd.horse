@@ -3,7 +3,7 @@
 # https://zellwk.com/blog/github-actions-deploy/
 
 on:
-  # Runs on pushes targeting the default branch
+  # Runs on pushes targeting the beta branch
   push:
     branches: ['beta']
   # Allows you to run this workflow manually from the Actions tab
