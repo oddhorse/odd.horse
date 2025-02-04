@@ -1,0 +1,63 @@
+@use "sass:color";
+
+@use '../4-layout/media-queries.scss' as *;
+
+footer {
+    --footer-font-size: 0.75rem;
+
+    text-align: center;
+    font-size: var(--footer-font-size);
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    padding-top: 2rem;
+
+    p {
+        margin: 0.25rem;
+        font-size: inherit;
+
+        color: var(--lighter-text-color);
+        letter-spacing: -0.03rem;
+
+    }
+
+    a {
+        color: inherit;
+        font-size: inherit;
+        text-decoration-color: var(--lighter-text-color);
+
+        &:hover {
+            .github-logo {
+                fill: var(--link-hover-color);
+            }
+        }
+    }
+
+    #beta-notice {
+        font-size: 0.9rem;
+        color: red;
+    }
+
+
+    .github-logo {
+        display: inline-block;
+        height: calc(var(--footer-font-size) * 1.2);
+        width: auto;
+        vertical-align: -18%;
+
+        fill: var(--lighter-text-color);
+    }
+
+}
+
+@media #{$mq-small} {
+    footer {
+        padding-top: 0.5rem;
+
+        font-size: 0.65rem;
+
+        #beta-notice {
+            font-size: 0.75rem;
+        }
+    }
+}

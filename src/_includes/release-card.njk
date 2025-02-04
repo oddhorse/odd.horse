@@ -1,0 +1,52 @@
+<div class="release-card">
+    <div class="info-box">
+        <h2>{{ title }}</h2>
+
+        <p>release date:
+        {{ date }}</p>
+
+        {# producer credits #}
+        {# 
+        {% if not producers %}
+            {% set producers = "oddhorse" %}
+        {% endif %}
+        {% if producers is not string %}
+            <p>producers:
+            {% for name in producers %}
+                    {{ name }}
+                    {% if not loop.last %}
+                        {% if producers.length > 2 %},
+                    {% else %}
+                        &
+                    {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </p>
+        {% elif producers is string %}
+            <p>producer:
+            {{ producers }}</p>
+        {% endif %}
+         #}
+
+        {# streaming links #}
+        <div class="streaming-links">
+            <p>listen:</p>
+            <a href="{{ apple_link }}" class="btn btn-primary" id="release-apple-music" style="color: {{ links['apple music'].color }};" target="_blank">apple music</a>
+            <a href="{{ spotify_link }}" class="btn btn-primary" id="release-spotify" style="color: {{ links['spotify'].color }};" target="_blank">spotify</a>
+            <a href="#" class="btn btn-primary" id="release-popup-button">other platforms</a>
+            <div id="release-popup">
+                <p id="release-popup-bg-textbox">
+
+                    {% for i in range(300) %}
+                        {{ title }}
+                    {% endfor %}
+
+                </p>
+                <iframe src="{{ release_link }}" width="320" frameborder="0" allowtransparency="true" allow="encrypted-media" id="release-link-frame"></iframe>
+                {% include "logos/paren-X.svg" %}
+            </div>
+        </div>
+    </div>
+    <img src="{{ img }}" alt="{{ title }} cover" sizes="40vw" class="img-fluid release-img">
+</div>
+<script src="/assets/js/music-release.js" type="module"></script>

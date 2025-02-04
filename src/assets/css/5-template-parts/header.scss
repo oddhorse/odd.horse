@@ -1,0 +1,59 @@
+@use '../4-layout/media-queries.scss' as *;
+
+header {
+    display: flex;
+    /* Use flexbox for horizontal alignment */
+    justify-content: space-between;
+    /* Space out children to opposite ends */
+    align-items: center;
+    gap: 2rem;
+
+
+
+    padding: 2rem 3rem;
+    /* Add some padding for breathing room */
+
+    .logo-container {
+        --logo-size: 5rem;
+    }
+
+    .navbar {
+        justify-content: flex-end;
+        column-gap: 1.3rem;
+        max-width: 100%;
+        line-height: 1;
+
+        .navlink {
+            font-size: 2rem;
+        }
+    }
+}
+
+@media #{$mq-small} {
+    header {
+        padding: 1rem;
+        padding-top: 0;
+
+        flex-direction: column;
+
+        gap: 0;
+
+        .logo-container {
+            --logo-size: 25vw;
+        }
+
+
+        .text-logo {
+            width: 100%;
+        }
+
+        .navbar {
+            gap: .7rem;
+            justify-content: flex-start;
+
+            a {
+                font-size: 1.5rem;
+            }
+        }
+    }
+}

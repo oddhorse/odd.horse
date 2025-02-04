@@ -1,0 +1,28 @@
+@use '../4-layout/media-queries.scss' as *;
+
+/* Ensure the body and html stretch to the full viewport height */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    /* Remove default margin */
+    display: flex;
+    flex-direction: column;
+    /* Arrange header, main, and footer vertically */
+
+    /* Set a background color */
+    background-color: var(--background-color);
+}
+
+/* Main content takes up available space */
+main {
+    flex: 1;
+    /* Pushes footer to the bottom */
+    padding: 0 3.5rem;
+}
+
+@media #{$mq-small} {
+    main {
+        padding: 0 1rem;
+    }
+}

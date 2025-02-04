@@ -1,0 +1,81 @@
+---
+title: color swatches
+---
+
+<style>
+    #container {
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    a.sub {
+        font-size: 0.8em;
+        text-decoration: none;
+        text-align: center;
+        display: block;
+    }
+    .color-swatch {
+        width: 100px;
+        height: 100px;
+        margin: 5px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 12px;
+        cursor: pointer;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .color-swatch:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+</style>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const colors = [
+            '#e000a5',
+            '#1db7e6',
+            '#00c700',
+            '#337aff',
+            '#e60000',
+            '#e6a700',
+            '#ff6600',
+            '#ff33ff',
+            '#33ff66',
+            '#66ccff',
+            '#ffcc33',
+            '#cc00ff',
+            '#00ffcc',
+            '#ff3366',
+            '#00ccff',
+            '#ff9966'
+        ];
+        const container = document.getElementById('container');
+        colors.forEach(color => {
+            const swatch = document.createElement('div');
+            swatch.className = 'color-swatch';
+            swatch.style.backgroundColor = color;
+            swatch.textContent = color;
+            swatch.addEventListener('click', () => {
+                navigator
+                    .clipboard
+                    .writeText(color)
+                    .then(() => {
+                        alert(`Copied ${color} to clipboard!`);
+                    })
+                    .catch(() => {
+                        alert('Failed to copy to clipboard.');
+                    });
+            });
+            container.appendChild(swatch);
+        });
+    });
+</script>
+<h1>{{ title }}</h1>
+<a href="https://github.com/oddhorse/odd.horse/tree/{{ gitInfo.branch }}/{{ page.inputPath | replace('./', '') }}" class="sub" target="_blank">(view source?)</a>
+<div id="container"></div>

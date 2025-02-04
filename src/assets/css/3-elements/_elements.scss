@@ -1,0 +1,36 @@
+@use '../4-layout/media-queries.scss' as *;
+
+a {
+    color: var(--link-color);
+    text-decoration-style: wavy;
+
+    &:hover {
+        color: var(--link-hover-color);
+        text-decoration-color: var(--link-hover-color);
+    }
+}
+
+p {
+    color: var(--text-color);
+    letter-spacing: 0.01rem;
+    font-size: 1.4rem;
+    font-weight: normal;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+h1 {
+    font-size: 3rem;
+    text-align: center;
+    margin: 0;
+    letter-spacing: -0.1rem;
+}
+
+@media #{$mq-small} {
+    p {
+        font-size: 1.1rem;
+    }
+}

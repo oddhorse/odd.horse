@@ -1,0 +1,18 @@
+#mc_embed_shell {
+    .mc_embed_text {
+        color: var(--text-color);
+        font-size: 1rem;
+    }
+
+    input.email {
+        rotate: 3deg;
+        border: 1.5px solid var(--lighter-text-color);
+        border-radius: 2px;
+    }
+
+    label,
+    input.email,
+    input.button {
+        font-size: 1rem;
+    }
+}

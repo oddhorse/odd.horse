@@ -1,0 +1,13 @@
+{% macro renderLyrics(highlightLines = []) %}
+    <div class="lyrics">
+        {% for line in caller().split('\n') %}
+            {% if line.trim() === "" %}
+                <br>
+            {% else %}
+                <p{% if loop.index in highlightLines %} class="highlight"{% endif %}>
+                    {{ line }}
+                </p>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endmacro %}

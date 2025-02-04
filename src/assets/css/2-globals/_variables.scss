@@ -1,0 +1,21 @@
+:root {
+    --text-color: #000000;
+    --oddhorse-color: #ff00bb;
+    --background-color: #ffffff;
+    --lighter-text-color: #7e7e7e;
+
+    --text-logo-color: var(--text-color);
+
+    // default
+    --page-color: #000000;
+    --link-color: #000000;
+    --link-hover-color: #ff00bb;
+    --button-background-color: #ff00bb;
+    --accent-background-color: #ff00bb;
+    --hover-background-color: #ff00bb;
+
+    --link-hover-transition-speed: 0.1s;
+    --link-hover-transition-timing-function: ease-in-out;
+
+    --translation-animation-amount: 1rem;
+}

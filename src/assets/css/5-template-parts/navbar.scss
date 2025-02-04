@@ -1,0 +1,59 @@
+@use '../2-globals/variables' as *;
+
+.navbar {
+
+    display: flex;
+    letter-spacing: -0.08rem;
+
+    flex-wrap: wrap;
+    // min-width: 100%;
+
+
+    .navlink {
+        color: var(--text-color);
+        text-decoration: none;
+        flex-grow: 0;
+        flex-shrink: 0;
+
+        transition:
+            transform var(--link-hover-transition-speed),
+            color var(--link-hover-transition-speed),
+            padding var(--link-hover-transition-speed),
+            translate var(--link-hover-transition-speed);
+
+        transition-timing-function: var(--link-hover-transition-timing-function);
+
+        --navlink-padding-amount: 0.3rem;
+
+
+        &:hover {
+            transform: scale(1.1);
+            translate: 0 -0.06rem;
+            // padding-left: var(--navlink-padding-amount);
+            // padding-right: var(--navlink-padding-amount);
+        }
+
+        &[aria-current="page"] {
+            transform: scale(1.2);
+            translate: 0 -0.07rem;
+
+            padding-left: calc(var(--navlink-padding-amount) + 0.05rem);
+            padding-right: calc(var(--navlink-padding-amount) + 0.05rem);
+        }
+
+        &:hover,
+        &[aria-current="page"] {
+            color: var(--navbar-link-color);
+
+        }
+
+        &:hover[aria-current="page"] {
+            color: var(--link-hover-color);
+            transform: scale(1.3);
+            translate: 0 -0.1rem;
+
+            // padding-left: calc(var(--navlink-padding-amount) + 0.2rem);
+            // padding-right: calc(var(--navlink-padding-amount) + 0.2rem);
+        }
+    }
+}

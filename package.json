@@ -1,23 +1,46 @@
 {
 	"name": "odd.horse",
-	"private": true,
-	"version": "5.0.2",
+	"version": "6.0.0",
 	"type": "module",
+	"description": "website for the music artist [oddhorse](https://odd.horse)",
 	"scripts": {
-		"dev": "vite",
-		"build": "tsc && vite build",
-		"preview": "vite preview"
+		"start": "npx @11ty/eleventy --serve",
+		"watch": "npx @11ty/eleventy --watch",
+		"serve": "npx @11ty/eleventy --serve",
+		"bench": "DEBUG=Eleventy:Benchmark* npx @11ty/eleventy",
+		"build": "npx @11ty/eleventy",
+		"build-ghpages": "npx @11ty/eleventy --pathprefix=/odd.horse/",
+		"start-ghpages": "npx @11ty/eleventy --pathprefix=/odd.horse/ --serve --quiet",
+		"clean": "del-cli dist",
+		"test": "echo \"Error: no test specified\" && exit 1"
 	},
+	"keywords": [],
+	"repository": {
+		"type": "git",
+		"url": "git+https://oddhorse@github.com/oddhorse/odd.horse.git"
+	},
+	"author": "oddhorse (John Trinh)",
+	"license": "ISC",
 	"devDependencies": {
-		"@eslint/js": "^9.9.1",
-		"@types/color": "^3.0.6",
-		"color": "^4.2.3",
-		"globals": "^15.9.0",
-		"normalize.css": "^8.0.1",
-		"postcss": "^8.4.44",
-		"postcss-nesting": "^13.0.0",
-		"typescript": "^5.2.2",
-		"typescript-eslint": "^8.4.0",
-		"vite": "^5.3.4"
+		"@11ty/eleventy": "^3.0.0",
+		"@11ty/eleventy-img": "^4.0.2",
+		"@11ty/eleventy-navigation": "^0.3.5",
+		"@11ty/eleventy-plugin-rss": "^2.0.2",
+		"@11ty/eleventy-plugin-syntaxhighlight": "^5.0.0",
+		"@11ty/eleventy-plugin-vite": "^5.0.0-alpha.1",
+		"markdown-it": "^14.1.0",
+		"markdown-it-anchor": "^9.2.0",
+		"npm-run-all": "^4.1.5",
+		"rollup-plugin-critical": "^1.0.14",
+		"sass": "^1.83.1",
+		"vite": "^6.0.7"
+	},
+	"optionalDependencies": {
+		"@rollup/rollup-linux-x64-gnu": "4.30.1"
+	},
+	"dependencies": {
+		"del-cli": "^6.0.0",
+		"sharp": "^0.33.5",
+		"simple-git": "^3.27.0"
 	}
 }

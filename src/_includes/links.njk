@@ -1,0 +1,7 @@
+<nav class="navbar">
+    {%- for linkTitle, link in links %}
+        <a href="{{ link.url }}" title="{{ linkTitle }}" class="{{ linkTitle }} navlink" style="--navbar-link-color: {{ link.color }};" target="_blank">
+            {{ linkTitle }}
+        </a>
+    {%- endfor %}
+</nav>

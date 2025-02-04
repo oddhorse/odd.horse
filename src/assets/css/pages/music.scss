@@ -1,0 +1,53 @@
+@use '../4-layout/media-queries.scss' as *;
+
+.release-text {
+    color: var(--link-color);
+    // text-decoration-color: var(--link-color);
+
+    text-decoration: none;
+    margin: 0.5rem 0;
+    display: inline-block;
+    font-size: 1.2rem;
+    transition: var(--link-hover-transition-speed);
+
+    // Enable word wrapping for long words
+    overflow-wrap: break-word;
+    word-wrap: break-word; // Legacy support
+    word-break: break-word; // Optional for older browsers
+    hyphens: auto;
+}
+
+.music-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.music-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.release-pic {
+    width: 100%;
+    height: auto;
+    border-radius: 2px;
+    transition: var(--link-hover-transition-speed);
+}
+
+.release-link:hover {
+
+    .release-pic,
+    .release-text {
+        scale: 1.05;
+    }
+}
+
+@media #{$mq-small} {
+    .music-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+}
