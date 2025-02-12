@@ -1,7 +1,20 @@
 ---
 title: videos
 color: "#ffbb00"
-# tags: main
+tags: main
 ---
 
+<link rel="stylesheet" href="/assets/css/pages/videos.scss">
 <h1>videos</h1>
+<div id="vidbox">
+    {% for vidTitle, vid in videos %}
+        <div class="vidrow">
+            <div class="yt-video" style="width: 560px; height: 315px;">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ vid.src }}?si={{ vid.si }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+            <div class="description">
+                <p>{{ vid.description }}</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
