@@ -1,0 +1,64 @@
+@use 'sass:math';
+@use '../4-layout/media-queries.scss' as *;
+
+#vidbox {
+    display: flex;
+    flex-direction: column;
+
+    .vidrow {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        flex-direction: row;
+
+        &:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        @for $i from 1 through 10 {
+            &:nth-of-type(#{$i}) {
+                .yt-video {
+                    margin-top: math.random() * 2rem;
+                    margin-bottom: math.random() * 2rem;
+                    margin-left: math.random() * 2rem;
+                    margin-right: math.random() * 2rem;
+                    scale: (math.random() * 0.2) + 0.9;
+                }
+
+                .description {
+                    margin-top: math.random() * 2rem;
+                    margin-bottom: math.random() * 2rem;
+                    margin-left: math.random() * 2rem;
+                    margin-right: math.random() * 2rem;
+                    scale: (math.random() * 0.2) + 0.9;
+                }
+            }
+        }
+
+        .yt-video {
+            flex: 1 1 auto;
+            min-width: 560px;
+        }
+
+        .description {
+            flex: 1 1 auto;
+            min-width: 200px;
+            max-width: 45%;
+
+            p {
+                margin-top: 0;
+                margin-bottom: 2rem;
+            }
+        }
+    }
+}
+
+@media #{$mq-small} {
+    #vidbox {
+        .vidrow {
+            .description {
+                max-width: 100%;
+            }
+        }
+    }
+}

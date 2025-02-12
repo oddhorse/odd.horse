@@ -20,7 +20,10 @@
                 .style
                 .setProperty("--page-color", "{{color or parentData.data.color}}");
         </script>
-        {% include "gtag.njk" %}
+        {# if it isn't local dev server, add gtag #}
+        {% if eleventy.env.runMode != 'serve' %}
+            {% include "gtag.njk" %}
+        {% endif %}
     </head>
     <body>
         {# put header for every page but index #}
