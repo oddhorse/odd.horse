@@ -10,7 +10,13 @@
                     <code>{{ post.url }}</code>
                 {% endif %}
             </a>
-            <time class="postlist-date" datetime="{{ post.date | htmlDateString }}">{{ post.date | readableDate("LLLL yyyy") }}</time>
+            <time class="postlist-date" datetime="{{ post.date | htmlDateString }}">
+                {% if not post.data.pretty_date %}
+                    {{ post.date | readableDate("LLLL yyyy") }}
+                {% else %}
+                    {{ post.data.pretty_date }}
+                {% endif %}
+            </time>
         </li>
     {%- endfor %}
 </ol>

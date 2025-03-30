@@ -1,10 +1,23 @@
 ---
 title: projects
 color: "#00ff00"
-#tags: main
+tags: main
 ---
-
+<link rel="stylesheet" href="/assets/css/pages/projects.scss">
 <h1>projects</h1>
 <p>...that aren't <a href="/music/">music</a>, of course...</p>
+{#
 {% set postslist = collections.projects %}
 {% include "postslist.njk" %}
+#}
+
+<div class="projects-grid">
+    {% for item in collections.projects | reverse %}
+        <div class="project-item">
+            <a href="{{ item.url }}" class="project-link" style="--link-color: {{ item.data.color }};">
+                <img src="{{ item.data.img }}" alt="{{ item.data.title }} album cover" sizes="(max-width: 47.9375em) 75vw, 50vw" class="project-pic"><br/>
+                <span class="project-text">{{ item.data.title }}</span>
+            </a>
+        </div>
+    {% endfor %}
+</div>
