@@ -1,0 +1,67 @@
+<div class="floating-container">
+    <img src="/assets/images/bg/horse.svg" class="floating-svg" style="top: 20%; left: 10%; width: 15rem;" alt="Decorative horse illustration floating in background" sizes="10rem">
+    <img src="/assets/images/bg/horse2.svg" class="floating-svg" style="top: 50%; left: 40%; width: 15rem; transform: scaleX(-1);" alt="Decorative horse illustration floating in background" sizes="10rem">
+    {# <h1>oddhorse is him!</h1> #}
+</div>
+
+<script>
+    const FLOAT_SPEED = 0.5; // pixels per frame
+    const MIN_Y = 5;
+    const MAX_Y = 90;
+
+    document
+        .querySelectorAll(".floating-svg")
+        .forEach(initHorse);
+
+    function initHorse(el) {
+        const dir = Math.random() < 0.5
+            ? "left"
+            : "right";
+        let goingRight = dir === "right";
+        let x = goingRight
+            ? -el.offsetWidth
+            : window.innerWidth;
+        let y = getRandomY();
+
+        el.style.top = `${y}%`;
+        el.style.left = `${x}px`;
+        el.style.transform = goingRight
+            ? "scaleX(1)"
+            : "scaleX(-1)";
+        el.style.position = "fixed";
+        el.style.zIndex = "-1";
+        el.style.pointerEvents = "none";
+
+        function animate() {
+            if (goingRight) {
+                x += FLOAT_SPEED;
+                if (x > window.innerWidth) {
+                    // flip & respawn at left with new y
+                    goingRight = false;
+                    x = window.innerWidth;
+                    y = getRandomY();
+                    el.style.transform = "scaleX(-1)";
+                    el.style.top = `${y}%`;
+                }
+            } else {
+                x -= FLOAT_SPEED;
+                if (x < -el.offsetWidth) {
+                    // flip & respawn at right with new y
+                    goingRight = true;
+                    x = -el.offsetWidth;
+                    y = getRandomY();
+                    el.style.transform = "scaleX(1)";
+                    el.style.top = `${y}%`;
+                }
+            }
+            el.style.left = `${x}px`;
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    }
+
+    function getRandomY() {
+        return Math.random() * (MAX_Y - MIN_Y) + MIN_Y;
+    }
+</script>
