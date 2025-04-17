@@ -17,3 +17,19 @@
 
     margin: 1.5rem;
 }
+
+.img-fluid {
+    width: 35rem;
+}
+
+.main-title {
+    //display: inline-block;
+    //font-family: 'Times New Roman', Times, serif;
+    font-size: 4rem;
+    transform: scaleX(300%) scaleY(70%);
+    margin: 0 -0.8rem;
+    text-decoration: inherit;
+    text-decoration-style: wavy;
+    color: var(--oddhorse-color);
+    //font-style: italic;
+}

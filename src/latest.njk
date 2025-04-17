@@ -1,0 +1,20 @@
+---
+layout:
+eleventyExcludeFromCollections: true
+---
+
+{# this page pulls most recent release and redirects to it #}
+
+{% set latestRelease = collections.releases | reverse | first %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="refresh" content="0; url={{ latestRelease.url }}"/>
+        <link rel="canonical" href="{{ latestRelease.url }}index.html">
+        <title>redirecting to latest release...</title>
+    </head>
+    <body>
+        <p>redirecting to <a href="{{ latestRelease.url }}">{{ latestRelease.data.title }}</a>...</p>
+    </body>
+</html>

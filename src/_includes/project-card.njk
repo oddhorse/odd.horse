@@ -1,0 +1,12 @@
+<div class="project-card">
+    <div class="info-box">
+        <h2>{{ title }}</h2>
+        <p id="date">
+            {% if not pretty_date %}
+                {{ date }}
+            {% else %}
+                {{ pretty_date }}
+            {% endif %}
+        </p>
+    </div>
+</div>

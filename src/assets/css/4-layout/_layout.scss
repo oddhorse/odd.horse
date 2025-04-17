@@ -11,7 +11,8 @@ body {
     /* Arrange header, main, and footer vertically */
 
     /* Set a background color */
-    background-color: var(--background-color);
+    //TODO: does unsetting this cause problems?
+    //background-color: var(--background-color);
 }
 
 /* Main content takes up available space */

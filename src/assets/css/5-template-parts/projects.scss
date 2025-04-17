@@ -1,0 +1,20 @@
+@use '../2-globals/variables' as *;
+
+.project-card {
+    .info-box {
+
+        display: flex;
+        flex-direction: row;
+        align-items: baseline;
+        gap: .5rem;
+
+        h2 {
+            font-size: 2rem;
+        }
+
+        #date {
+            font-style: italic;
+            color: var(--lighter-text-color);
+        }
+    }
+}

@@ -4,6 +4,9 @@
         <p id="beta-notice">beta preview @ <a>https://beta.odd.horse</a>. <a href="https://odd.horse/" target="_blank">click to visit the current version!</a>
         </p>
     {% endif %}
+    {% if draft %}
+        <p>this page is unlisted! sneaky sneaky...</p>
+    {% endif %}
     <p>
         <i>copyright {% year %} oddhorse •
             <a href="https://github.com/oddhorse/odd.horse/tree/{{ gitInfo.branch }}" target="_blank">github
