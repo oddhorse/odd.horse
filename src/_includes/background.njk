@@ -1,5 +1,8 @@
 <div class="floating-container">
-    <img src="/assets/images/bg/horse.svg" class="floating-svg" style="top: 20%; left: 10%; width: 15rem;" alt="Decorative horse illustration floating in background" sizes="10rem">
+    {% include "horses/horse.svg" %}
+    {% include "horses/horse2.svg" %}
+    {#
+    <img src="/assets/images/bg/horse.svg" class="floating-svg" style="top: 20%; left: 10%; width: 15rem;" alt="Decorative horse illustration floating in background" sizes="10rem" eleventy:ignore>
     <img src="/assets/images/bg/horse2.svg" class="floating-svg" style="top: 50%; left: 40%; width: 15rem; transform: scaleX(-1);" alt="Decorative horse illustration floating in background" sizes="10rem">
     {# <h1>oddhorse is him!</h1> #}
 </div>
@@ -9,11 +12,20 @@
     const MIN_Y = 5;
     const MAX_Y = 90;
 
-    document
-        .querySelectorAll(".floating-svg")
-        .forEach(initHorse);
+    document.addEventListener("DOMContentLoaded", () => {
+        // Move the existing horse initialization code here if you want to run it only after DOM is fully loaded
+        // This script block would then only contain the function definitions
+        const horses = document.querySelectorAll(".floating-container > svg");
+        horses.forEach(initHorse);
+    });
 
     function initHorse(el) {
+        el
+            .classList
+            .add("floating-svg");
+        el.style.width = "15rem";
+        el.style.top = "20%";
+        el.style.left = "15%";
         const dir = Math.random() < 0.5
             ? "left"
             : "right";
