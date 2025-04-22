@@ -1,8 +1,8 @@
 {
 	"lang": "en",
 	"dir": "ltr",
-	"name": "Eleventy Plus Vite",
-	"short_name": "11ty+vite",
+	"name": "oddhorse",
+	"short_name": "oddhorse",
 	"icons": [
 		{
 			"src": "/assets/favicon/android-chrome-192x192.png",
