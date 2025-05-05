@@ -158,6 +158,7 @@ export default async function (eleventyConfig) {
 	// Copy/pass-through files
 	eleventyConfig.addPassthroughCopy('src/assets/css')
 	eleventyConfig.addPassthroughCopy('src/assets/js')
+	eleventyConfig.addPassthroughCopy('src/assets/favicon')
 
 	eleventyConfig.addGlobalData('eleventyComputed', {
 		parent: (data) => {
