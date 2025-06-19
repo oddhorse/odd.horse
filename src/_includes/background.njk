@@ -1,8 +1,6 @@
 {# background code - fully self-contained #}
 
-<div id="background">
-    {% include "horses/horse.svg" %}
-</div>
+<div id="background"></div>
 
 <style>
     #background {
@@ -24,30 +22,338 @@
     const bg = document.getElementById("background");
 
     (() => {
-        const horses = {
+        const horsedata = {
             0: {
                 name: "Thunder Hooves",
-                img: "https://placekitten.com/600/400",
-                posx: 10,
-                posy: 10
+                img: "https://placebear.com/600/400",
+                el: undefined,
+                posx: 0,
+                posy: 0,
+                mvdat: {
+                    walking: false,
+                    tarx: 0,
+                    tary: 0,
+                    bobval: 0,
+                    bobvec: 0.075,
+                    speedmult: 0.9,
+                    stepsize: 0.2
+                }
             },
             1: {
                 name: "Celestial Mane",
                 img: "https://placebear.com/600/400",
-                posx: 20,
-                posy: 20
+                posx: 0,
+                posy: 0,
+                el: undefined,
+                mvdat: {
+                    walking: false,
+                    tarx: 0,
+                    tary: 0,
+                    bobval: 0,
+                    bobvec: 0.1,
+                    speedmult: 1,
+                    stepsize: 0.2
+                }
             }
         };
 
+        let horses = [];
+
         /* Wait for DOM to be fully loaded */
         document.addEventListener("DOMContentLoaded", () => {
-            bg.style.opacity = 1;
+            bg.style.opacity = 0.6;
+
+            // Iterate through all horses in horsedata
+            for (const [id, horse] of Object.entries(horsedata)) {
+                spawnHorse(horse);
+            }
         });
 
+        // spawns a horse
         function spawnHorse(data) {
-            bg.
+            const thishorse = document.createElement("img");
+            thishorse.src = data.img;
+            thishorse.alt = data.name;
+            thishorse.title = data.name;
+            data.posx = getRandPos();
+            data.posy = getRandPos();
+            data.el = thishorse;
+
+            // Position the horse
+            Object.assign(thishorse.style, {
+                position: "absolute",
+                left: `${data.posx}%`,
+                top: `${data.posy}%`,
+                maxWidth: "80px",
+                pointerEvents: "none"
+            });
+
+            bg.appendChild(thishorse);
+            horses.push(thishorse);
+
         }
 
+        function getRandPos() {
+            const min = -2;
+            const max = 102;
+            const diff = max - min;
+            return Math.random() * diff + min;
+        }
+
+        function bobHorse(horse) {
+            let workval = horse.mvdat.bobval + horse.mvdat.bobvec;
+            if (workval >= 0.5 || workval <= 0) 
+                horse.mvdat.bobvec *= -1;
+            horse.mvdat.bobval = workval;
+        }
+
+        // Animation tick function to update horse positions
+        function onTick() {
+            // Update each horse position
+            for (const [id, horse] of Object.entries(horsedata)) {
+                const horseElement = horse.el;
+
+                // If horse is walking, move towards target
+                if (horse.mvdat.walking) {
+                    // Calculate direction vector
+                    const dx = horse.mvdat.tarx - horse.posx;
+                    const dy = horse.mvdat.tary - horse.posy;
+
+                    // Calculate distance
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    // If close enough to target, stop walking
+                    if (distance < 0.5) {
+                        horse.mvdat.walking = false;
+                        horse.mvdat.bobval = 0;
+                        if (horse.mvdat.bobvec < 0) 
+                            horse.mvdat.bobvec *= -1;
+                        }
+                    else {
+                        // Move a small step toward target
+                        const step = horse.mvdat.stepsize * horse.mvdat.speedmult;
+                        const ratio = step / distance;
+
+                        horse.posx += dx * ratio;
+                        horse.posy += dy * ratio;
+
+                        // update bob value
+                        bobHorse(horse);
+
+                        // Update horse position in the DOM
+                        horseElement.style.left = `${horse.posx}%`;
+                        horseElement.style.top = `${horse.posy + horse.mvdat.bobval}%`;
+
+                    }
+
+                    // small chance to pick new location mid-walk
+                    if (Math.random() < 0.005) {
+                        horse.mvdat.tarx += Math.random() * 8 - 4;
+                        horse.mvdat.tary += Math.random() * 8 - 4;
+                    }
+                } else if (Math.random() < 0.005) {
+                    // Small chance to start walking to a new location
+                    horse.mvdat.walking = true;
+                    horse.mvdat.tarx = getRandPos();
+                    horse.mvdat.tary = getRandPos();
+                    horse.mvdat.stepsize = Math.random() * 0.1 + 0.1;
+                }
+            }
+
+            // Continue animation
+            requestAnimationFrame(onTick);
+        }
+
+        // Start the animation loop
+        requestAnimationFrame(onTick);
+    })();
+</script>
+
+{#
+<!-- Horse of the Day snippet (oddhorse) – fully self‑contained and Eleventy‑img‑safe -->
+<!-- Paste anywhere in your markup. Contains **no <img> tags** and no base64/data‑URIs, so Eleventy’s image transformer will ignore it. -->
+
+<!-- START hod-snippet -->
+<button id="hod-toggle" aria-label="Show Horse of the Day" style="position:fixed;bottom:1rem;right:1rem;font-size:2rem;z-index:9999;background:none;border:none;cursor:pointer">🐴</button>
+
+<script type="module">
+    /* Horse of the Day — isolated ES‑module to avoid globals and build‑time interference */
+    (() => {
+        const horses = [
+            {
+                name: "Thunder Hooves",
+                img: "https://placekitten.com/600/400",
+                facts: [
+                    {
+                        icon: "📏",
+                        text: "Height: 15.2 hands"
+                    }, {
+                        icon: "⚡️",
+                        text: "Top speed: 40 mph"
+                    }, {
+                        icon: "💥",
+                        text: "Special power: Lightning Kick"
+                    }, {
+                        icon: "❤️",
+                        text: "Relationship status: It's complicated"
+                    }
+                ]
+            }, {
+                name: "Celestial Mane",
+                img: "https://placebear.com/600/400",
+                facts: [
+                    {
+                        icon: "🌌",
+                        text: "Origin: The Night Sky"
+                    }, {
+                        icon: "✨",
+                        text: "Ability: Shooting‑star gallop"
+                    }, {
+                        icon: "🎭",
+                        text: "Temperament: Dramatic"
+                    }, {
+                        icon: "💔",
+                        text: "Relationship issue: Ghosted by Pegasus"
+                    }
+                ]
+            }
+        ];
+
+        /* Build DOM only when first opened — keeps HTML clean for Eleventy */
+        let built = false;
+        const btn = document.getElementById("hod-toggle");
+        btn.addEventListener("click", () => {
+            if (!built) {
+                buildOverlay();
+                built = true;
+            }
+            show();
+        });
+
+        function buildOverlay() {
+            const o = document.createElement("div");
+            o.id = "hod-overlay";
+            Object.assign(o.style, {
+                position: "fixed",
+                inset: 0,
+                zIndex: 9998,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                background: "rgba(0,0,0,.6)",
+                backdropFilter: "blur(4px)",
+                padding: "1rem"
+            });
+
+            const card = document.createElement("div");
+            Object.assign(card.style, {
+                background: "#fff",
+                color: "#111",
+                maxWidth: "90vw",
+                width: "400px",
+                borderRadius: "1rem",
+                padding: "1.5rem",
+                boxShadow: "0 0 20px rgba(0,0,0,.4)",
+                textAlign: "center",
+                fontFamily: "system-ui,Arial,sans-serif",
+                position: "relative"
+            });
+
+            const close = document.createElement("button");
+            close.textContent = "✕";
+            close.setAttribute("aria-label", "Close");
+            Object.assign(close.style, {
+                position: "absolute",
+                top: ".5rem",
+                right: ".5rem",
+                background: "none",
+                border: "none",
+                fontSize: "1.25rem",
+                cursor: "pointer"
+            });
+
+            const img = document.createElement("div");
+            img.id = "hod-img";
+            Object.assign(img.style, {
+                width: "100%",
+                aspectRatio: "3/2",
+                borderRadius: ".5rem",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                marginBottom: "1rem"
+            });
+
+            const name = document.createElement("h2");
+            name.id = "hod-name";
+
+            const list = document.createElement("ul");
+            list.id = "hod-facts";
+            Object.assign(list.style, {
+                listStyle: "none",
+                padding: 0,
+                margin: 0,
+                textAlign: "left"
+            });
+
+            card.append(close, img, name, list);
+            o.appendChild(card);
+            document
+                .body
+                .appendChild(o);
+
+            /* Event bindings */
+            close.addEventListener("click", hide);
+            o.addEventListener("click", e => {
+                if (e.target === o) 
+                    hide();
+                }
+            );
+        }
+
+        function pick() {
+            return horses[new Date().getDate() % horses.length];
+        }
+
+        function populate(h) {
+            const img = document.getElementById("hod-img");
+            const name = document.getElementById("hod-name");
+            const list = document.getElementById("hod-facts");
+            img.style.backgroundImage = `url('${h.img}')`;
+            name.textContent = h.name;
+            list.innerHTML = "";
+            h
+                .facts
+                .forEach(f => {
+                    const li = document.createElement("li");
+                    li.style.display = "flex";
+                    li.style.alignItems = "flex-start";
+                    li.style.gap = ".5rem";
+                    li.style.margin = ".35rem 0";
+                    const spanIcon = document.createElement("span");
+                    spanIcon.textContent = f.icon;
+                    spanIcon.style.flexShrink = "0";
+                    const spanText = document.createElement("span");
+                    spanText.textContent = f.text;
+                    li.append(spanIcon, spanText);
+                    list.appendChild(li);
+                });
+        }
+
+        function show() {
+            populate(pick());
+            const o = document.getElementById("hod-overlay");
+            o.hidden = false;
+            o.style.display = "flex";
+            document.body.style.overflow = "hidden";
+        }
+        function hide() {
+            const o = document.getElementById("hod-overlay");
+            o.hidden = true;
+            o.style.display = "none";
+            document.body.style.overflow = "";
+        }
     })();
 </script>
 <!-- END hod-snippet -->
+
+#}
