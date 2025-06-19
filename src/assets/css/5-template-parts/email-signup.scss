@@ -1,0 +1,34 @@
+#kit_embed_shell {
+
+    max-width: fit-content;
+    margin: auto;
+    text-align: left;
+
+
+    .kit_embed_text {
+        color: var(--text-color);
+        margin-left: 1em;
+    }
+
+    input.email {
+        rotate: 3deg;
+        border: 1.5px solid var(--lighter-text-color);
+        border-radius: 2px;
+    }
+
+    label,
+    input.email,
+    .formkit-alert-success,
+    button,
+    .kit_embed_text {
+        font-size: 1rem;
+    }
+
+    .formkit-alert-success {
+        color: #88e200;
+    }
+
+    button {
+        margin-left: 2em;
+    }
+}
