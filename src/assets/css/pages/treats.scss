@@ -1,0 +1,12 @@
+main {
+    /* center elements horiz */
+    margin: auto;
+    width: fit-content;
+    height: fit-content;
+
+    flex: 0;
+}
+
+.logo-container {
+    --logo-size: 6rem;
+}
