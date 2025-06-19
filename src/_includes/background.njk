@@ -1,195 +1,53 @@
 {# background code - fully self-contained #}
-<!--
-<button id="hod-toggle" aria-label="Show Horse of the Day" style="position:fixed;bottom:1rem;right:1rem;font-size:2rem;z-index:9999;background:none;border:none;cursor:pointer">🐴</button>
--->
 
-<div id="background"</div>
+<div id="background">
+    {% include "horses/horse.svg" %}
+</div>
 
 <style>
-#background: {
-    position: absolute;
-    inset: 0;
-    zIndex: -999;
-    pointer-events: none;
-}
+    #background {
+        /* places bg under everything, takes up whole page */
+        position: absolute;
+        inset: 0;
+        z-index: -999;
+        pointer-events: none;
+
+        /* starts background invisible */
+        opacity: 0;
+        transition: opacity 2s ease-in-out;
+    }
 </style>
 
 <script type="module">
     /* background — isolated ES‑module to avoid globals and build‑time interference */
+
+    const bg = document.getElementById("background");
+
     (() => {
-        const horses = [
-            {
+        const horses = {
+            0: {
                 name: "Thunder Hooves",
                 img: "https://placekitten.com/600/400",
-                facts: [
-                    {
-                        icon: "📏",
-                        text: "Height: 15.2 hands"
-                    }, {
-                        icon: "⚡️",
-                        text: "Top speed: 40 mph"
-                    }, {
-                        icon: "💥",
-                        text: "Special power: Lightning Kick"
-                    }, {
-                        icon: "❤️",
-                        text: "Relationship status: It's complicated"
-                    }
-                ]
-            }, {
+                posx: 10,
+                posy: 10
+            },
+            1: {
                 name: "Celestial Mane",
                 img: "https://placebear.com/600/400",
-                facts: [
-                    {
-                        icon: "🌌",
-                        text: "Origin: The Night Sky"
-                    }, {
-                        icon: "✨",
-                        text: "Ability: Shooting‑star gallop"
-                    }, {
-                        icon: "🎭",
-                        text: "Temperament: Dramatic"
-                    }, {
-                        icon: "💔",
-                        text: "Relationship issue: Ghosted by Pegasus"
-                    }
-                ]
+                posx: 20,
+                posy: 20
             }
-        ];
+        };
 
-        /* Build DOM only when first opened — keeps HTML clean for Eleventy */
-        let built = false;
-        const btn = document.getElementById("hod-toggle");
-        btn.addEventListener("click", () => {
-            if (!built) {
-                buildOverlay();
-                built = true;
-            }
-            show();
+        /* Wait for DOM to be fully loaded */
+        document.addEventListener("DOMContentLoaded", () => {
+            bg.style.opacity = 1;
         });
 
-        function buildOverlay() {
-            const o = document.createElement("div");
-            o.id = "hod-overlay";
-            Object.assign(o.style, {
-                position: "fixed",
-                inset: 0,
-                zIndex: -999,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                background: "rgba(0,0,0,.6)",
-                backdropFilter: "blur(4px)",
-                padding: "1rem"
-            });
-
-            const card = document.createElement("div");
-            Object.assign(card.style, {
-                background: "#fff",
-                color: "#111",
-                maxWidth: "90vw",
-                width: "400px",
-                borderRadius: "1rem",
-                padding: "1.5rem",
-                boxShadow: "0 0 20px rgba(0,0,0,.4)",
-                textAlign: "center",
-                fontFamily: "system-ui,Arial,sans-serif",
-                position: "relative"
-            });
-
-            const close = document.createElement("button");
-            close.textContent = "✕";
-            close.setAttribute("aria-label", "Close");
-            Object.assign(close.style, {
-                position: "absolute",
-                top: ".5rem",
-                right: ".5rem",
-                background: "none",
-                border: "none",
-                fontSize: "1.25rem",
-                cursor: "pointer"
-            });
-
-            const img = document.createElement("div");
-            img.id = "hod-img";
-            Object.assign(img.style, {
-                width: "100%",
-                aspectRatio: "3/2",
-                borderRadius: ".5rem",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                marginBottom: "1rem"
-            });
-
-            const name = document.createElement("h2");
-            name.id = "hod-name";
-
-            const list = document.createElement("ul");
-            list.id = "hod-facts";
-            Object.assign(list.style, {
-                listStyle: "none",
-                padding: 0,
-                margin: 0,
-                textAlign: "left"
-            });
-
-            card.append(close, img, name, list);
-            o.appendChild(card);
-            document
-                .body
-                .appendChild(o);
-
-            /* Event bindings */
-            close.addEventListener("click", hide);
-            o.addEventListener("click", e => {
-                if (e.target === o) 
-                    hide();
-                }
-            );
+        function spawnHorse(data) {
+            bg.
         }
 
-        function pick() {
-            return horses[new Date().getDate() % horses.length];
-        }
-
-        function populate(h) {
-            const img = document.getElementById("hod-img");
-            const name = document.getElementById("hod-name");
-            const list = document.getElementById("hod-facts");
-            img.style.backgroundImage = `url('${h.img}')`;
-            name.textContent = h.name;
-            list.innerHTML = "";
-            h
-                .facts
-                .forEach(f => {
-                    const li = document.createElement("li");
-                    li.style.display = "flex";
-                    li.style.alignItems = "flex-start";
-                    li.style.gap = ".5rem";
-                    li.style.margin = ".35rem 0";
-                    const spanIcon = document.createElement("span");
-                    spanIcon.textContent = f.icon;
-                    spanIcon.style.flexShrink = "0";
-                    const spanText = document.createElement("span");
-                    spanText.textContent = f.text;
-                    li.append(spanIcon, spanText);
-                    list.appendChild(li);
-                });
-        }
-
-        function show() {
-            populate(pick());
-            const o = document.getElementById("hod-overlay");
-            o.hidden = false;
-            o.style.display = "flex";
-            document.body.style.overflow = "hidden";
-        }
-        function hide() {
-            const o = document.getElementById("hod-overlay");
-            o.hidden = true;
-            o.style.display = "none";
-            document.body.style.overflow = "";
-        }
     })();
 </script>
 <!-- END hod-snippet -->
