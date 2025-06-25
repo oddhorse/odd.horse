@@ -18,15 +18,16 @@
 
         let taglines = [
             "is him!",
-            "won’t pee the bed",
             "loves you!",
             "doesn’t bite",
             "will bite if provoked!",
+            "will bite",
             "is missing.. :( tag #foundoddhorse if you find him !",
             "is everyone’s <i>favorite</i> diva!",
             "neighh… neighhhh…. 🙂",
             "neighhh…. nEIGHH!!!! 😠",
-            "*licks u*"
+            "*licks u*",
+            "is playing + having fun"
         ];
 
         let taglinesOrder = [];
@@ -62,6 +63,11 @@
             currentTaglineIndex = (currentTaglineIndex + 1) % taglinesOrder.length;
             return taglinesOrder[currentTaglineIndex];
         }
+
+        // Auto-rotate tagline every 10 seconds
+        setInterval(() => {
+            tl.innerHTML = getNewTagline();
+        }, 10000);
 
     })();
 </script>
