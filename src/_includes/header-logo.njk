@@ -1,6 +1,104 @@
-<a {% if page.url != "/" %}href="/"{% endif %} class="logo-link logo-container">
-    <h1 class="text-logo">
+<div class="logo-container">
+    <a {% if page.url != "/" %}href="/"{% endif %} class="logo-link">
+        <h1 class="text-logo">
             oddhorse
         </h1>
-    {% include "logos/OH-thick.svg" %}
-</a>
+        {% include "logos/OH-thick.svg" %}
+
+    </a>
+    <h2 id="tagline" style="opacity: 0;" class="hoverwink">is him!</h2>
+</div>
+
+<script type="module">
+    /* background — isolated ES‑module to avoid globals and build‑time interference */
+
+    (() => {
+
+        const tl = document.getElementById("tagline");
+
+        let taglines = [
+            "is him!",
+            "loves you!",
+            "doesn’t bite",
+            "will bite if provoked!",
+            "will bite",
+            "is missing.. :( tag #foundoddhorse if you find him !",
+            "is everyone’s <i>favorite</i> diva!",
+            "neighh… neighhhh…. 🙂",
+            "neighhh…. nEIGHH!!!! 😠",
+            "*licks u*",
+            "is playing + having fun"
+        ];
+
+        let taglinesOrder = [];
+
+        let currentTaglineIndex = 0;
+
+        // load taglines into random order
+        let ind,
+            thistl;
+        while (taglines.length > 0) {
+            ind = Math.floor(Math.random() * taglines.length);
+            thistl = taglines[ind];
+            taglines.splice(ind, 1); // deletes from master pool
+            taglinesOrder.push(thistl); // adds to active pool
+        }
+
+        // triggers tagline bounce anim
+        function bounceTagline() {
+            tl
+                .classList
+                .add('hoverwink-animate');
+
+            // Optional: remove the class after animation completes
+            setTimeout(() => {
+                tl
+                    .classList
+                    .remove('hoverwink-animate');
+            }, parseFloat(getComputedStyle(tl).getPropertyValue('--hoverwink-transition-speed')) * 1000);
+        }
+
+        /* Wait for DOM to be fully loaded */
+        document.addEventListener("DOMContentLoaded", () => {
+
+            // populate tagline with first one
+            tl.innerHTML = taglinesOrder[currentTaglineIndex];
+            tl.style.opacity = 1;
+            bounceTagline();
+        });
+
+        // Add click event to update tagline
+        document.addEventListener("click", (event) => {
+            if (event.target.closest('#tagline')) {
+                tl.innerHTML = getNewTagline();
+                bounceTagline();
+            }
+        });
+
+        // cycles index and gets tagline
+        function getNewTagline() {
+            currentTaglineIndex = (currentTaglineIndex + 1) % taglinesOrder.length;
+            return taglinesOrder[currentTaglineIndex];
+        }
+
+        // Create a variable to store the timer ID
+        let rotateTimer = setInterval(() => {
+            tl.innerHTML = getNewTagline();
+            bounceTagline();
+        }, 10000);
+
+        // Reset timer on click
+        document.addEventListener("click", (event) => {
+            if (event.target.closest('#tagline')) {
+                // Clear the existing timer
+                clearInterval(rotateTimer);
+                // Set a new timer
+                rotateTimer = setInterval(() => {
+                    tl.innerHTML = getNewTagline();
+                    bounceTagline();
+                }, 10000);
+            }
+        });
+
+    })();
+</script>

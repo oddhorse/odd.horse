@@ -33,3 +33,39 @@
     color: var(--oddhorse-color);
     //font-style: italic;
 }
+
+// bounce in sort of effect for on hover
+
+.hoverwink {
+    transition:
+        transform var(--hoverwink-transition-speed);
+
+    transition-timing-function: var(--hoverwink-transition-timing-function);
+
+
+    &:hover {
+        transform: scale(1.05) translateY(-0.02rem);
+        // padding-left: var(--navlink-padding-amount);
+        // padding-right: var(--navlink-padding-amount);
+    }
+}
+
+// programmatically controllable one
+
+@keyframes hoverwink {
+    0% {
+        transform: scale(1) translateY(0);
+    }
+
+    100% {
+        transform: scale(1.06) translateY(-0.02rem);
+    }
+}
+
+.hoverwink-animate {
+    animation: hoverwink var(--hoverwink-transition-speed) var(--hoverwink-transition-timing-function) forwards;
+}
+
+.hoverwink-reset {
+    animation: hoverwink var(--hoverwink-transition-speed) var(--hoverwink-transition-timing-function) reverse forwards;
+}
