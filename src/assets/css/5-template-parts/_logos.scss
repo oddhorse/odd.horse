@@ -1,29 +1,48 @@
 .logo-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
 
     --logo-color: var(--page-color);
-    --logo-size: 1rem;
 
-    color: var(--logo-color);
-    transition: color var(--link-hover-transition-speed);
+    .logo-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
 
-    .text-logo {
+
+        /* --logo-size: 1rem; */
+
+        color: var(--logo-color);
+        transition: color var(--link-hover-transition-speed);
+
+        .text-logo {
+            margin: 0;
+            font-weight: normal;
+            letter-spacing: -0.08em;
+            font-size: var(--logo-size);
+            line-height: 1;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .oddhorse-logo {
+            width: var(--logo-size);
+            height: auto;
+            border-radius: 2px;
+        }
+
+        &:hover {
+            color: var(--link-hover-color);
+        }
+    }
+
+    #tagline {
+        position: absolute;
         margin: 0;
-        font-weight: normal;
-        letter-spacing: -0.08em;
-        font-size: var(--logo-size);
-    }
-
-    .oddhorse-logo {
-        width: var(--logo-size);
-        height: auto;
-        border-radius: 2px;
-    }
-
-    &:hover {
-        color: var(--link-hover-color);
+        line-height: 1;
+        color: var(--lighter-text-color);
+        font-size: var(--tagline-size);
+        transform: translateY(-12px);
+        padding-left: var(--tagline-size);
+        cursor: pointer;
     }
 }
