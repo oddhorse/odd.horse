@@ -16,15 +16,15 @@
         flex-shrink: 0;
 
         transition:
-            transform var(--link-hover-transition-speed),
             color var(--link-hover-transition-speed),
-            padding var(--link-hover-transition-speed),
-            translate var(--link-hover-transition-speed);
-
-        transition-timing-function: var(--link-hover-transition-timing-function);
+            transform var(--link-hover-transition-speed),
+            translate var(--link-hover-transition-speed),
+            padding var(--link-hover-transition-speed);
 
         --navlink-padding-amount: 0.3rem;
 
+        transition-timing-function: var(--link-hover-transition-timing-function);
+        // This cubic-bezier creates a slight bounce effect
 
         &:hover {
             transform: scale(1.1);

@@ -6,15 +6,15 @@
         {% include "logos/OH-thick.svg" %}
 
     </a>
-    <h2 id="tagline"></h2>
+    <h2 id="tagline" style="opacity: 0;" class="hoverwink">is him!</h2>
 </div>
 
 <script type="module">
     /* background — isolated ES‑module to avoid globals and build‑time interference */
 
-    const tl = document.getElementById("tagline");
-
     (() => {
+
+        const tl = document.getElementById("tagline");
 
         let taglines = [
             "is him!",
@@ -44,17 +44,34 @@
             taglinesOrder.push(thistl); // adds to active pool
         }
 
+        // triggers tagline bounce anim
+        function bounceTagline() {
+            tl
+                .classList
+                .add('hoverwink-animate');
+
+            // Optional: remove the class after animation completes
+            setTimeout(() => {
+                tl
+                    .classList
+                    .remove('hoverwink-animate');
+            }, parseFloat(getComputedStyle(tl).getPropertyValue('--hoverwink-transition-speed')) * 1000);
+        }
+
         /* Wait for DOM to be fully loaded */
         document.addEventListener("DOMContentLoaded", () => {
 
             // populate tagline with first one
             tl.innerHTML = taglinesOrder[currentTaglineIndex];
+            tl.style.opacity = 1;
+            bounceTagline();
         });
 
         // Add click event to update tagline
         document.addEventListener("click", (event) => {
             if (event.target.closest('#tagline')) {
                 tl.innerHTML = getNewTagline();
+                bounceTagline();
             }
         });
 
@@ -67,6 +84,7 @@
         // Create a variable to store the timer ID
         let rotateTimer = setInterval(() => {
             tl.innerHTML = getNewTagline();
+            bounceTagline();
         }, 10000);
 
         // Reset timer on click
@@ -77,6 +95,7 @@
                 // Set a new timer
                 rotateTimer = setInterval(() => {
                     tl.innerHTML = getNewTagline();
+                    bounceTagline();
                 }, 10000);
             }
         });

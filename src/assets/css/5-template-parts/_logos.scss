@@ -1,6 +1,7 @@
 .logo-container {
 
     --logo-color: var(--page-color);
+    --logo-shadow-color: #00000000;
 
     .logo-link {
         display: flex;
@@ -12,7 +13,8 @@
         /* --logo-size: 1rem; */
 
         color: var(--logo-color);
-        transition: color var(--link-hover-transition-speed);
+        transition: color 0.1s ease-in-out;
+
 
         .text-logo {
             margin: 0;
@@ -22,6 +24,11 @@
             line-height: 1;
             user-select: none;
             -webkit-user-select: none;
+
+            transition: text-shadow var(--link-hover-transition-speed);
+            transition-timing-function: calc(var(--link-hover-transition-timing-function) * 2);
+            text-shadow:
+                calc(var(--logo-size) / 2) 0px calc(var(--logo-size) * 0.5) var(--logo-shadow-color);
         }
 
         .oddhorse-logo {
@@ -41,7 +48,8 @@
         line-height: 1;
         color: var(--lighter-text-color);
         font-size: var(--tagline-size);
-        transform: translateY(-12px);
+        // transform: translateY(-12px);
+        translate: 0 calc(var(--tagline-size) / 2 * -1);
         padding-left: var(--tagline-size);
         cursor: pointer;
     }
