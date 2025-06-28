@@ -3,6 +3,9 @@
     --logo-color: var(--page-color);
     --logo-shadow-color: #00000000;
 
+    user-select: none;
+    -webkit-user-select: none;
+
     .logo-link {
         display: flex;
         align-items: center;
@@ -22,8 +25,6 @@
             letter-spacing: -0.08em;
             font-size: var(--logo-size);
             line-height: 1;
-            user-select: none;
-            -webkit-user-select: none;
 
             transition: text-shadow var(--link-hover-transition-speed);
             transition-timing-function: calc(var(--link-hover-transition-timing-function) * 2);
