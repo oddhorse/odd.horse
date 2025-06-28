@@ -1,6 +1,6 @@
 {# background code - fully self-contained #}
 
-<div id="background"></div>
+<canvas id="background"></canvas>
 
 <style>
     #background {
@@ -10,6 +10,14 @@
         z-index: -999;
         pointer-events: none;
         overflow: hidden;
+        width: 100vw;
+        height: 100vh;
+
+        /* crisp pixel art rendering */
+        image-rendering: -moz-crisp-edges;
+        image-rendering: -webkit-crisp-edges;
+        image-rendering: pixelated;
+        image-rendering: crisp-edges;
 
         /* starts background invisible */
         opacity: 0;
@@ -20,18 +28,49 @@
 <script type="module">
     /* background — isolated ES‑module to avoid globals and build‑time interference */
 
-    const bg = document.getElementById("background");
+    const canvas = document.getElementById("background");
+    const ctx = canvas.getContext("2d");
 
     (() => {
+        // Canvas utilities for handling DPI correctly
+        let dpr = 1;
+
+        // Helper functions for coordinate conversion
+        const canvasUtils = {
+            // Convert mouse/screen coordinates to canvas coordinates
+            screenToCanvas: (screenX, screenY) => ({x: screenX, y: screenY}),
+            // Get actual canvas dimensions in CSS pixels
+            getCanvasSize: () => ({width: window.innerWidth, height: window.innerHeight}),
+            // Get device pixel ratio
+            getDPR: () => dpr
+        };
+
+        // Set up canvas sizing with proper pixel ratio
+        function resizeCanvas() {
+            const rect = canvas.getBoundingClientRect();
+            dpr = window.devicePixelRatio || 1;
+
+            // Set the internal size to the display size times device pixel ratio
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+
+            // Scale the context back down using CSS pixels
+            ctx.scale(dpr, dpr);
+
+            // Ensure crisp rendering
+            ctx.imageSmoothingEnabled = false;
+        }
+
         const horsedata = {
             0: {
                 name: "Thunder Hooves",
                 img: "/assets/images/bg/horse-1-",
                 frm: "idle",
-                el: undefined,
+                images: {}, // Store loaded images
                 posx: 0,
                 posy: 0,
                 facing: 1,
+                size: 100, // Horse size in pixels
                 mvdat: {
                     walking: false,
                     tarx: 0,
@@ -46,10 +85,11 @@
                 name: "Celestial Mane",
                 img: "/assets/images/bg/horse-1-",
                 frm: "idle",
-                el: undefined,
+                images: {},
                 posx: 0,
                 posy: 0,
                 facing: 1,
+                size: 100,
                 mvdat: {
                     walking: false,
                     tarx: 0,
@@ -62,43 +102,48 @@
             }
         };
 
-        let horses = [];
+        // Preload all horse images
+        async function preloadImages() {
+            const frames = ["idle", "walk1", "walk2"];
+            const promises = [];
+
+            for (const [id, horse] of Object.entries(horsedata)) {
+                for (const frame of frames) {
+                    const img = new Image();
+                    const promise = new Promise((resolve, reject) => {
+                        img.onload = () => resolve();
+                        img.onerror = () => reject();
+                    });
+                    img.src = horse.img + frame + ".png";
+                    horse.images[frame] = img;
+                    promises.push(promise);
+                }
+            }
+
+            return Promise.all(promises);
+        }
 
         /* Wait for DOM to be fully loaded */
-        document.addEventListener("DOMContentLoaded", () => {
-            bg.style.opacity = 1;
+        document.addEventListener("DOMContentLoaded", async () => {
+            resizeCanvas();
+            window.addEventListener("resize", resizeCanvas);
 
-            // Iterate through all horses in horsedata
-            for (const [id, horse] of Object.entries(horsedata)) {
-                spawnHorse(horse);
+            try {
+                await preloadImages();
+                canvas.style.opacity = 1;
+
+                // Initialize horse positions (use CSS pixel coordinates)
+                for (const [id, horse] of Object.entries(horsedata)) {
+                    horse.posx = getRandPos() * window.innerWidth / 100;
+                    horse.posy = getRandPos() * window.innerHeight / 100;
+                }
+
+                // Start animation loop
+                requestAnimationFrame(onTick);
+            } catch (error) {
+                console.error("Failed to load horse images:", error);
             }
         });
-
-        // spawns a horse
-        function spawnHorse(data) {
-            const thishorse = document.createElement("img");
-            thishorse.src = data.img + data.frm + ".png";
-            thishorse.alt = data.name;
-            thishorse.title = data.name;
-            data.posx = getRandPos();
-            data.posy = getRandPos();
-            data.el = thishorse;
-
-            // Position the horse
-            Object.assign(thishorse.style, {
-                position: "absolute",
-                left: `${data.posx}%`,
-                top: `${data.posy}%`,
-                maxWidth: "100px",
-                pointerEvents: "none",
-                imageRendering: "crisp-edges",
-                transform: `scaleX(${data.facing})`
-            });
-
-            bg.appendChild(thishorse);
-            horses.push(thishorse);
-
-        }
 
         function getRandPos() {
             const min = -2;
@@ -122,12 +167,35 @@
             horse.mvdat.bobval = workval;
         }
 
-        // Animation tick function to update horse positions
-        function onTick() {
-            // Update each horse position
-            for (const [id, horse] of Object.entries(horsedata)) {
-                const horseElement = horse.el;
+        function drawHorse(horse) {
+            const img = horse.images[horse.frm];
+            if (!img || !img.complete) 
+                return;
+            
+            ctx.save();
 
+            // Calculate position with bob effect
+            const x = horse.posx;
+            const y = horse.posy + (horse.mvdat.bobval * horse.size * 0.1);
+
+            // Handle facing direction
+            if (horse.facing === -1) {
+                ctx.scale(-1, 1);
+                ctx.drawImage(img, -x - horse.size, y, horse.size, horse.size);
+            } else {
+                ctx.drawImage(img, x, y, horse.size, horse.size);
+            }
+
+            ctx.restore();
+        }
+
+        // Animation tick function
+        function onTick() {
+            // Clear canvas (use CSS pixel dimensions)
+            ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+            // Update and draw each horse
+            for (const [id, horse] of Object.entries(horsedata)) {
                 // If horse is walking, move towards target
                 if (horse.mvdat.walking) {
                     // Calculate direction vector
@@ -144,16 +212,15 @@
                     const distance = Math.sqrt(dx * dx + dy * dy);
 
                     // If close enough to target, stop walking
-                    if (distance < 0.5) {
+                    if (distance < 5) {
                         horse.mvdat.walking = false;
                         horse.mvdat.bobval = 0;
                         if (horse.mvdat.bobvec < 0) 
                             horse.mvdat.bobvec *= -1;
                         horse.frm = "idle";
-                        horse.el.src = horse.img + horse.frm + ".png";
                     } else {
                         // Move a small step toward target
-                        const step = horse.mvdat.stepsize * horse.mvdat.speedmult;
+                        const step = horse.mvdat.stepsize * horse.mvdat.speedmult * 10; // Scale for pixel movement
                         const ratio = step / distance;
 
                         horse.posx += dx * ratio;
@@ -161,34 +228,28 @@
 
                         // update bob value
                         bobHorse(horse);
-
-                        // Update horse elements in the DOM
-                        horseElement.style.left = `${horse.posx}%`;
-                        horseElement.style.top = `${horse.posy + horse.mvdat.bobval}%`;
-                        horseElement.style.transform = `scaleX(${horse.facing})`;
-                        horse.el.src = horse.img + horse.frm + ".png";
                     }
 
                     // small chance to pick new location mid-walk
                     if (Math.random() < 0.005) {
-                        horse.mvdat.tarx += Math.random() * 8 - 4;
-                        horse.mvdat.tary += Math.random() * 8 - 4;
+                        horse.mvdat.tarx += (Math.random() * 80 - 40);
+                        horse.mvdat.tary += (Math.random() * 80 - 40);
                     }
                 } else if (Math.random() < 0.005) {
                     // Small chance to start walking to a new location
                     horse.mvdat.walking = true;
-                    horse.mvdat.tarx = getRandPos();
-                    horse.mvdat.tary = getRandPos();
+                    horse.mvdat.tarx = getRandPos() * window.innerWidth / 100;
+                    horse.mvdat.tary = getRandPos() * window.innerHeight / 100;
                     horse.mvdat.stepsize = Math.random() * 0.1 + 0.1;
                 }
+
+                // Draw the horse
+                drawHorse(horse);
             }
 
             // Continue animation
             requestAnimationFrame(onTick);
         }
-
-        // Start the animation loop
-        requestAnimationFrame(onTick);
 
     })();
 </script>
