@@ -23,176 +23,173 @@
     const bg = document.getElementById("background");
 
     (() => {
-        const horsedata = {
-            0: {
-                name: "Thunder Hooves",
-                img: "/assets/images/bg/horse-1-",
-                frm: "idle",
-                el: undefined,
-                posx: 0,
-                posy: 0,
-                facing: 1,
-                mvdat: {
-                    walking: false,
-                    tarx: 0,
-                    tary: 0,
-                    bobval: 0,
-                    bobvec: 0.075,
-                    speedmult: 0.9,
-                    stepsize: 0.2
-                }
-            },
-            1: {
-                name: "Celestial Mane",
-                img: "/assets/images/bg/horse-1-",
-                frm: "idle",
-                el: undefined,
-                posx: 0,
-                posy: 0,
-                facing: 1,
-                mvdat: {
-                    walking: false,
-                    tarx: 0,
-                    tary: 0,
-                    bobval: 0,
-                    bobvec: 0.1,
-                    speedmult: 1,
-                    stepsize: 0.2
-                }
+        0 : {
+            name: "Thunder Hooves",
+            img: "/assets/images/bg/horse-1-",
+            frm: "idle",
+            el: undefined,
+            posx: 0,
+            posy: 0,
+            facing: 1,
+            mvdat: {
+                walking: false,
+                tarx: 0,
+                tary: 0,
+                bobval: 0,
+                bobvec: 0.075,
+                speedmult: 0.9,
+                stepsize: 0.2
             }
-        };
-
-        let horses = [];
-
-        /* Wait for DOM to be fully loaded */
-        document.addEventListener("DOMContentLoaded", () => {
-            bg.style.opacity = 1;
-
-            // Iterate through all horses in horsedata
-            for (const [id, horse] of Object.entries(horsedata)) {
-                spawnHorse(horse);
+        },
+        1 : {
+            name: "Celestial Mane",
+            img: "/assets/images/bg/horse-1-",
+            frm: "idle",
+            el: undefined,
+            posx: 0,
+            posy: 0,
+            facing: 1,
+            mvdat: {
+                walking: false,
+                tarx: 0,
+                tary: 0,
+                bobval: 0,
+                bobvec: 0.1,
+                speedmult: 1,
+                stepsize: 0.2
             }
+        }
+    };
+
+    let horses = [];
+
+    /* Wait for DOM to be fully loaded */
+    document.addEventListener("DOMContentLoaded", () => {
+        bg.style.opacity = 1;
+
+        // Iterate through all horses in horsedata
+        for (const [id, horse] of Object.entries(horsedata)) {
+            spawnHorse(horse);
+        }
+    });
+
+    // spawns a horse
+    function spawnHorse(data) {
+        const thishorse = document.createElement("img");
+        thishorse.src = data.img + data.frm + ".png";
+        thishorse.alt = data.name;
+        thishorse.title = data.name;
+        data.posx = getRandPos();
+        data.posy = getRandPos();
+        data.el = thishorse;
+
+        // Position the horse
+        Object.assign(thishorse.style, {
+            position: "absolute",
+            left: `${data.posx}%`,
+            top: `${data.posy}%`,
+            maxWidth: "100px",
+            pointerEvents: "none",
+            imageRendering: "crisp-edges",
+            transform: `scaleX(${data.facing})`
         });
 
-        // spawns a horse
-        function spawnHorse(data) {
-            const thishorse = document.createElement("img");
-            thishorse.src = data.img + data.frm + ".png";
-            thishorse.alt = data.name;
-            thishorse.title = data.name;
-            data.posx = getRandPos();
-            data.posy = getRandPos();
-            data.el = thishorse;
+        bg.appendChild(thishorse);
+        horses.push(thishorse);
 
-            // Position the horse
-            Object.assign(thishorse.style, {
-                position: "absolute",
-                left: `${data.posx}%`,
-                top: `${data.posy}%`,
-                maxWidth: "100px",
-                pointerEvents: "none",
-                imageRendering: "crisp-edges",
-                transform: `scaleX(${data.facing})`
-            });
+    }
 
-            bg.appendChild(thishorse);
-            horses.push(thishorse);
+    function getRandPos() {
+        const min = -2;
+        const max = 102;
+        const diff = max - min;
+        return Math.random() * diff + min;
+    }
 
-        }
-
-        function getRandPos() {
-            const min = -2;
-            const max = 102;
-            const diff = max - min;
-            return Math.random() * diff + min;
-        }
-
-        function bobHorse(horse) {
-            let workval = horse.mvdat.bobval + horse.mvdat.bobvec;
-            if (workval >= 0.5 || workval <= 0) 
-                horse.mvdat.bobvec *= -1;
-            
-            if (workval <= 0) {
-                if (horse.frm !== "walk1") 
-                    horse.frm = "walk1";
-                else if (horse.frm !== "walk2") 
-                    horse.frm = "walk2";
-                }
-            
-            horse.mvdat.bobval = workval;
-        }
-
-        // Animation tick function to update horse positions
-        function onTick() {
-            // Update each horse position
-            for (const [id, horse] of Object.entries(horsedata)) {
-                const horseElement = horse.el;
-
-                // If horse is walking, move towards target
-                if (horse.mvdat.walking) {
-                    // Calculate direction vector
-                    const dx = horse.mvdat.tarx - horse.posx;
-                    const dy = horse.mvdat.tary - horse.posy;
-
-                    // Set the horse facing direction based on movement
-                    if (dx < 0 && horse.facing !== -1) 
-                        horse.facing = -1;
-                    else if (dx >= 0 && horse.facing !== 1) 
-                        horse.facing = 1;
-                    
-                    // Calculate distance
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-
-                    // If close enough to target, stop walking
-                    if (distance < 0.5) {
-                        horse.mvdat.walking = false;
-                        horse.mvdat.bobval = 0;
-                        if (horse.mvdat.bobvec < 0) 
-                            horse.mvdat.bobvec *= -1;
-                        horse.frm = "idle";
-                        horse.el.src = horse.img + horse.frm + ".png";
-                    } else {
-                        // Move a small step toward target
-                        const step = horse.mvdat.stepsize * horse.mvdat.speedmult;
-                        const ratio = step / distance;
-
-                        horse.posx += dx * ratio;
-                        horse.posy += dy * ratio;
-
-                        // update bob value
-                        bobHorse(horse);
-
-                        // Update horse elements in the DOM
-                        horseElement.style.left = `${horse.posx}%`;
-                        horseElement.style.top = `${horse.posy + horse.mvdat.bobval}%`;
-                        horseElement.style.transform = `scaleX(${horse.facing})`;
-                        horse.el.src = horse.img + horse.frm + ".png";
-
-                        console.log(horse.el.src);
-                    }
-
-                    // small chance to pick new location mid-walk
-                    if (Math.random() < 0.005) {
-                        horse.mvdat.tarx += Math.random() * 8 - 4;
-                        horse.mvdat.tary += Math.random() * 8 - 4;
-                    }
-                } else if (Math.random() < 0.005) {
-                    // Small chance to start walking to a new location
-                    horse.mvdat.walking = true;
-                    horse.mvdat.tarx = getRandPos();
-                    horse.mvdat.tary = getRandPos();
-                    horse.mvdat.stepsize = Math.random() * 0.1 + 0.1;
-                }
+    function bobHorse(horse) {
+        let workval = horse.mvdat.bobval + horse.mvdat.bobvec;
+        if (workval >= 0.5 || workval <= 0) 
+            horse.mvdat.bobvec *= -1;
+        
+        if (workval <= 0) {
+            if (horse.frm !== "walk1") 
+                horse.frm = "walk1";
+            else if (horse.frm !== "walk2") 
+                horse.frm = "walk2";
             }
+        
+        horse.mvdat.bobval = workval;
+    }
 
-            // Continue animation
-            requestAnimationFrame(onTick);
+    // Animation tick function to update horse positions
+    function onTick() {
+        // Update each horse position
+        for (const [id, horse] of Object.entries(horsedata)) {
+            const horseElement = horse.el;
+
+            // If horse is walking, move towards target
+            if (horse.mvdat.walking) {
+                // Calculate direction vector
+                const dx = horse.mvdat.tarx - horse.posx;
+                const dy = horse.mvdat.tary - horse.posy;
+
+                // Set the horse facing direction based on movement
+                if (dx < 0 && horse.facing !== -1) 
+                    horse.facing = -1;
+                else if (dx >= 0 && horse.facing !== 1) 
+                    horse.facing = 1;
+                
+                // Calculate distance
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                // If close enough to target, stop walking
+                if (distance < 0.5) {
+                    horse.mvdat.walking = false;
+                    horse.mvdat.bobval = 0;
+                    if (horse.mvdat.bobvec < 0) 
+                        horse.mvdat.bobvec *= -1;
+                    horse.frm = "idle";
+                    horse.el.src = horse.img + horse.frm + ".png";
+                } else {
+                    // Move a small step toward target
+                    const step = horse.mvdat.stepsize * horse.mvdat.speedmult;
+                    const ratio = step / distance;
+
+                    horse.posx += dx * ratio;
+                    horse.posy += dy * ratio;
+
+                    // update bob value
+                    bobHorse(horse);
+
+                    // Update horse elements in the DOM
+                    horseElement.style.left = `${horse.posx}%`;
+                    horseElement.style.top = `${horse.posy + horse.mvdat.bobval}%`;
+                    horseElement.style.transform = `scaleX(${horse.facing})`;
+                    horse.el.src = horse.img + horse.frm + ".png";
+                }
+
+                // small chance to pick new location mid-walk
+                if (Math.random() < 0.005) {
+                    horse.mvdat.tarx += Math.random() * 8 - 4;
+                    horse.mvdat.tary += Math.random() * 8 - 4;
+                }
+            } else if (Math.random() < 0.005) {
+                // Small chance to start walking to a new location
+                horse.mvdat.walking = true;
+                horse.mvdat.tarx = getRandPos();
+                horse.mvdat.tary = getRandPos();
+                horse.mvdat.stepsize = Math.random() * 0.1 + 0.1;
+            }
         }
 
-        // Start the animation loop
+        // Continue animation
         requestAnimationFrame(onTick);
+    }
 
-    })();
+    // Start the animation loop
+    requestAnimationFrame(onTick);
+
+})();
 </script>
 
 {#
