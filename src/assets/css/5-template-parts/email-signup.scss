@@ -1,13 +1,14 @@
-#kit_embed_shell {
+#mc_embed_shell {
 
     max-width: fit-content;
     margin: auto;
     text-align: left;
 
 
-    .kit_embed_text {
+    .mc_embed_text {
         color: var(--text-color);
         margin-left: 1em;
+        font-size: 1rem;
     }
 
     input.email {
@@ -18,9 +19,7 @@
 
     label,
     input.email,
-    .formkit-alert-success,
-    button,
-    .kit_embed_text {
+    input.button {
         font-size: 1rem;
     }
 
@@ -28,7 +27,7 @@
         color: #88e200;
     }
 
-    button {
+    input.button {
         margin-left: 2em;
     }
 }
