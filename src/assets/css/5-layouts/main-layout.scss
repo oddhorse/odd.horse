@@ -1,0 +1,326 @@
+@use "sass:color";
+
+@use '../2-globals/variables' as *;
+@use '../4-layout/media-queries.scss' as *;
+
+// GLOBAL
+
+/* Ensure the body and html stretch to the full viewport height */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    /* Remove default margin */
+    display: flex;
+    flex-direction: column;
+    /* Arrange header, main, and footer vertically */
+
+    /* Set a background color */
+    //TODO: does unsetting this cause problems?
+    //background-color: var(--background-color);
+}
+
+/* Main content takes up available space */
+main {
+    flex: 1;
+    /* Pushes footer to the bottom */
+    padding: 0 3.5rem;
+}
+
+@media #{$mq-small} {
+    main {
+        padding: 0 1rem;
+    }
+}
+
+// LOGOS
+
+.logo-container {
+
+    --logo-color: var(--page-color);
+    --logo-shadow-color: #00000000;
+
+    user-select: none;
+    -webkit-user-select: none;
+
+    .logo-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+
+
+        /* --logo-size: 1rem; */
+
+        color: var(--logo-color);
+        transition: color 0.1s ease-in-out;
+
+
+        .text-logo {
+            margin: 0;
+            font-weight: normal;
+            letter-spacing: -0.08em;
+            font-size: var(--logo-size);
+            line-height: 1;
+
+            transition: text-shadow var(--link-hover-transition-speed);
+            transition-timing-function: calc(var(--link-hover-transition-timing-function) * 2);
+            text-shadow:
+                calc(var(--logo-size) / 2) 0px calc(var(--logo-size) * 0.5) var(--logo-shadow-color);
+        }
+
+        .oddhorse-logo {
+            width: var(--logo-size);
+            height: auto;
+            border-radius: 2px;
+        }
+
+        &:hover {
+            color: var(--link-hover-color);
+        }
+    }
+
+    #tagline {
+        position: absolute;
+        margin: 0;
+        line-height: 1;
+        color: var(--lighter-text-color);
+        font-size: var(--tagline-size);
+        // transform: translateY(-12px);
+        translate: 0 calc(var(--tagline-size) / 2 * -1);
+        padding-left: var(--tagline-size);
+        cursor: pointer;
+    }
+}
+
+// EMAIL SIGN UP
+
+#mc_embed_shell {
+
+    max-width: fit-content;
+    margin: auto;
+    text-align: left;
+
+
+    .mc_embed_text {
+        color: var(--text-color);
+        margin-left: 1em;
+        font-size: 1rem;
+    }
+
+    input.email {
+        rotate: 3deg;
+        border: 1.5px solid var(--lighter-text-color);
+        border-radius: 2px;
+    }
+
+    label,
+    input.email,
+    input.button {
+        font-size: 1rem;
+    }
+
+    .formkit-alert-success {
+        color: #88e200;
+    }
+
+    input.button {
+        margin-left: 2em;
+    }
+}
+
+// HEADER
+
+header {
+    display: flex;
+    /* Use flexbox for horizontal alignment */
+    justify-content: space-between;
+    /* Space out children to opposite ends */
+    align-items: center;
+    gap: 2rem;
+
+
+
+    padding: 2rem 3rem;
+    /* Add some padding for breathing room */
+
+    .logo-container {
+        --logo-size: 5rem;
+        --tagline-size: 1rem;
+    }
+
+    .navbar {
+        justify-content: flex-end;
+        column-gap: 1.3rem;
+        max-width: 100%;
+        line-height: 1;
+
+        .navlink {
+            font-size: 2rem;
+        }
+    }
+}
+
+@media #{$mq-small} {
+    header {
+        padding: 1rem;
+        padding-top: 0;
+
+        flex-direction: column;
+
+        gap: 0;
+
+        .logo-container {
+            margin-bottom: 1rem;
+        }
+
+        .navbar {
+            gap: .7rem;
+            justify-content: flex-start;
+
+            a {
+                font-size: 1.5rem;
+            }
+        }
+    }
+}
+
+// FOOTER
+
+footer {
+    --footer-font-size: 0.75rem;
+
+    text-align: center;
+    font-size: var(--footer-font-size);
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    padding-top: 2rem;
+
+    p {
+        margin: 0.25rem;
+        font-size: inherit;
+
+        color: var(--lighter-text-color);
+        letter-spacing: -0.03rem;
+
+    }
+
+    a {
+        color: inherit;
+        font-size: inherit;
+        text-decoration-color: var(--lighter-text-color);
+
+        &:hover {
+            .github-logo {
+                fill: var(--link-hover-color);
+            }
+        }
+    }
+
+    #beta-notice {
+        font-size: 0.9rem;
+        color: red;
+    }
+
+
+    .github-logo {
+        display: inline-block;
+        height: calc(var(--footer-font-size) * 1.2);
+        width: auto;
+        vertical-align: -18%;
+
+        fill: var(--lighter-text-color);
+    }
+
+}
+
+@media #{$mq-small} {
+    footer {
+        padding-top: 0.5rem;
+
+        font-size: 0.65rem;
+
+        #beta-notice {
+            font-size: 0.75rem;
+        }
+    }
+}
+
+// NAVBAR
+
+.navbar {
+
+    display: flex;
+    letter-spacing: -0.08rem;
+
+    flex-wrap: wrap;
+    // min-width: 100%;
+
+
+    .navlink {
+        color: var(--text-color);
+        text-decoration: none;
+        flex-grow: 0;
+        flex-shrink: 0;
+
+        transition:
+            color var(--link-hover-transition-speed),
+            transform var(--link-hover-transition-speed),
+            translate var(--link-hover-transition-speed),
+            padding var(--link-hover-transition-speed);
+
+        --navlink-padding-amount: 0.3rem;
+
+        transition-timing-function: var(--link-hover-transition-timing-function);
+        // This cubic-bezier creates a slight bounce effect
+
+        &:hover {
+            transform: scale(1.1);
+            translate: 0 -0.06rem;
+            // padding-left: var(--navlink-padding-amount);
+            // padding-right: var(--navlink-padding-amount);
+        }
+
+        &[aria-current="page"] {
+            transform: scale(1.2);
+            translate: 0 -0.07rem;
+
+            padding-left: calc(var(--navlink-padding-amount) + 0.05rem);
+            padding-right: calc(var(--navlink-padding-amount) + 0.05rem);
+        }
+
+        &:hover,
+        &[aria-current="page"] {
+            color: var(--navbar-link-color);
+
+        }
+
+        &:hover[aria-current="page"] {
+            color: var(--link-hover-color);
+            transform: scale(1.3);
+            translate: 0 -0.1rem;
+
+            // padding-left: calc(var(--navlink-padding-amount) + 0.2rem);
+            // padding-right: calc(var(--navlink-padding-amount) + 0.2rem);
+        }
+    }
+}
+
+// BACKGROUND
+
+.floating-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    opacity: 0.1;
+    z-index: -10;
+
+    >* {
+        position: absolute;
+        opacity: 1;
+    }
+}
