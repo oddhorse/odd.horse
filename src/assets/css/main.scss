@@ -16,11 +16,9 @@
 
 /* layout styling */
 @use '4-layout/media-queries.scss';
-
-/* template parts */
-@use '5-layouts/main-layout.scss';
-@use '5-layouts/music-releases.scss';
-@use '5-layouts/projects.scss';
+@use '4-layout/main-layout.scss';
+@use '4-layout/music-releases.scss';
+@use '4-layout/projects.scss';
 
 /* animations */
-@use '6-animations/animations.scss';
+@use '5-animations/animations.scss';
