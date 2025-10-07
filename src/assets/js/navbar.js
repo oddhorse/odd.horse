@@ -5,7 +5,7 @@ export function setupNavbar() {
 		const navlinkColor = getComputedStyle(link)
 			.getPropertyValue('--navbar-link-color')
 			.trim()
-		const shadowColor = navlinkColor + 33;
+		const shadowColor = `${navlinkColor}33`
 		link.addEventListener('mouseenter', () => {
 			logoContainer.style.setProperty('--logo-color', navlinkColor)
 			logoContainer.style.setProperty('--logo-shadow-color', shadowColor)

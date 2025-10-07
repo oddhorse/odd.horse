@@ -1,5 +1,5 @@
-import { setupNavbar } from './navbar.js'
 import { defineColors } from './colors.js'
+import { setupNavbar } from './navbar.js'
 
 document.addEventListener('DOMContentLoaded', () => {
 	setupNavbar()

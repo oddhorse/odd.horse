@@ -37,8 +37,8 @@ export function randBtwn(low, high, roundTo = 4) {
  * @returns rounded number
  */
 export function roundToPlace(num, roundTo) {
-	const mag = 10 ** roundTo
-	return Math.round(num * mag) / mag
+	const factor = 10 ** roundTo
+	return Math.round(num * factor) / factor
 }
 
 /**
@@ -52,5 +52,3 @@ export function randIntBtwn(low, high) {
 	const wH = Math.floor(high)
 	return Math.floor(Math.random() * (wH - wL + 1) + wL)
 }
-
-//TODO: CURRENTLY UNUSED!
