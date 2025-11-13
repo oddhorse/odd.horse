@@ -1,0 +1,456 @@
+---
+title: Layout 4 - Minimalist Single-Column
+layout: base
+---
+
+{# Layout 4: Minimalist Single-Column Design #}
+<div class="release-layout-4">
+    <div class="minimal-container">
+        
+        <header class="minimal-header">
+            <div class="release-number">{{ project_number or "03" }}</div>
+            <h1 class="minimal-title">{{ title or "release title" }}</h1>
+            {% if collaborators %}
+            <p class="minimal-collab">{{ collaborators }}</p>
+            {% endif %}
+        </header>
+
+        <section class="artwork-section">
+            <div class="artwork-container">
+                <img src="{{ img or '/assets/images/releases/placeholder.jpg' }}" alt="{{ title }} cover" class="minimal-artwork" sizes="(max-width: 480px) 200px, (max-width: 768px) 250px, 300px">
+                {% if necklace %}
+                <div class="physical-note">+ physical edition</div>
+                {% endif %}
+            </div>
+        </section>
+
+        <section class="info-section">
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">type</span>
+                    <span class="info-value">{{ release_type or "ep" }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">released</span>
+                    <span class="info-value">{{ date or "jun 2025" }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">duration</span>
+                    <span class="info-value">{{ length or "3:42" }}</span>
+                </div>
+                {% if track_count and track_count > 1 %}
+                <div class="info-item">
+                    <span class="info-label">tracks</span>
+                    <span class="info-value">{{ track_count }}</span>
+                </div>
+                {% endif %}
+            </div>
+        </section>
+
+        <section class="description-section">
+            <p class="minimal-description">{{ description or "ethereal melodies meet digital decay in this introspective journey through modern loneliness" }}</p>
+        </section>
+
+        <section class="streaming-section">
+            <div class="stream-links">
+                <a href="{{ spotify_link or '#' }}" class="minimal-link">spotify</a>
+                <a href="{{ apple_link or '#' }}" class="minimal-link">apple music</a>
+                <a href="{{ release_link or '#' }}" class="minimal-link">all platforms</a>
+            </div>
+        </section>
+
+        <section class="detailed-section">
+            <h2 class="section-title">about</h2>
+            <div class="content-block">
+                <p>{{ detailed_description or "born from late-night sessions in a converted basement studio, this release captures the liminal space between connection and isolation. each track explores different facets of digital-age relationships, where genuine emotion gets compressed into data streams." }}</p>
+                <p>{{ additional_description or "the sound palette draws from early 2000s electronica while incorporating contemporary production techniques. there's a deliberate sparseness here—every element feels necessary, purposeful. the result is something that breathes, where silence carries as much weight as sound." }}</p>
+            </div>
+        </section>
+
+        <section class="lyrics-section">
+            <h2 class="section-title">lyrics</h2>
+            <div class="lyrics-container">
+                
+                <div class="verse-group">
+                    <div class="verse-lines">
+                        <div class="lyric-line">walking through the static noise</div>
+                        <div class="lyric-line">finding fragments of your voice</div>
+                        <div class="lyric-line">between the pixels and the pain</div>
+                        <div class="lyric-line">nothing here will feel the same</div>
+                    </div>
+                    <div class="verse-meaning">
+                        <p>digital interference becomes a metaphor for communication breakdown. memories become data artifacts—preserved but degraded.</p>
+                    </div>
+                </div>
+
+                <div class="verse-group">
+                    <div class="verse-lines">
+                        <div class="lyric-line">scrolling through the endless feed</div>
+                        <div class="lyric-line">looking for what i might need</div>
+                        <div class="lyric-line">but all i find are empty screens</div>
+                        <div class="lyric-line">reflecting back my hollow dreams</div>
+                    </div>
+                    <div class="verse-meaning">
+                        <p>the endless scroll as a metaphor for seeking connection in digital spaces. the mirror effect of social media reflecting our own emptiness back at us.</p>
+                    </div>
+                </div>
+
+                <div class="verse-group">
+                    <div class="verse-lines">
+                        <div class="lyric-line">in this space between the code</div>
+                        <div class="lyric-line">where human hearts decompose</div>
+                        <div class="lyric-line">i'm learning how to feel again</div>
+                        <div class="lyric-line">beyond what algorithms send</div>
+                    </div>
+                    <div class="verse-meaning">
+                        <p>the possibility of transcending algorithmic mediation to find genuine feeling. hope emerges from recognizing the limitations of digital connection.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="process-section">
+            <h2 class="section-title">process</h2>
+            <div class="process-content">
+                
+                <div class="process-block">
+                    <h3 class="process-step">writing</h3>
+                    <p>{{ writing_process or "initial ideas captured during 3am walks with nothing but a phone voice recorder. most lyrics emerged from stream-of-consciousness sessions, later refined for clarity while preserving the raw emotional core." }}</p>
+                </div>
+
+                <div class="process-block">
+                    <h3 class="process-step">recording</h3>
+                    <p>{{ recording_process or "all tracking done in a converted basement space over three months. primary setup: neumann u67 → neve 1073 → universal audio 1176. the concrete walls provided natural reverb that became integral to the sound." }}</p>
+                </div>
+
+                <div class="process-block">
+                    <h3 class="process-step">production</h3>
+                    <p>{{ production_process or "philosophy of subtraction—every element had to justify its existence. extensive use of analog processing before digital conversion. final mixes printed to 1/4\" tape for additional warmth and compression." }}</p>
+                </div>
+
+                <div class="media-section">
+                    <div class="process-images">
+                        <figure class="process-figure">
+                            <img src="{{ studio_image_1 or '/assets/images/placeholder-studio.jpg' }}" alt="Studio setup" sizes="(max-width: 768px) 100vw, 150px">
+                            <figcaption>basement studio setup</figcaption>
+                        </figure>
+                        <figure class="process-figure">
+                            <img src="{{ studio_image_2 or '/assets/images/placeholder-gear.jpg' }}" alt="Recording chain" sizes="(max-width: 768px) 100vw, 150px">
+                            <figcaption>primary recording chain</figcaption>
+                        </figure>
+                        <figure class="process-figure">
+                            <img src="{{ studio_image_3 or '/assets/images/placeholder-mixing.jpg' }}" alt="Mixing setup" sizes="(max-width: 768px) 100vw, 150px">
+                            <figcaption>mixing environment</figcaption>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<style>
+.release-layout-4 {
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+}
+
+.minimal-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.minimal-header {
+    text-align: center;
+    margin-bottom: 4rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #eee;
+}
+
+.release-number {
+    font-size: 0.9rem;
+    color: #999;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+}
+
+.minimal-title {
+    font-size: 2.5rem;
+    font-weight: 200;
+    margin: 0;
+    letter-spacing: -0.02em;
+    text-transform: lowercase;
+}
+
+.minimal-collab {
+    font-size: 1rem;
+    color: #666;
+    font-weight: 300;
+    margin: 1rem 0 0 0;
+    font-style: italic;
+}
+
+.artwork-section {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.artwork-container {
+    display: inline-block;
+    position: relative;
+}
+
+.minimal-artwork {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border: 1px solid #f0f0f0;
+}
+
+.physical-note {
+    font-size: 0.85rem;
+    color: #999;
+    margin-top: 1rem;
+    font-weight: 300;
+}
+
+.info-section {
+    margin-bottom: 3rem;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1.5rem;
+    text-align: center;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.info-label {
+    font-size: 0.8rem;
+    color: #999;
+    font-weight: 300;
+    text-transform: lowercase;
+    letter-spacing: 0.05em;
+}
+
+.info-value {
+    font-size: 1rem;
+    color: #333;
+    font-weight: 400;
+}
+
+.description-section {
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.minimal-description {
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: #555;
+    line-height: 1.7;
+    max-width: 500px;
+    margin: 0 auto;
+    text-transform: lowercase;
+}
+
+.streaming-section {
+    margin-bottom: 4rem;
+    text-align: center;
+    padding: 2rem 0;
+    border-top: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.stream-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.minimal-link {
+    text-decoration: none;
+    color: #333;
+    font-weight: 300;
+    font-size: 0.95rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s ease;
+    text-transform: lowercase;
+    letter-spacing: 0.02em;
+}
+
+.minimal-link:hover {
+    border-bottom-color: #333;
+}
+
+section {
+    margin-bottom: 4rem;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 200;
+    color: #333;
+    margin-bottom: 2rem;
+    text-transform: lowercase;
+    letter-spacing: 0.02em;
+}
+
+.content-block p {
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: #555;
+}
+
+.lyrics-container {
+    margin-top: 2rem;
+}
+
+.verse-group {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.verse-group:last-child {
+    border-bottom: none;
+}
+
+.verse-lines {
+    margin-bottom: 1.5rem;
+}
+
+.lyric-line {
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: #444;
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+    text-transform: lowercase;
+    font-style: italic;
+}
+
+.verse-meaning {
+    font-size: 0.9rem;
+    color: #777;
+    font-weight: 300;
+    line-height: 1.6;
+    max-width: 500px;
+}
+
+.verse-meaning p {
+    margin: 0;
+}
+
+.process-content {
+    margin-top: 2rem;
+}
+
+.process-block {
+    margin-bottom: 2.5rem;
+}
+
+.process-step {
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: #333;
+    margin-bottom: 1rem;
+    text-transform: lowercase;
+    letter-spacing: 0.02em;
+}
+
+.process-block p {
+    font-weight: 300;
+    line-height: 1.7;
+    color: #555;
+    margin: 0;
+}
+
+.media-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #f0f0f0;
+}
+
+.process-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.5rem;
+}
+
+.process-figure {
+    margin: 0;
+    text-align: center;
+}
+
+.process-figure img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border: 1px solid #f0f0f0;
+    filter: grayscale(20%);
+}
+
+.process-figure figcaption {
+    font-size: 0.8rem;
+    color: #999;
+    margin-top: 0.5rem;
+    font-weight: 300;
+    text-transform: lowercase;
+}
+
+@media (max-width: 768px) {
+    .minimal-container {
+        padding: 1rem;
+    }
+    
+    .minimal-title {
+        font-size: 2rem;
+    }
+    
+    .minimal-artwork {
+        width: 250px;
+        height: 250px;
+    }
+    
+    .stream-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .info-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .process-images {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .minimal-artwork {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .info-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+</style>

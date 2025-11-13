@@ -1,0 +1,165 @@
+---
+title: music test 1 - horizontal list
+color: "#31ddff"
+---
+
+<style>
+.music-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.music-item {
+    display: flex;
+    align-items: stretch;
+    gap: 1.5rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--lighter-text-color);
+}
+
+.music-item:last-child {
+    border-bottom: none;
+}
+
+.music-image {
+    height: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    flex-shrink: 0;
+    min-height: 120px;
+}
+
+.music-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.music-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.music-title {
+    font-size: 1.6rem;
+    margin: 0;
+    color: var(--text-color);
+}
+
+.music-type {
+    font-size: 0.9rem;
+    color: var(--lighter-text-color);
+    text-transform: uppercase;
+    letter-spacing: 0.05rem;
+}
+
+.music-year {
+    font-size: 0.9rem;
+    color: var(--lighter-text-color);
+    font-style: italic;
+}
+
+.music-tagline {
+    font-size: 1rem;
+    color: var(--text-color);
+    font-style: italic;
+    margin: 0;
+}
+
+.spotify-preview {
+    margin: 0.5rem 0;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.music-links {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.music-link {
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+    border: 1px solid var(--lighter-text-color);
+}
+
+.music-link:hover {
+    transform: translateY(-1px);
+}
+
+.spotify-link { color: #1DB954; border-color: #1DB954; }
+.apple-link { color: #FA57C1; border-color: #FA57C1; }
+.all-platforms-link { color: var(--oddhorse-color); border-color: var(--oddhorse-color); }
+.more-info-link { color: var(--link-color); border-color: var(--link-color); }
+
+@media screen and (max-width: 47.9375em) {
+    .music-item {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+    
+    .music-image {
+        width: 100%;
+        height: 200px;
+        align-self: center;
+        max-width: 200px;
+    }
+    
+    .music-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+}
+</style>
+
+<h1>music - horizontal list design</h1>
+
+<div class="music-list">
+    {% for item in collections.releases | reverse %}
+    <div class="music-item">
+        <img src="{{ item.data.img }}" alt="{{ item.data.title }} cover" class="music-image" sizes="120px">
+        
+        <div class="music-info">
+            <div class="music-header">
+                <h2 class="music-title">{{ item.data.title }}</h2>
+                <span class="music-type">{{ item.data.tags | replace('releases', '') | replace(',,', ',') | replace('^,', '') | replace(',$', '') }}</span>
+                <span class="music-year">{{ item.data.date.split('/')[2] or '2024' }}</span>
+            </div>
+            
+            <p class="music-tagline">ethereal soundscape exploring digital intimacy</p>
+            
+            {% if item.data.spotify_link %}
+            <div class="spotify-preview">
+                {% set embedUrl = item.data.spotify_link | replace('track/', 'embed/track/') | replace('album/', 'embed/album/') | replace('?', '?utm_source=generator&') %}
+                <iframe style="border-radius:12px" src="{{ embedUrl }}" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
+            {% endif %}
+            
+            <div class="music-links">
+                {% if item.data.spotify_link %}
+                <a href="{{ item.data.spotify_link }}" target="_blank" class="music-link spotify-link">spotify</a>
+                {% endif %}
+                {% if item.data.apple_link %}
+                <a href="{{ item.data.apple_link }}" target="_blank" class="music-link apple-link">apple music</a>
+                {% endif %}
+                {% if item.data.release_link %}
+                <a href="{{ item.data.release_link }}" target="_blank" class="music-link all-platforms-link">all platforms</a>
+                {% endif %}
+                <a href="{{ item.url }}" class="music-link more-info-link">more info / lyrics</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>

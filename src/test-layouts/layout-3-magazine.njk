@@ -1,0 +1,619 @@
+---
+title: Layout 3 - Magazine Feature
+layout: base
+---
+
+{# Layout 3: Magazine Feature Layout #}
+<div class="release-layout-3">
+    <article class="magazine-article">
+        <header class="article-header">
+            <div class="header-meta">
+                <span class="issue-info">Issue #{{ project_number or "03" }} • {{ release_type or "EP" }} Review</span>
+                <time class="publish-date">{{ date or "June 2025" }}</time>
+            </div>
+            
+            <h1 class="article-title">{{ title or "Release Title" }}</h1>
+            <h2 class="article-subtitle">{{ description or "A haunting exploration of digital loneliness and modern connection" }}</h2>
+            
+            {% if collaborators %}
+            <p class="collaboration-info">Featuring {{ collaborators }}</p>
+            {% endif %}
+            
+            <div class="article-stats">
+                <span class="reading-time">{{ length or "3:42" }} runtime</span>
+                {% if track_count and track_count > 1 %}
+                <span class="separator">•</span>
+                <span class="track-count">{{ track_count }} tracks</span>
+                {% endif %}
+                <span class="separator">•</span>
+                <span class="genre">Electronic / Indie</span>
+            </div>
+        </header>
+
+        <div class="article-body">
+            <div class="feature-image">
+                <figure class="hero-image">
+                    <img src="{{ img or '/assets/images/releases/placeholder.jpg' }}" alt="{{ title }} cover art" sizes="400px">
+                    <figcaption>
+                        <span class="caption-text">{{ title }} cover art</span>
+                        {% if necklace %}
+                        <span class="caption-note">• Physical edition with necklace available</span>
+                        {% endif %}
+                    </figcaption>
+                </figure>
+            </div>
+
+            <div class="article-columns">
+                <div class="main-column">
+                    <div class="drop-cap-paragraph">
+                        <span class="drop-cap">T</span>{{ detailed_description or "here's something deeply unsettling about the way silence fills digital spaces. This release captures that liminal feeling perfectly, existing in the gap between human connection and technological mediation." }}
+                    </div>
+                    
+                    <p>{{ additional_description or "Recorded in isolation during the depths of winter, these tracks feel both intimate and distant. The production choices—analog warmth fighting against digital precision—mirror the thematic content perfectly. Each song builds a world where emotion gets compressed into data streams." }}</p>
+                    
+                    <blockquote class="pull-quote">
+                        <p>"{{ quote or "The sound exists somewhere between nostalgia and anxiety, like finding an old text message you forgot to send." }}"</p>
+                    </blockquote>
+                    
+                    <p>{{ extended_description or "What sets this work apart is its restraint. Where many electronic artists layer endlessly, there's a deliberate sparseness here. Every element feels necessary, purposeful. The vocal treatments in particular deserve attention—processed enough to feel ethereal, yet retaining enough humanity to pierce through the digital fog." }}</p>
+
+                    <section class="listening-guide">
+                        <h3>Essential Listening</h3>
+                        <div class="streaming-options">
+                            <a href="{{ spotify_link or '#' }}" class="magazine-stream-link spotify">
+                                <span class="platform-icon">♪</span>
+                                <div class="link-text">
+                                    <span class="platform-name">Spotify</span>
+                                    <span class="link-note">High-quality stream</span>
+                                </div>
+                            </a>
+                            <a href="{{ apple_link or '#' }}" class="magazine-stream-link apple">
+                                <span class="platform-icon">♫</span>
+                                <div class="link-text">
+                                    <span class="platform-name">Apple Music</span>
+                                    <span class="link-note">Lossless available</span>
+                                </div>
+                            </a>
+                            <a href="{{ release_link or '#' }}" class="magazine-stream-link universal">
+                                <span class="platform-icon">⚡</span>
+                                <div class="link-text">
+                                    <span class="platform-name">All Platforms</span>
+                                    <span class="link-note">Complete list</span>
+                                </div>
+                            </a>
+                        </div>
+                    </section>
+                </div>
+
+                <aside class="sidebar">
+                    <div class="info-box">
+                        <h3>Release Details</h3>
+                        <dl class="release-info">
+                            <dt>Artist</dt>
+                            <dd>oddhorse</dd>
+                            
+                            <dt>Format</dt>
+                            <dd>{{ release_type or "EP" }}</dd>
+                            
+                            <dt>Released</dt>
+                            <dd>{{ date or "June 18, 2025" }}</dd>
+                            
+                            <dt>Duration</dt>
+                            <dd>{{ length or "3:42" }}</dd>
+                            
+                            {% if track_count and track_count > 1 %}
+                            <dt>Tracks</dt>
+                            <dd>{{ track_count }}</dd>
+                            {% endif %}
+                            
+                            <dt>Recorded</dt>
+                            <dd>{{ recording_location or "Home studio, 2024" }}</dd>
+                        </dl>
+                    </div>
+
+                    <div class="lyrics-excerpt">
+                        <h3>Lyric Spotlight</h3>
+                        <div class="featured-lyrics">
+                            <div class="lyric-block">
+                                <blockquote>
+                                    "Walking through the static noise<br>
+                                    Finding fragments of your voice"
+                                </blockquote>
+                                <cite>— from "{{ title or "Digital Ghosts" }}"</cite>
+                            </div>
+                            <p class="lyrics-analysis">{{ lyric_analysis or "These opening lines establish the central metaphor: communication as archaeology, digging through digital debris to find traces of genuine connection." }}</p>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+
+            <section class="in-depth-lyrics">
+                <h2>Lyrical Analysis</h2>
+                <div class="lyrics-breakdown">
+                    <div class="verse-analysis">
+                        <h4>Verse 1: Digital Archaeology</h4>
+                        <div class="lyrics-with-notes">
+                            <div class="lyric-line">
+                                <span class="text">Walking through the static noise</span>
+                                <span class="analysis">The opening line establishes digital interference as metaphor for communication breakdown</span>
+                            </div>
+                            <div class="lyric-line">
+                                <span class="text">Finding fragments of your voice</span>
+                                <span class="analysis">Memories become data artifacts, preserved but degraded</span>
+                            </div>
+                            <div class="lyric-line">
+                                <span class="text">Between the pixels and the pain</span>
+                                <span class="analysis">Physical sensation vs. digital representation</span>
+                            </div>
+                            <div class="lyric-line">
+                                <span class="text">Nothing here will feel the same</span>
+                                <span class="analysis">Permanence of digital trauma</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="behind-scenes">
+                <h2>Studio Report</h2>
+                <div class="process-story">
+                    <div class="process-narrative">
+                        <h3>Recording Process</h3>
+                        <p>{{ recording_story or "The recording process took place over three months in a converted basement space. The choice of location was deliberate—the concrete walls provided natural reverb that became integral to the sound. Most vocals were recorded at 3 AM, when the outside world was quietest." }}</p>
+                        
+                        <h3>Technical Approach</h3>
+                        <p>{{ technical_details or "Primary recording chain: vintage Neumann U67 → Neve 1073 → Universal Audio 1176. All analog processing before hitting Pro Tools. The Moog Sub 37 provided the backbone synth sounds, often recorded through a vintage Fender Twin Reverb for organic saturation." }}</p>
+                        
+                        <h3>Production Philosophy</h3>
+                        <p>{{ production_philosophy or "Every element had to justify its existence. The rule was: if removing something made the song stronger, it got cut. This led to arrangements that breathe, where silence carries as much weight as sound." }}</p>
+                    </div>
+                    
+                    <div class="process-gallery">
+                        <div class="gallery-grid">
+                            <figure class="process-image">
+                                <img src="{{ studio_image_1 or '/assets/images/placeholder-studio.jpg' }}" alt="Recording setup" sizes="(max-width: 768px) 100vw, 300px">
+                                <figcaption>Main recording setup in basement studio</figcaption>
+                            </figure>
+                            <figure class="process-image">
+                                <img src="{{ studio_image_2 or '/assets/images/placeholder-gear.jpg' }}" alt="Equipment close-up" sizes="(max-width: 768px) 100vw, 300px">
+                                <figcaption>Vintage Neumann U67 and Neve preamp chain</figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="article-footer">
+                <div class="rating-box">
+                    <div class="rating">
+                        <span class="stars">★★★★☆</span>
+                        <span class="score">8.2</span>
+                    </div>
+                    <p class="verdict">{{ verdict or "A compelling exploration of digital-age isolation that succeeds through restraint and emotional honesty." }}</p>
+                </div>
+            </footer>
+        </div>
+    </article>
+</div>
+
+<style>
+.release-layout-3 {
+    max-width: 1000px;
+    margin: 0 auto;
+    font-family: 'Georgia', serif;
+    line-height: 1.6;
+}
+
+.magazine-article {
+    background: white;
+    padding: 0;
+}
+
+.article-header {
+    text-align: center;
+    padding: 3rem 2rem;
+    border-bottom: 3px double #333;
+    margin-bottom: 3rem;
+}
+
+.header-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    font-size: 0.9rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.issue-info {
+    font-weight: 600;
+}
+
+.publish-date {
+    font-style: italic;
+}
+
+.article-title {
+    font-size: 4rem;
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+    line-height: 0.9;
+    color: #111;
+}
+
+.article-subtitle {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #555;
+    margin: 0 0 1rem 0;
+    font-style: italic;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.collaboration-info {
+    font-size: 1.1rem;
+    color: #777;
+    margin-bottom: 2rem;
+}
+
+.article-stats {
+    font-size: 0.95rem;
+    color: #888;
+}
+
+.separator {
+    margin: 0 0.5rem;
+    color: #ccc;
+}
+
+.article-body {
+    padding: 0 2rem;
+}
+
+.feature-image {
+    margin: 0 0 4rem 0;
+    text-align: center;
+}
+
+.hero-image {
+    display: inline-block;
+    margin: 0;
+}
+
+.hero-image img {
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+}
+
+.hero-image figcaption {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #666;
+    font-style: italic;
+}
+
+.caption-note {
+    color: #888;
+}
+
+.article-columns {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+}
+
+.main-column {
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.drop-cap-paragraph {
+    margin-bottom: 2rem;
+}
+
+.drop-cap {
+    float: left;
+    font-size: 4rem;
+    line-height: 3.2rem;
+    margin: 0.2rem 0.5rem 0 0;
+    font-weight: 700;
+    color: #333;
+}
+
+.pull-quote {
+    margin: 3rem 0;
+    padding: 2rem;
+    background: #f8f8f8;
+    border-left: 4px solid #333;
+    font-style: italic;
+    font-size: 1.3rem;
+    line-height: 1.6;
+}
+
+.pull-quote p {
+    margin: 0;
+    color: #444;
+}
+
+.listening-guide {
+    background: #f5f5f5;
+    padding: 2rem;
+    border-radius: 8px;
+    margin: 3rem 0;
+}
+
+.listening-guide h3 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+.streaming-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.magazine-stream-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: white;
+    border: 2px solid #eee;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #333;
+    transition: all 0.2s;
+}
+
+.magazine-stream-link:hover {
+    border-color: #333;
+    transform: translateX(5px);
+}
+
+.platform-icon {
+    font-size: 1.5rem;
+    width: 40px;
+    text-align: center;
+}
+
+.platform-name {
+    font-weight: 600;
+    display: block;
+}
+
+.link-note {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.sidebar {
+    font-size: 0.95rem;
+}
+
+.info-box {
+    background: #f9f9f9;
+    padding: 2rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+.info-box h3 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.release-info {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.5rem 1.5rem;
+}
+
+.release-info dt {
+    font-weight: 600;
+    color: #555;
+}
+
+.release-info dd {
+    margin: 0;
+    color: #333;
+}
+
+.lyrics-excerpt {
+    background: #f0f0f0;
+    padding: 2rem;
+    border-radius: 8px;
+}
+
+.lyrics-excerpt h3 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+}
+
+.lyric-block blockquote {
+    margin: 0 0 1rem 0;
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #444;
+}
+
+.lyric-block cite {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.lyrics-analysis {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #555;
+}
+
+.in-depth-lyrics {
+    margin-bottom: 4rem;
+    border-top: 2px solid #eee;
+    padding-top: 3rem;
+}
+
+.in-depth-lyrics h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+.verse-analysis h4 {
+    color: #555;
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+}
+
+.lyric-line {
+    display: flex;
+    margin-bottom: 1.5rem;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.lyric-line .text {
+    flex: 0 0 200px;
+    font-style: italic;
+    color: #444;
+    font-size: 1.05rem;
+}
+
+.lyric-line .analysis {
+    flex: 1;
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.behind-scenes {
+    background: #fafafa;
+    padding: 3rem;
+    border-radius: 12px;
+    margin-bottom: 4rem;
+}
+
+.behind-scenes h2 {
+    margin-top: 0;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+}
+
+.process-story {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+}
+
+.process-narrative h3 {
+    color: #444;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.process-narrative p {
+    margin-bottom: 2rem;
+    line-height: 1.7;
+    color: #555;
+}
+
+.gallery-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.process-image {
+    margin: 0;
+}
+
+.process-image img {
+    width: 100%;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+.process-image figcaption {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: #666;
+    text-align: center;
+    font-style: italic;
+}
+
+.article-footer {
+    text-align: center;
+    padding: 3rem 0;
+    border-top: 2px solid #eee;
+}
+
+.rating-box {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.stars {
+    font-size: 1.5rem;
+    color: #ffd700;
+}
+
+.score {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.verdict {
+    font-style: italic;
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .article-columns,
+    .process-story {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .article-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-image img {
+        width: 300px;
+        height: 300px;
+    }
+    
+    .lyric-line {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .lyric-line .text {
+        flex: none;
+    }
+}
+</style>
