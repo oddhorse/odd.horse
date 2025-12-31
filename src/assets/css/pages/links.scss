@@ -1,0 +1,40 @@
+@use '../2-globals/variables' as *;
+
+.links-page {
+	max-width: 600px;
+	margin: 0 auto;
+	padding: 2rem 1rem;
+
+	h1 {
+		text-align: center;
+		margin-bottom: 2rem;
+	}
+}
+
+.links-list {
+	list-style: none;
+	padding: 0;
+
+	li {
+		margin: 1rem 0;
+	}
+
+	a {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		padding: 0.75rem;
+		text-decoration: none;
+		color: var(--text-color);
+		transition: color var(--link-hover-transition-speed);
+		font-size: 1.2rem;
+
+		&:hover {
+			color: var(--link-color, var(--link-hover-color));
+		}
+	}
+
+	.link-icon {
+		font-size: 1.5rem;
+	}
+}

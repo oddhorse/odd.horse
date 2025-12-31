@@ -136,8 +136,9 @@ export default async function (eleventyConfig) {
 							// Pages to extract critical CSS from
 							criticalPages: [
 								{ uri: 'index.html', template: 'index' },
-								// TODO: Add posts index page when blog is fully implemented
-								// { uri: 'posts/index.html', template: 'posts/index' },
+								{ uri: 'links/index.html', template: 'links' },
+								{ uri: 'shop/index.html', template: 'shop' },
+								{ uri: 'contact/index.html', template: 'contact' },
 								{ uri: '404.html', template: '404' },
 							],
 							

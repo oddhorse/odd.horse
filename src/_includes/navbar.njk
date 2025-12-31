@@ -1,7 +1,20 @@
 <nav class="navbar">
-    {%- for mainpage in collections.main %}
-        <a href="/{{ mainpage.fileSlug }}/" title="{{ mainpage.data.title }}" class="{{ mainpage.data.title }} navlink floating" {% if title == mainpage.data.title or parent == mainpage.data.title %} aria-current="page" {% endif %} style="--navbar-link-color: {{ mainpage.data.color }};">
-            {{ mainpage.data.title }}
-        </a>
-    {%- endfor %}
+	<a href="/links/"
+		 class="navlink floating"
+		 {% if page.url == "/links/" %}aria-current="page"{% endif %}
+		 style="--navbar-link-color: #1db954;">
+		links
+	</a>
+	<a href="/shop/"
+		 class="navlink floating"
+		 {% if page.url == "/shop/" %}aria-current="page"{% endif %}
+		 style="--navbar-link-color: #ff00bb;">
+		shop
+	</a>
+	<a href="/contact/"
+		 class="navlink floating"
+		 {% if page.url == "/contact/" %}aria-current="page"{% endif %}
+		 style="--navbar-link-color: #d76aff;">
+		contact
+	</a>
 </nav>

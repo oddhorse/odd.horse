@@ -1,0 +1,24 @@
+---
+title: links
+layout: base
+---
+
+<link rel="stylesheet" href="/assets/css/pages/links.scss">
+
+<main class="links-page">
+	<h1>links</h1>
+
+	<ul class="links-list">
+	{% for name, data in links %}
+		<li>
+			<a href="{{ data.url }}"
+				 target="_blank"
+				 rel="noopener noreferrer"
+				 style="--link-color: {{ data.color }};">
+				<span class="link-icon">{{ data.icon }}</span>
+				<span class="link-name">{{ name }}</span>
+			</a>
+		</li>
+	{% endfor %}
+	</ul>
+</main>

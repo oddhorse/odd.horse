@@ -1,9 +1,31 @@
 ---
 title: home
+layout: base
 ---
 
 <link rel="stylesheet" href="/assets/css/pages/index.scss">
-{#{% include "background.njk" %}#}
-{% include "navbar.njk" %}
-{% include "header-logo.njk" %}
-{% include "links.njk" %}
+
+{% include "background.njk" %}
+
+<div class="homepage-container">
+	{% include "header-logo.njk" %}
+	{% include "navbar.njk" %}
+
+	<ul class="artifact-list">
+	{% for artifact in artifacts %}
+		<li class="artifact-item"
+				data-artifact-id="{{ artifact.id }}"
+				data-date-added="{{ artifact.dateAdded }}">
+			<a href="{{ artifact.url }}"
+				 class="artifact-link"
+				 target="_blank"
+				 rel="noopener noreferrer"
+				 style="--artifact-color: {{ artifact.color or '#ff00bb' }};">
+				<span class="artifact-status"></span>
+				<span class="artifact-description">{{ artifact.description }}</span>
+				<span class="artifact-badge artifact-badge-new">NEW</span>
+			</a>
+		</li>
+	{% endfor %}
+	</ul>
+</div>

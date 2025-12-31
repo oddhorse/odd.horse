@@ -1,4 +1,4 @@
-/* 
+/*
     This file is used to import all the scss files in the project
     This file is the entry point for the scss files
 */
@@ -17,8 +17,7 @@
 /* layout styling */
 @use '4-layout/media-queries.scss';
 @use '4-layout/main-layout.scss';
-@use '4-layout/music-releases.scss';
-@use '4-layout/projects.scss';
+@use '4-layout/artifacts.scss';
 
 /* animations */
 @use '5-animations/animations.scss';

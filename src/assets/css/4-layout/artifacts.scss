@@ -1,0 +1,71 @@
+@use '../2-globals/variables' as *;
+@use '../4-layout/media-queries.scss' as *;
+
+.artifact-list {
+	list-style: none;
+	padding: 2rem 0;
+	margin: 0 auto;
+	max-width: 600px;
+}
+
+.artifact-item {
+	margin: 1rem 0;
+	position: relative;
+}
+
+.artifact-link {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	padding: 0.5rem;
+	text-decoration: none;
+	color: var(--text-color);
+	transition: color var(--link-hover-transition-speed);
+
+	&:hover {
+		color: var(--artifact-color, var(--link-hover-color));
+	}
+}
+
+// Dot indicator for clicked/unclicked status
+.artifact-status {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	flex-shrink: 0;
+	background: transparent;
+	border: 2px solid var(--text-color);
+}
+
+.artifact-item.clicked .artifact-status {
+	background: var(--text-color);
+}
+
+.artifact-description {
+	flex: 1;
+	font-size: 1.2rem;
+}
+
+// NEW badge
+.artifact-badge-new {
+	display: none;
+	font-size: 0.75rem;
+	font-weight: bold;
+	color: var(--link-hover-color);
+	padding: 0.2rem 0.4rem;
+	border: 1px solid var(--link-hover-color);
+	border-radius: 2px;
+}
+
+.artifact-item.new .artifact-badge-new {
+	display: block;
+}
+
+@media #{$mq-small} {
+	.artifact-list {
+		padding: 1rem 0;
+	}
+	.artifact-description {
+		font-size: 1rem;
+	}
+}
