@@ -1,0 +1,324 @@
+/**
+ * COMPONENTS
+ *
+ * Reusable components and animations:
+ * - Logo container: Text logo and SVG logo with color system
+ * - Tagline: Rotating random text below logo
+ * - Artifact list: Homepage links with click tracking
+ * - Email signup: Mailchimp form styling
+ * - Utility classes: Brand name styling, video embeds, responsive images
+ * - Animations: Float, fade, hoverwink effects
+ */
+
+/* ===== LOGO CONTAINER ===== */
+
+/**
+ * Logo container holds both text logo ("oddhorse") and SVG logo
+ * Color system:
+ * - --logo-color: Defaults to page color, changes on navbar hover (via navbar.js)
+ * - --logo-shadow-color: Shadow with transparency, modified on hover
+ * - SVG logo uses fill="currentColor" to inherit color from parent
+ *
+ * Sizing uses scoped variables --logo-size and --tagline-size
+ * These are set by the page (e.g., homepage sets larger size)
+ */
+.logo-container {
+	--logo-color: var(--page-color);
+	--logo-shadow-color: #00000000;
+	user-select: none;
+	-webkit-user-select: none;
+}
+
+/* Logo link - flexbox centers both text and SVG */
+.logo-container .logo-link {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-decoration: none;
+	color: var(--logo-color);
+	transition: color 0.1s ease-in-out;
+}
+
+/**
+ * Text logo - "oddhorse" text
+ * Uses --logo-size for fluid responsive sizing
+ * Text shadow animates on navbar hover
+ */
+.logo-container .text-logo {
+	margin: 0;
+	font-weight: normal;
+	letter-spacing: -0.08em;
+	font-size: var(--logo-size);
+	line-height: 1;
+	transition: text-shadow var(--link-hover-transition-speed);
+	transition-timing-function: var(--link-hover-transition-timing-function);
+	text-shadow: calc(var(--logo-size) / 2) 0px calc(var(--logo-size) * 0.5) var(--logo-shadow-color);
+}
+
+/* SVG logo - sized with --logo-size, inherits color from parent */
+.logo-container .oddhorse-logo {
+	width: var(--logo-size);
+	height: auto;
+	border-radius: 2px;
+}
+
+/* Logo hover - changes to link hover color */
+.logo-container .logo-link:hover {
+	color: var(--link-hover-color);
+}
+
+/**
+ * Tagline - random rotating text below logo
+ * Positioned absolutely relative to logo container
+ * Controlled by JavaScript in header-logo.njk
+ * Clickable to cycle through taglines, auto-rotates every 10 seconds
+ */
+.logo-container #tagline {
+	position: absolute;
+	margin: 0;
+	line-height: 1;
+	color: var(--lighter-text-color);
+	font-size: var(--tagline-size);
+	translate: 0 calc(var(--tagline-size) / 2 * -1);
+	padding-left: var(--tagline-size);
+	cursor: pointer;
+}
+
+/* ===== ARTIFACT LIST ===== */
+
+/**
+ * Artifact list on homepage
+ * Features click tracking with localStorage:
+ * - Hollow dot indicator for unclicked items
+ * - Filled dot for clicked items
+ * - "NEW" badge for items added within 30 days
+ * - Custom color per artifact via --artifact-color inline style
+ *
+ * JavaScript in artifacts.js handles:
+ * - Adding .clicked or .unclicked classes
+ * - Adding .new class for recent items
+ * - Saving click state to localStorage
+ */
+.artifact-list {
+	list-style: none;
+	padding: 2rem 0;
+	margin: 0 auto;
+	max-width: 600px;
+}
+
+.artifact-item {
+	margin: 1rem 0;
+	position: relative;
+}
+
+/* Artifact link - flexbox layout with gap between elements */
+.artifact-link {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	padding: 0.5rem;
+	text-decoration: none;
+	color: var(--text-color);
+	transition: color var(--link-hover-transition-speed);
+}
+
+/* Hover changes to artifact's custom color */
+.artifact-link:hover {
+	color: var(--artifact-color, var(--link-hover-color));
+}
+
+/**
+ * Click status indicator - small circular dot
+ * Hollow (border only) when unclicked
+ * Filled (background) when clicked
+ */
+.artifact-status {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	flex-shrink: 0;
+	background: transparent;
+	border: 2px solid var(--text-color);
+}
+
+/* Clicked state - fill the dot */
+.artifact-item.clicked .artifact-status {
+	background: var(--text-color);
+}
+
+.artifact-description {
+	flex: 1;
+	font-size: 1.2rem;
+}
+
+/**
+ * "NEW" badge
+ * Hidden by default, shown only on items with .new class
+ * Small bordered badge with accent color
+ */
+.artifact-badge-new {
+	display: none;
+	font-size: 0.75rem;
+	font-weight: bold;
+	color: var(--link-hover-color);
+	padding: 0.2rem 0.4rem;
+	border: 1px solid var(--link-hover-color);
+	border-radius: 2px;
+}
+
+.artifact-item.new .artifact-badge-new {
+	display: block;
+}
+
+/* Mobile: smaller text and reduced padding */
+@media (max-width: 768px) {
+	.artifact-list {
+		padding: 1rem 0;
+	}
+	.artifact-description {
+		font-size: 1rem;
+	}
+}
+
+/* ===== EMAIL SIGNUP FORM ===== */
+
+/**
+ * Mailchimp embedded signup form
+ * Custom styled to match site design
+ * Slight rotation on input for playful personality
+ */
+#mc_embed_shell {
+	max-width: fit-content;
+	margin: auto;
+	text-align: left;
+}
+
+#mc_embed_shell .mc_embed_text {
+	color: var(--text-color);
+	margin-left: 1em;
+	font-size: 1rem;
+}
+
+/* Email input with quirky 3-degree rotation */
+#mc_embed_shell input.email {
+	rotate: 3deg;
+	border: 1.5px solid var(--lighter-text-color);
+	border-radius: 2px;
+}
+
+#mc_embed_shell label,
+#mc_embed_shell input.email,
+#mc_embed_shell input.button {
+	font-size: 1rem;
+}
+
+/* Success message - bright green */
+#mc_embed_shell .formkit-alert-success {
+	color: #88e200;
+}
+
+#mc_embed_shell input.button {
+	margin-left: 2em;
+}
+
+/* ===== UTILITY CLASSES ===== */
+
+/**
+ * .oddhorse-inline - special styling for "oddhorse" brand name in content
+ * Compressed horizontally (70%), stretched vertically (140%)
+ * Italic with brand color, wavy underline
+ * Negative margin compensates for transform scaling
+ */
+.oddhorse-inline {
+	display: inline-block;
+	font-size: 1.4rem;
+	transform: scaleX(70%) scaleY(140%) translateY(-4%);
+	margin: 0 -0.8rem;
+	text-decoration: inherit;
+	text-decoration-style: wavy;
+	color: var(--oddhorse-color);
+	font-style: italic;
+}
+
+/* YouTube video embed container - rounded corners */
+.yt-video {
+	border-radius: 4px;
+	overflow: hidden;
+	margin: 1.5rem;
+}
+
+/* Fluid image - constrained max width for large images */
+.img-fluid {
+	width: 35rem;
+}
+
+/* ===== ANIMATIONS ===== */
+
+/**
+ * Float up and down animation
+ * Used for floating background elements (horses, decorations)
+ * Amount controlled by --translation-animation-amount variable
+ */
+@keyframes floatUpDown {
+	0% {
+		transform: translateY(0);
+	}
+	50% {
+		transform: translateY(var(--translation-animation-amount));
+	}
+	100% {
+		transform: translateY(0);
+	}
+}
+
+/**
+ * Fade out with sustain
+ * Used for Easter egg images that appear then fade
+ * Stays opaque for 20% of duration, then fades out
+ */
+@keyframes fadeOutSustain {
+	0% {
+		opacity: 1;
+	}
+	20% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+/**
+ * Hoverwink - bounce/pop animation
+ * Two versions:
+ * 1. CSS :hover for simple hover effects
+ * 2. JavaScript-controlled via .hoverwink-animate class
+ */
+.hoverwink {
+	transition: transform var(--hoverwink-transition-speed);
+	transition-timing-function: var(--hoverwink-transition-timing-function);
+}
+
+.hoverwink:hover {
+	transform: scale(1.05) translateY(-0.02rem);
+}
+
+/* Programmatically controlled hoverwink animation */
+@keyframes hoverwink {
+	0% {
+		transform: scale(1) translateY(0);
+	}
+	100% {
+		transform: scale(1.06) translateY(-0.02rem);
+	}
+}
+
+/* Add this class via JavaScript to trigger animation */
+.hoverwink-animate {
+	animation: hoverwink var(--hoverwink-transition-speed) var(--hoverwink-transition-timing-function) forwards;
+}
+
+/* Reverse animation - animates back to original state */
+.hoverwink-reset {
+	animation: hoverwink var(--hoverwink-transition-speed) var(--hoverwink-transition-timing-function) reverse forwards;
+}

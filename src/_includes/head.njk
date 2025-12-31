@@ -16,18 +16,18 @@
     <link rel="manifest" href="/site.webmanifest">
     <!-- (android-chrome favicon assignments are in site.webmanifest !) -->
 
-    <link rel="stylesheet" href="/assets/css/main.scss">
+    {# Main stylesheet - plain CSS with modern features #}
+    <link rel="stylesheet" href="/assets/css/main.css">
+
+    {# Main JavaScript - ES module with navbar, colors, artifact tracking #}
     <script type="module" src="/assets/js/main.js"></script>
-    {# <style>
-            :root {
-                --page-color: {{color or parentData.data.color}};
-            }
-        </style> #}
+
+    {# Set page color variable - defaults to black if not defined #}
     <script>
         document
             .documentElement
             .style
-            .setProperty("--page-color", "{{color or parentData.data.color}}");
+            .setProperty("--page-color", "{{ color or '#000000' }}");
     </script>
     {# if it isn't local dev server, add gtag #}
     {% if eleventy.env.runMode != 'serve' %}

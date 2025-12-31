@@ -1,3 +1,14 @@
+/**
+ * util.js
+ * General utility functions for DOM manipulation, random numbers, and device detection
+ */
+
+/**
+ * Check if the current device is mobile
+ * Uses CSS custom property --is-mobile set via media query
+ *
+ * @returns {boolean} True if device is mobile
+ */
 export function isMobile() {
 	return (
 		getComputedStyle(document.documentElement).getPropertyValue(
@@ -7,9 +18,11 @@ export function isMobile() {
 }
 
 /**
- * wraps given element in a span element
- * @param {HTMLElement} element element to be wrapped in a span
- * @returns span element containing input element
+ * Wrap an element in a span
+ * Useful for applying animations or styles to inline elements
+ *
+ * @param {HTMLElement} element - Element to be wrapped
+ * @returns {HTMLSpanElement} Span element containing the input element
  */
 export function wrapInSpan(element) {
 	const wrapper = document.createElement('span')
@@ -19,11 +32,12 @@ export function wrapInSpan(element) {
 }
 
 /**
- * generates (pseudo, whatever etc)-random number between given range, rounded to configure number of decimal places
- * @param {number} low lowest number in range (incl)
- * @param {number} high highest number in range (excl)
- * @param {number} [roundTo=4] number of decimal places to round answer to. defaults to 4
- * @returns rand number between range
+ * Generate random number between range with decimal precision
+ *
+ * @param {number} low - Lowest number in range (inclusive)
+ * @param {number} high - Highest number in range (exclusive)
+ * @param {number} [roundTo=4] - Number of decimal places to round to
+ * @returns {number} Random number between low and high
  */
 export function randBtwn(low, high, roundTo = 4) {
 	const raw = Math.random() * (high - low) + low
@@ -31,10 +45,11 @@ export function randBtwn(low, high, roundTo = 4) {
 }
 
 /**
- * rounds a number to specified number of decimal places
- * @param {number} num number to round
- * @param {number} roundTo number of decimal places to round `num` to
- * @returns rounded number
+ * Round a number to specified decimal places
+ *
+ * @param {number} num - Number to round
+ * @param {number} roundTo - Number of decimal places
+ * @returns {number} Rounded number
  */
 export function roundToPlace(num, roundTo) {
 	const factor = 10 ** roundTo
@@ -42,10 +57,12 @@ export function roundToPlace(num, roundTo) {
 }
 
 /**
- * generates (pseudo)-random integer between given range, inclusive. if arguments passed are not integers, they are floored!
- * @param {number} low lowest number in range (incl)
- * @param {number} high highest number in range (incl)
- * @returns rand number between range
+ * Generate random integer between range (inclusive on both ends)
+ * Non-integer arguments are floored before calculation
+ *
+ * @param {number} low - Lowest number in range (inclusive)
+ * @param {number} high - Highest number in range (inclusive)
+ * @returns {number} Random integer between low and high
  */
 export function randIntBtwn(low, high) {
 	const wL = Math.floor(low)

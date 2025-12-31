@@ -1,0 +1,314 @@
+/**
+ * BASE STYLES
+ *
+ * Foundation styles for the entire site including:
+ * 1. CSS Reset (modern minimal reset based on modern-normalize)
+ * 2. CSS Custom Properties (color system, transitions, animations)
+ * 3. Font Declarations (Karrik typeface)
+ * 4. Semantic HTML Elements (a, p, h1, img with site-wide styles)
+ * 5. Print Styles (optimized for printing pages)
+ *
+ * All colors are centralized as CSS variables for easy theming.
+ * JavaScript can modify --page-color to theme the entire site.
+ */
+
+/* ===== 1. CSS RESET ===== */
+
+/**
+ * Modern minimal reset based on modern-normalize v1.1.0
+ * Removes browser inconsistencies and provides sensible defaults
+ * IE-specific fixes removed - targeting modern browsers only
+ */
+
+/* Document root - correct line height and prevent iOS font size adjustment */
+html {
+	line-height: 1.15;
+	-webkit-text-size-adjust: 100%;
+	-moz-tab-size: 4;
+	tab-size: 4;
+}
+
+/* Remove default margins */
+body, h1, h2, h3, h4, p, figure, blockquote, dl, dd {
+	margin: 0;
+}
+
+/* Grouping content - correct height and color inheritance */
+hr {
+	height: 0;
+	color: inherit;
+}
+
+/* Text-level semantics - proper styling */
+abbr[title] {
+	text-decoration: underline dotted;
+}
+
+b, strong {
+	font-weight: bolder;
+}
+
+/* Code elements - consistent monospace font */
+code, kbd, samp, pre {
+	font-family: ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+	font-size: 1em;
+}
+
+small {
+	font-size: 80%;
+}
+
+/* Subscript and superscript - prevent line height issues */
+sub, sup {
+	font-size: 75%;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline;
+}
+
+sub {
+	bottom: -0.25em;
+}
+
+sup {
+	top: -0.5em;
+}
+
+/* Forms - improve consistency */
+button, input, optgroup, select, textarea {
+	font-family: inherit;
+	font-size: 100%;
+	line-height: 1.15;
+	margin: 0;
+}
+
+button, select {
+	text-transform: none;
+}
+
+/* Clickable types - correct inability to style in iOS and Safari */
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+	-webkit-appearance: button;
+}
+
+/* Remove inner border and padding in Firefox */
+::-moz-focus-inner {
+	border-style: none;
+	padding: 0;
+}
+
+/* Restore focus styles Firefox removed */
+:-moz-focusring {
+	outline: 1px dotted ButtonText;
+}
+
+/* Text areas - only allow vertical resize */
+textarea {
+	resize: vertical;
+}
+
+/* Interactive elements - add pointer cursor */
+summary {
+	display: list-item;
+	cursor: pointer;
+}
+
+/* ===== 2. CSS CUSTOM PROPERTIES ===== */
+
+/**
+ * Color System & Design Tokens
+ *
+ * All colors are defined as CSS variables for consistency and easy theming.
+ * JavaScript modifies these variables to create dynamic color effects.
+ *
+ * Color hierarchy:
+ * - Base colors: Fixed brand colors (black, white, pink)
+ * - Page theme: --page-color set per-page via inline script
+ * - Derived colors: --link-color, --link-hover-color computed by colors.js
+ * - Logo colors: --logo-color modified by navbar.js on hover
+ *
+ * Transition system: All animations use consistent timing variables
+ */
+:root {
+	/* Base colors - fixed brand palette */
+	--text-color: #000000;
+	--background-color: #ffffff;
+	--oddhorse-color: #ff00bb;
+	--lighter-text-color: #7e7e7e;
+
+	/* Page theme color - dynamically set per page */
+	--page-color: #000000;
+
+	/* Link colors - modified by colors.js based on --page-color */
+	--link-color: #000000;
+	--link-hover-color: #ff00bb;
+
+	/* Button and background colors - for future use */
+	--button-background-color: #ff00bb;
+	--accent-background-color: #ff00bb;
+	--hover-background-color: #ff00bb;
+
+	/* Logo colors - modified by navbar.js on navlink hover */
+	--logo-color: var(--page-color);
+	--logo-shadow-color: #00000000;
+
+	/* Transition timing - consistent across site */
+	--link-hover-transition-speed: 0.2s;
+	--link-hover-transition-timing-function: cubic-bezier(0.18, 0.89, 0.32, 1.5);
+
+	/* Animation timing for hoverwink and other effects */
+	--hoverwink-transition-speed: 0.2s;
+	--hoverwink-transition-timing-function: cubic-bezier(0.18, 0.89, 0.32, 1.5);
+	--translation-animation-amount: 1rem;
+}
+
+/* ===== 3. FONTS ===== */
+
+/**
+ * Karrik Typeface
+ *
+ * Custom font family by Jean-Baptiste Morizot & Lucas Le Bihan (velvetyne.fr)
+ * Used throughout the site for distinctive brand identity
+ *
+ * font-display: swap - show fallback font immediately while loading
+ * This prevents invisible text during font load (FOIT)
+ */
+@font-face {
+	font-family: "Karrik";
+	src: url("/assets/fonts/Karrik-Regular.woff2") format("woff2");
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Karrik";
+	src: url("/assets/fonts/Karrik-Italic.woff2") format("woff2");
+	font-weight: normal;
+	font-style: italic;
+	font-display: swap;
+}
+
+/* Apply Karrik font to entire site with sans-serif fallback */
+body {
+	font-family: Karrik, sans-serif;
+}
+
+/* ===== 4. SEMANTIC HTML ELEMENTS ===== */
+
+/**
+ * Base styles for semantic HTML elements
+ * These apply site-wide and create a consistent foundation
+ * Page-specific overrides are inlined in templates
+ */
+
+/* Links - wavy underline is signature brand style */
+a {
+	color: var(--link-color);
+	text-decoration-style: wavy;
+}
+
+a:hover {
+	color: var(--link-hover-color);
+	text-decoration-color: var(--link-hover-color);
+}
+
+/* Paragraphs - comfortable reading size with slight letter spacing */
+p {
+	color: var(--text-color);
+	letter-spacing: 0.01rem;
+	font-size: 1.4rem;
+	font-weight: normal;
+}
+
+/* Images - responsive by default, never overflow container */
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+/* Main heading - large, centered, tight letter-spacing for impact */
+h1 {
+	font-size: 3rem;
+	text-align: center;
+	margin: 0 0 1rem 0;
+	letter-spacing: -0.1rem;
+}
+
+/* Responsive typography - smaller text on mobile */
+@media (max-width: 768px) {
+	p {
+		font-size: 1.1rem;
+	}
+}
+
+/* ===== 5. PRINT STYLES ===== */
+
+/**
+ * Optimized styles for printing pages
+ * Removes colors, shadows, and backgrounds to save ink
+ * Shows link URLs for reference
+ * Prevents awkward page breaks
+ */
+@media print {
+	*,
+	*::before,
+	*::after {
+		background: transparent !important;
+		color: #000 !important;
+		box-shadow: none !important;
+		text-shadow: none !important;
+	}
+
+	/* Show URLs after links for print reference */
+	a,
+	a:visited {
+		text-decoration: underline;
+	}
+
+	a[href]:after {
+		content: " (" attr(href) ")";
+	}
+
+	/* Don't show URLs for fragment links or javascript */
+	a[href^="#"]:after,
+	a[href^="javascript:"]:after {
+		content: "";
+	}
+
+	/* Code blocks - wrap long lines */
+	pre {
+		white-space: pre-wrap !important;
+	}
+
+	/* Prevent page breaks inside these elements */
+	pre,
+	blockquote,
+	tr,
+	img {
+		border: 1px solid #999;
+		page-break-inside: avoid;
+	}
+
+	/* Prevent orphans and widows in text */
+	p,
+	h2,
+	h3 {
+		orphans: 3;
+		widows: 3;
+	}
+
+	/* Keep headings with following content */
+	h2,
+	h3 {
+		page-break-after: avoid;
+	}
+
+	/* Tables - proper header grouping */
+	thead {
+		display: table-header-group;
+	}
+}

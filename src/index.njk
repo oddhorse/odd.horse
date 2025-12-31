@@ -3,7 +3,47 @@ title: home
 layout: base
 ---
 
-<link rel="stylesheet" href="/assets/css/pages/index.scss">
+{# Page-specific styles for homepage layout #}
+<style>
+	.homepage-container {
+		text-align: center;
+		padding: 2rem 1rem;
+	}
+
+	.homepage-container .logo-container {
+		margin-bottom: 2rem;
+		--logo-size: clamp(6rem, 15vw, 10rem);
+		--tagline-size: clamp(0.5em, 10vw, 1.5rem);
+	}
+
+	.homepage-container .logo-container .logo {
+		width: 8rem;
+		height: auto;
+	}
+
+	.homepage-container .navbar {
+		margin-bottom: 3rem;
+	}
+
+	.homepage-container .artifact-list {
+		text-align: left;
+	}
+
+	/* Mobile adjustments */
+	@media (max-width: 768px) {
+		.homepage-container {
+			padding: 1rem 0.5rem;
+		}
+
+		.homepage-container .logo-container {
+			--logo-size: clamp(5rem, 20vw, 9rem);
+		}
+
+		.homepage-container .logo-container .logo {
+			width: 6rem;
+		}
+	}
+</style>
 
 {% include "background.njk" %}
 
