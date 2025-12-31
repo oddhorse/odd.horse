@@ -8,6 +8,9 @@
 	.logo-container {
 		margin-bottom: 2rem;
 
+		--logo-size: clamp(6rem, 15vw, 10rem);
+		--tagline-size: clamp(0.5em, 10vw, 1.5rem);
+
 		.logo {
 			width: 8rem;
 			height: auto;
@@ -27,8 +30,12 @@
 	.homepage-container {
 		padding: 1rem 0.5rem;
 
-		.logo-container .logo {
-			width: 6rem;
+		.logo-container {
+			--logo-size: clamp(5rem, 20vw, 9rem);
+
+			.logo {
+				width: 6rem;
+			}
 		}
 	}
 }
