@@ -15,18 +15,10 @@
 @use '3-elements/custom.scss';
 
 /* layout styling */
-@use '4-layout/layout.scss';
 @use '4-layout/media-queries.scss';
-
-/* template parts */
-@use '5-template-parts/logos.scss';
-@use '5-template-parts/background.scss';
-@use '5-template-parts/navbar.scss';
-@use '5-template-parts/header.scss';
-@use '5-template-parts/footer.scss';
-@use '5-template-parts/music-releases.scss';
-@use '5-template-parts/email-signup.scss';
-@use '5-template-parts/projects.scss';
+@use '4-layout/main-layout.scss';
+@use '4-layout/music-releases.scss';
+@use '4-layout/projects.scss';
 
 /* animations */
-@use '6-animations/animations.scss';
+@use '5-animations/animations.scss';

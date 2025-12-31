@@ -57,8 +57,7 @@ export function defineColors(color) {
 		pageColor = getComputedStyle(doc).getPropertyValue('--page-color')
 	}
 
-	// Convert the HEX color to HSL for dynamic adjustments
-	const hsl = hexToHSL(pageColor)
+	// Convert the HEX color to HSL for dynamic adjustments (computed but not used currently)
 
 	// Set CSS variables dynamically
 	doc.style.setProperty('--link-color', pageColor)

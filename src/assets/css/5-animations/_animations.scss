@@ -1,0 +1,65 @@
+@keyframes floatUpDown {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(var(--translation-animation-amount));
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+
+// used for pbuh and god images on about page
+@keyframes fadeOutSustain {
+    0% {
+        opacity: 1;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+// bounce in sort of effect for on hover
+
+.hoverwink {
+    transition:
+        transform var(--hoverwink-transition-speed);
+
+    transition-timing-function: var(--hoverwink-transition-timing-function);
+
+
+    &:hover {
+        transform: scale(1.05) translateY(-0.02rem);
+        // padding-left: var(--navlink-padding-amount);
+        // padding-right: var(--navlink-padding-amount);
+    }
+}
+
+// programmatically controllable one
+
+@keyframes hoverwink {
+    0% {
+        transform: scale(1) translateY(0);
+    }
+
+    100% {
+        transform: scale(1.06) translateY(-0.02rem);
+    }
+}
+
+.hoverwink-animate {
+    animation: hoverwink var(--hoverwink-transition-speed) var(--hoverwink-transition-timing-function) forwards;
+}
+
+.hoverwink-reset {
+    animation: hoverwink var(--hoverwink-transition-speed) var(--hoverwink-transition-timing-function) reverse forwards;
+}

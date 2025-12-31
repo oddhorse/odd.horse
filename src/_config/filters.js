@@ -1,4 +1,4 @@
-//TODO: understand this file!!
+// Custom filters for 11ty templating
 
 // from https://github.com/11ty/eleventy-base-blog
 
