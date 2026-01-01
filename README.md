@@ -31,4 +31,6 @@ oddhorse, first of all
 
 ### fonts in use
 
-Karrik by Jean-Baptiste Morizot, Lucas Le Bihan. Distributed by [velvetyne.fr](https://velvetyne.fr).
+Karrik by Jean-Baptiste Morizot, Lucas Le Bihan. Distributed by [velvetyne.fr](https://velvetyne.fr) and licensed under [SIL Open Font License, Version 1.1](http://scripts.sil.org/OFL).
+
+Degheest by Ange Degheest, Camille Depalle, Eugénie Bidaut, Luna Delabre, Mandy Elbé, May Jolivet, Oriane Charvieux, Benjamin Gomez, and Justine Herbel. only using FT88 subsets which i think were done by Oriane Charvieux but not sure. Distributed by [velvetyne.fr](https://velvetyne.fr) and licensed under [SIL Open Font License, Version 1.1](http://scripts.sil.org/OFL).
