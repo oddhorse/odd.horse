@@ -1,33 +1,33 @@
 [
 	{
 		"id": "system-prompt",
-		"description": "LEAKED: oddhorse system prompt (PDF, 8 pages)",
+		"description": "oddhorse leaked system prompt",
 		"url": "/artifacts/system-prompt.pdf",
 		"type": "pdf",
 		"dateAdded": "2025-12-15",
 		"color": "#ff00bb"
 	},
 	{
-		"id": "pyramid",
-		"description": "pyramid.jpg",
-		"url": "/artifacts/pyramid.jpg",
-		"type": "image",
+		"id": "blog-1",
+		"description": "on-the-cusp.txt",
+		"url": "/artifacts/on-the-cusp.txt",
+		"type": "text",
 		"dateAdded": "2025-12-20",
 		"color": "#31ddff"
 	},
 	{
-		"id": "beat-2019",
-		"description": "unfinished beat from 2019 (DO NOT OPEN)",
-		"url": "/artifacts/beat-2019.mp3",
-		"type": "audio",
+		"id": "horse-cube",
+		"description": "horsecube.pdf",
+		"url": "/artifacts/horsecube.pdf",
+		"type": "pdf",
 		"dateAdded": "2025-12-25",
 		"color": "#6369bb"
 	},
 	{
-		"id": "mac-n-cheese",
-		"description": "mac and cheese recipe my mom makes",
-		"url": "/artifacts/mac-n-cheese.txt",
-		"type": "text",
+		"id": "soccer-shiny-card",
+		"description": "soccer shiny card",
+		"url": "/artifacts/soccer-shiny-card.njk",
+		"type": "page",
 		"dateAdded": "2025-12-28",
 		"color": "#d76aff"
 	}

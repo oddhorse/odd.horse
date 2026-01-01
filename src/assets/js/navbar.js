@@ -66,4 +66,26 @@ export function setupNavbar() {
 			logoContainer.style.setProperty('--logo-shadow-color', '')
 		})
 	}
+
+	// Handle artifact badges (use --artifact-color from parent link)
+	const artifactBadges = document.querySelectorAll('.artifact-badge')
+	for (const badge of artifactBadges) {
+		// Get the artifact link that's a sibling of this badge
+		const link = badge.parentElement.querySelector('.artifact-link')
+		if (link) {
+			const artifactColor = getComputedStyle(link)
+				.getPropertyValue('--artifact-color')
+				.trim()
+			const shadowColor = `${artifactColor}33`
+
+			badge.addEventListener('mouseenter', () => {
+				logoContainer.style.setProperty('--logo-color', artifactColor)
+				logoContainer.style.setProperty('--logo-shadow-color', shadowColor)
+			})
+			badge.addEventListener('mouseleave', () => {
+				logoContainer.style.setProperty('--logo-color', '')
+				logoContainer.style.setProperty('--logo-shadow-color', '')
+			})
+		}
+	}
 }

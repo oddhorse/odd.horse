@@ -16,24 +16,7 @@
 
         const tl = document.getElementById("tagline");
 
-        let taglines = [
-            "is him!",
-            "loves you!",
-            "doesn’t bite",
-            "will bite if provoked!",
-            "will bite",
-            "is missing.. :( tag #foundoddhorse if you find him !",
-            "is everyone’s <i>favorite</i> diva!",
-            "neighh… neighhhh…. 🙂",
-            "neighhh…. nEIGHH!!!! 😠",
-            "*licks u*",
-            "is playing + having fun",
-            "they call him richard nixon",
-            "won't pee the bed",
-            "halalhorse 🍖",
-            "would you still love me if i was a cow",
-            "*rolls over* >.<"
-        ];
+        let taglines = {{ taglines | dump | safe }};
 
         let taglinesOrder = [];
 

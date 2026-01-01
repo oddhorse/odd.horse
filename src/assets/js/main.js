@@ -13,7 +13,7 @@
 
 import { defineColors } from './colors.js'
 import { setupNavbar } from './navbar.js'
-import { initArtifactTracking } from './artifacts.js'
+import { initArtifactTracking, wipeClickData, refreshArtifactUI } from './artifacts.js'
 
 /**
  * Initialize all site functionality when DOM is ready
@@ -23,3 +23,12 @@ document.addEventListener('DOMContentLoaded', () => {
 	defineColors()
 	initArtifactTracking()
 })
+
+/**
+ * Expose artifact functions to console for debugging
+ * Usage:
+ *   window.wipeClickData() - Clear all click data
+ *   window.refreshArtifactUI() - Refresh UI to match current localStorage state
+ */
+window.wipeClickData = wipeClickData
+window.refreshArtifactUI = refreshArtifactUI

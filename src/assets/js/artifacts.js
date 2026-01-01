@@ -35,6 +35,18 @@ export function loadClickData() {
 }
 
 /**
+ * Delete click data and visually reset the elements
+ */
+export function wipeClickData() {
+	try {
+		localStorage.removeItem(STORAGE_KEY)
+		console.log("wiped storage data!")
+	} catch (e) {
+		console.error('Failed to wipe click data:', e)
+	}
+}
+
+/**
  * Save click tracking data to localStorage
  * @param {Object} data - Click data object to save
  */
@@ -93,6 +105,34 @@ export function isNew(dateAdded) {
 }
 
 /**
+ * Refresh artifact UI based on current localStorage state
+ * Updates classes without re-adding event listeners
+ * Call this after wipeClickData() to update the UI
+ */
+export function refreshArtifactUI() {
+	document.querySelectorAll('.artifact-item').forEach((item) => {
+		const artifactId = item.dataset.artifactId
+		const dateAdded = item.dataset.dateAdded
+
+		// Update clicked/unclicked state based on current data
+		if (isClicked(artifactId)) {
+			item.classList.remove('unclicked')
+			item.classList.add('clicked')
+		} else {
+			item.classList.remove('clicked')
+			item.classList.add('unclicked')
+		}
+
+		// Update new state
+		if (isNew(dateAdded)) {
+			item.classList.add('new')
+		} else {
+			item.classList.remove('new')
+		}
+	})
+}
+
+/**
  * Initialize artifact click tracking
  * Restores clicked/unclicked state from localStorage, marks new artifacts,
  * and attaches click handlers to all artifact links
@@ -127,5 +167,18 @@ export function initArtifactTracking() {
 				item.classList.add('clicked')
 			})
 		}
+
+		// Make badges clickable - clicking badge triggers the link
+		const badges = item.querySelectorAll('.artifact-badge')
+		badges.forEach((badge) => {
+			badge.addEventListener('click', (e) => {
+				e.preventDefault()
+				e.stopPropagation()
+				// Trigger the link click
+				if (link) {
+					link.click()
+				}
+			})
+		})
 	})
 }

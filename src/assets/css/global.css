@@ -43,6 +43,7 @@
 	--background-color: #ffffff;
 	--oddhorse-color: #ff00bb;
 	--lighter-text-color: #7e7e7e;
+	--even-lighter-text-color: #bbbbbb;
 
 	/* Page theme color - dynamically set per page */
 	--page-color: #000000;
@@ -61,7 +62,7 @@
 	--logo-shadow-color: #00000000;
 
 	/* Transition timing - consistent across site */
-	--link-hover-transition-speed: 0.2s;
+	--link-hover-transition-speed: 0.07s;
 	--link-hover-transition-timing-function: cubic-bezier(0.18, 0.89, 0.32, 1.5);
 
 	/* Animation timing for hoverwink and other effects */
@@ -94,6 +95,22 @@
 	src: url("/assets/fonts/Karrik-Italic.woff2") format("woff2");
 	font-weight: normal;
 	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "FT88";
+	src: url("/assets/fonts/FT88-Regular.woff2") format("woff2");
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "FT88";
+	src: url("/assets/fonts/FT88-Bold.woff2") format("woff2");
+	font-weight: bold;
+	font-style: normal;
 	font-display: swap;
 }
 
@@ -159,6 +176,7 @@ h1 {
  * Prevents awkward page breaks
  */
 @media print {
+
 	*,
 	*::before,
 	*::after {
@@ -452,7 +470,7 @@ footer .github-logo {
 }
 
 /* Children positioned absolutely within container */
-.floating-container > * {
+.floating-container>* {
 	position: absolute;
 	opacity: 1;
 }
@@ -474,6 +492,8 @@ footer .github-logo {
 	--logo-shadow-color: #00000000;
 	user-select: none;
 	-webkit-user-select: none;
+	cursor: default;
+	width: fit-content;
 }
 
 /* Logo link - flexbox centers both text and SVG */
@@ -526,6 +546,7 @@ footer .github-logo {
 	line-height: 1;
 	color: var(--lighter-text-color);
 	font-size: var(--tagline-size);
+	font-weight: normal; /* Override default h2 bold weight */
 	translate: 0 calc(var(--tagline-size) / 2 * -1);
 	padding-left: var(--tagline-size);
 	cursor: pointer;
@@ -550,12 +571,13 @@ footer .github-logo {
 	list-style: none;
 	padding: 2rem 0;
 	margin: 0 auto;
-	max-width: 400px;
+	max-width: 350px;
 }
 
 .artifact-item {
-	margin: 1rem 0;
+	margin: 0 0;
 	position: relative;
+	border: 1px solid var(--text-color);
 }
 
 /* Artifact link - flexbox layout with gap between elements */
@@ -579,23 +601,14 @@ footer .github-logo {
 	color: var(--artifact-color, var(--link-hover-color));
 }
 
-/**
- * Click status indicator - small circular dot
- * Hollow (border only) when unclicked
- * Filled (background) when clicked
- */
-.artifact-status {
-	width: 8px;
-	height: 8px;
-	border-radius: 50%;
-	flex-shrink: 0;
-	background: transparent;
-	border: 2px solid var(--text-color);
+/* When badge is hovered, also apply hover effect to the link */
+.artifact-item:has(.artifact-badge:hover) .artifact-link {
+	color: var(--artifact-color, var(--link-hover-color));
 }
 
-/* Clicked state - fill the dot */
-.artifact-item.clicked .artifact-status {
-	background: var(--text-color);
+/* Hide the artifact status dot */
+.artifact-status {
+	display: none;
 }
 
 .artifact-description {
@@ -603,23 +616,118 @@ footer .github-logo {
 	font-size: 1.1rem;
 }
 
+/* Date displayed after description - lighter, smaller, italic */
+.artifact-date {
+	font-size: 0.85rem;
+	font-style: italic;
+	color: var(--lighter-text-color);
+	margin-left: 0.5rem;
+}
+
+.artifact-item.clicked .artifact-date {
+	color: var(--even-lighter-text-color);
+}
+
+/**
+ * "NEW" badge animations
+ * Pulse: Shrink and grow using sine wave
+ * Bob: Wave up and down vertically
+ */
+@keyframes badge-pulse {
+
+	0%,
+	100% {
+		scale: 1;
+	}
+
+	50% {
+		scale: 1.15;
+	}
+}
+
+@keyframes badge-bob {
+
+	0%,
+	100% {
+		translate: 0 0;
+	}
+
+	50% {
+		translate: 0 -3px;
+	}
+}
+
 /**
  * "NEW" badge
+ * Positioned exactly on top right corner of artifact item
+ * Middle of text sits on the corner itself
  * Hidden by default, shown only on items with .new class
- * Small bordered badge with accent color
  */
 .artifact-badge-new {
 	display: none;
-	font-size: 0.75rem;
+	position: absolute;
+	top: 0;
+	right: 0;
+	font-family: "FT88", sans-serif;
+	font-size: 1rem;
 	font-weight: bold;
-	color: var(--link-hover-color);
-	padding: 0.2rem 0.4rem;
-	border: 1px solid var(--link-hover-color);
-	border-radius: 2px;
+	color: red;
+	background: var(--background-color);
+	/* padding: 0.2rem 0.35rem; */
+	/* box-shadow: 3px 3px 3px 3px var(--background-color); */
+	transform: translate(50%, -50%) rotate(5deg);
+	animation: badge-pulse 2s ease-in-out infinite, badge-bob 2s ease-in-out infinite;
+	user-select: none;
+	-webkit-user-select: none;
+	cursor: pointer;
+	transition: transform 0.2s ease;
+}
+
+.artifact-badge-new:hover,
+.artifact-item:has(.artifact-link:hover) .artifact-badge-new {
+	transform: translate(50%, -50%) rotate(5deg) scale(1.2); /* Add scale to existing transform */
+	animation-play-state: paused; /* Pause animation on hover */
 }
 
 .artifact-item.new .artifact-badge-new {
 	display: block;
+}
+
+/**
+ * "SEEN" badge
+ * Shows on clicked artifacts, positioned at top right corner
+ * Hidden by default, shown only on items with .clicked class
+ */
+.artifact-badge-clicked {
+	display: none;
+	position: absolute;
+	top: 0;
+	right: 0;
+	font-family: "FT88", sans-serif;
+	font-size: 0.75rem;
+	font-weight: bold;
+	color: var(--lighter-text-color);
+	background: var(--background-color);
+	transform: translate(50%, -50%) rotate(5deg);
+	user-select: none;
+	-webkit-user-select: none;
+	cursor: pointer;
+	transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.artifact-badge-clicked:hover,
+.artifact-item:has(.artifact-link:hover) .artifact-badge-clicked {
+	transform: translate(50%, -50%) rotate(5deg) scale(1.1); /* Smaller scale than NEW badge */
+	color: var(--text-color);
+}
+
+.artifact-item.clicked .artifact-badge-clicked {
+	display: block;
+}
+
+/* Hide NEW badge on clicked items, show SEEN instead */
+.artifact-item.clicked .artifact-badge-new {
+	display: none;
 }
 
 /* Mobile: smaller text and reduced padding */

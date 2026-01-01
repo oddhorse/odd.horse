@@ -1,5 +1,5 @@
 ---
-title: home
+title: oddhorse
 layout: base
 ---
 
@@ -11,13 +11,13 @@ layout: base
 	}
 
 	.homepage-container .logo-container {
-		margin-bottom: 2rem;
-		--logo-size: clamp(6rem, 15vw, 10rem);
-		--tagline-size: clamp(0.5em, 10vw, 1.5rem);
+		margin: 0 auto 1rem;
+		--logo-size: 7rem;
+		--tagline-size: 1.1rem;
 	}
 
 	.homepage-container .logo-container .logo {
-		width: 8rem;
+		width: 5rem;
 		height: auto;
 	}
 
@@ -36,36 +36,36 @@ layout: base
 		}
 
 		.homepage-container .logo-container {
-			--logo-size: clamp(5rem, 20vw, 9rem);
+			--logo-size: 4rem;
 		}
 
 		.homepage-container .logo-container .logo {
-			width: 6rem;
+			width: 4rem;
 		}
 	}
 </style>
 
-{% include "background.njk" %}
-
 <div class="homepage-container">
-	{% include "header-logo.njk" %}
-	{% include "navbar.njk" %}
 
+	{% include "navbar.njk" %}
+	{% include "header-logo.njk" %}
 	<ul class="artifact-list">
-	{% for artifact in artifacts %}
-		<li class="artifact-item"
+		{% for artifact in artifacts | reverse %}
+			<li class="artifact-item"
 				data-artifact-id="{{ artifact.id }}"
 				data-date-added="{{ artifact.dateAdded }}">
-			<a href="{{ artifact.url }}"
+				<span class="artifact-badge artifact-badge-clicked">SEEN</span>
+				<span class="artifact-badge artifact-badge-new">NEW!</span>
+				<a href="{{ artifact.url }}"
 				 class="artifact-link"
 				 target="_blank"
 				 rel="noopener noreferrer"
 				 style="--artifact-color: {{ artifact.color or '#ff00bb' }};">
-				<span class="artifact-status"></span>
-				<span class="artifact-description">{{ artifact.description }}</span>
-				<span class="artifact-badge artifact-badge-new">NEW</span>
-			</a>
-		</li>
-	{% endfor %}
+					<span class="artifact-status"></span>
+					<span class="artifact-description">{{ artifact.description }}</span>
+					<span class="artifact-date">{{ artifact.dateAdded }}</span>
+				</a>
+			</li>
+		{% endfor %}
 	</ul>
 </div>

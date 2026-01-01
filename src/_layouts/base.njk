@@ -2,6 +2,9 @@
 <html lang="{{ meta.lang }}">
     {% include "head.njk" %}
     <body>
+        {# Beta menu - only shows on beta branch #}
+        {% include "beta-menu.njk" %}
+
         {# put header for every page but index #}
         {% if page.url != "/" %}
             {% include "header.njk" %}
@@ -12,6 +15,6 @@
         {# {% include "footer.njk" %} #}
 
         {# add-ins #}
-        {% include "background.njk" %}
+        {# {% include "background.njk" %} #}
     </body>
 </html>
