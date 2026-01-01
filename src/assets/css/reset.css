@@ -1,0 +1,107 @@
+/**
+ * CSS RESET
+ *
+ * Modern minimal reset based on modern-normalize v1.1.0
+ * Removes browser inconsistencies and provides sensible defaults
+ * IE-specific fixes removed - targeting modern browsers only
+ *
+ * ⚠️ WARNING: DO NOT MODIFY THIS FILE
+ * This is an untouchable browser normalization layer.
+ * All site-specific styles belong in global.css
+ */
+
+/* Document root - correct line height and prevent iOS font size adjustment */
+html {
+	line-height: 1.15;
+	-webkit-text-size-adjust: 100%;
+	-moz-tab-size: 4;
+	tab-size: 4;
+}
+
+/* Remove default margins */
+body, h1, h2, h3, h4, p, figure, blockquote, dl, dd {
+	margin: 0;
+}
+
+/* Grouping content - correct height and color inheritance */
+hr {
+	height: 0;
+	color: inherit;
+}
+
+/* Text-level semantics - proper styling */
+abbr[title] {
+	text-decoration: underline dotted;
+}
+
+b, strong {
+	font-weight: bolder;
+}
+
+/* Code elements - consistent monospace font */
+code, kbd, samp, pre {
+	font-family: ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+	font-size: 1em;
+}
+
+small {
+	font-size: 80%;
+}
+
+/* Subscript and superscript - prevent line height issues */
+sub, sup {
+	font-size: 75%;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline;
+}
+
+sub {
+	bottom: -0.25em;
+}
+
+sup {
+	top: -0.5em;
+}
+
+/* Forms - improve consistency */
+button, input, optgroup, select, textarea {
+	font-family: inherit;
+	font-size: 100%;
+	line-height: 1.15;
+	margin: 0;
+}
+
+button, select {
+	text-transform: none;
+}
+
+/* Clickable types - correct inability to style in iOS and Safari */
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+	-webkit-appearance: button;
+}
+
+/* Remove inner border and padding in Firefox */
+::-moz-focus-inner {
+	border-style: none;
+	padding: 0;
+}
+
+/* Restore focus styles Firefox removed */
+:-moz-focusring {
+	outline: 1px dotted ButtonText;
+}
+
+/* Text areas - only allow vertical resize */
+textarea {
+	resize: vertical;
+}
+
+/* Interactive elements - add pointer cursor */
+summary {
+	display: list-item;
+	cursor: pointer;
+}

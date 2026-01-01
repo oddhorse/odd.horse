@@ -15,7 +15,7 @@ import markdownIt from 'markdown-it'
 import markdownItAnchor from 'markdown-it-anchor'
 import simpleGit from 'simple-git'
 
-import pluginFilters from './src/_config/filters.js'
+import pluginFilters from './filters.js'
 
 // ===== GIT INTEGRATION =====
 const git = simpleGit()
@@ -43,10 +43,13 @@ export default async function (eleventyConfig) {
 	eleventyConfig.setServerPassthroughCopyBehavior('copy')
 
 	/**
-	 * Copy public folder contents to root of dist
-	 * This flattens the structure so public/assets/fonts/ → dist/assets/fonts/
+	 * Copy static assets to dist
+	 * Fonts and images go to /assets/, artifacts to /artifacts/, manifest to root
 	 */
-	eleventyConfig.addPassthroughCopy({ public: '.' })
+	eleventyConfig.addPassthroughCopy('src/assets/fonts')
+	eleventyConfig.addPassthroughCopy('src/assets/images')
+	eleventyConfig.addPassthroughCopy({ 'src/artifacts': 'artifacts' })
+	eleventyConfig.addPassthroughCopy({ 'src/site.webmanifest': 'site.webmanifest' })
 
 	// ===== PLUGINS =====
 

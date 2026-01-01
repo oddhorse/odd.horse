@@ -1,18 +1,11 @@
 /**
- * Main stylesheet for odd.horse
+ * MAIN STYLESHEET
  *
- * This is the entry point that imports all other CSS files.
- * The site uses plain CSS with modern features - no preprocessing needed.
- *
- * Architecture:
- * - base.css: CSS reset, fonts, variables, semantic HTML elements, print styles
- * - layout.css: Page structure (sticky footer, header, footer, navbar, background)
- * - components.css: Reusable components (logo, artifacts, animations, utilities)
- *
- * Page-specific styles are inlined directly in templates for simplicity.
- * Modern CSS features used: custom properties, clamp(), calc(), nesting.
+ * Entry point for all CSS.
+ * Imports site-wide styles in order:
+ * 1. reset.css - Untouchable browser normalization (DO NOT MODIFY)
+ * 2. global.css - All editable site-wide styles
  */
 
-@import 'base.css';
-@import 'layout.css';
-@import 'components.css';
+@import 'reset.css';
+@import 'global.css';

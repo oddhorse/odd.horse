@@ -51,15 +51,14 @@ No test suite is currently configured.
   - `base.njk` - Main layout with header/footer
 - **Includes**: `src/_includes/` for reusable components (navbar, header-logo, footer, background)
 - **Data**: `src/_data/` for global data (artifacts, links, meta, build info)
-- **Filters**: `src/_config/filters.js` provides date formatting and utility functions
+- **Filters**: `filters.js` (project root) provides date formatting and utility functions
 
 ### Asset Pipeline
 
-- **CSS**: Three main files in `src/assets/css/`
-  - `main.css` - Entry point that imports base, layout, components
-  - `base.css` - Reset, fonts, variables, semantic elements, print styles
-  - `layout.css` - Page structure (header, footer, navbar, background)
-  - `components.css` - Reusable components (logo, artifacts, animations)
+- **CSS**: Three files in `src/assets/css/`
+  - `main.css` - Entry point that imports reset and global
+  - `reset.css` - ⚠️ UNTOUCHABLE browser normalization (modern-normalize)
+  - `global.css` - All editable site-wide styles (fonts, variables, semantic elements, layout, components, animations, print)
   - Page-specific styles are inlined in templates with `<style>` tags
 - **JavaScript**: Modular ES modules in `src/assets/js/`
   - `main.js` - Entry point, initializes navbar, colors, artifact tracking
@@ -176,9 +175,8 @@ Example:
 
 - **CSS**: 3 files for site-wide styles
   - `main.css` - Entry point with imports
-  - `base.css` - Reset, fonts, variables, semantic elements, print styles
-  - `layout.css` - Page structure (header, footer, navbar)
-  - `components.css` - Reusable components (logo, artifacts, animations, utilities)
+  - `reset.css` - ⚠️ UNTOUCHABLE browser normalization
+  - `global.css` - All editable site-wide styles
 - **JavaScript**: Modular by feature
   - `main.js` - Entry point that initializes all modules
   - Feature modules: `navbar.js`, `colors.js`, `artifacts.js`, etc.

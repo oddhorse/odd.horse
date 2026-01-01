@@ -1,0 +1,782 @@
+/**
+ * GLOBAL STYLES
+ *
+ * All site-wide editable styles in one maintainable file.
+ * This combines what was previously split across base.css, layout.css, and components.css
+ *
+ * Contents:
+ * 1. CSS Custom Properties (color system, transitions, animations)
+ * 2. Fonts (Karrik typeface declarations)
+ * 3. Semantic HTML Elements (a, p, h1, img with site-wide styles)
+ * 4. Print Styles (optimized for printing pages)
+ * 5. Page Structure (flexbox sticky footer layout)
+ * 6. Header (logo and navigation positioning)
+ * 7. Footer (copyright, links, GitHub info)
+ * 8. Navbar (navigation links with hover animations)
+ * 9. Background Container (fixed container for floating elements)
+ * 10. Logo Container (text logo and SVG with color system)
+ * 11. Artifact List (homepage links with click tracking)
+ * 12. Email Signup Form (Mailchimp styling)
+ * 13. Utility Classes (brand name styling, video embeds, images)
+ * 14. Animations (float, fade, hoverwink effects)
+ */
+
+/* ===== 1. CSS CUSTOM PROPERTIES ===== */
+
+/**
+ * Color System & Design Tokens
+ *
+ * All colors are defined as CSS variables for consistency and easy theming.
+ * JavaScript modifies these variables to create dynamic color effects.
+ *
+ * Color hierarchy:
+ * - Base colors: Fixed brand colors (black, white, pink)
+ * - Page theme: --page-color set per-page via inline script
+ * - Derived colors: --link-color, --link-hover-color computed by colors.js
+ * - Logo colors: --logo-color modified by navbar.js on hover
+ *
+ * Transition system: All animations use consistent timing variables
+ */
+:root {
+	/* Base colors - fixed brand palette */
+	--text-color: #000000;
+	--background-color: #ffffff;
+	--oddhorse-color: #ff00bb;
+	--lighter-text-color: #7e7e7e;
+
+	/* Page theme color - dynamically set per page */
+	--page-color: #000000;
+
+	/* Link colors - modified by colors.js based on --page-color */
+	--link-color: #000000;
+	--link-hover-color: #ff00bb;
+
+	/* Button and background colors - for future use */
+	--button-background-color: #ff00bb;
+	--accent-background-color: #ff00bb;
+	--hover-background-color: #ff00bb;
+
+	/* Logo colors - modified by navbar.js on navlink hover */
+	--logo-color: var(--page-color);
+	--logo-shadow-color: #00000000;
+
+	/* Transition timing - consistent across site */
+	--link-hover-transition-speed: 0.2s;
+	--link-hover-transition-timing-function: cubic-bezier(0.18, 0.89, 0.32, 1.5);
+
+	/* Animation timing for hoverwink and other effects */
+	--hoverwink-transition-speed: 0.2s;
+	--hoverwink-transition-timing-function: cubic-bezier(0.18, 0.89, 0.32, 1.5);
+	--translation-animation-amount: 1rem;
+}
+
+/* ===== 2. FONTS ===== */
+
+/**
+ * Karrik Typeface
+ *
+ * Custom font family by Jean-Baptiste Morizot & Lucas Le Bihan (velvetyne.fr)
+ * Used throughout the site for distinctive brand identity
+ *
+ * font-display: swap - show fallback font immediately while loading
+ * This prevents invisible text during font load (FOIT)
+ */
+@font-face {
+	font-family: "Karrik";
+	src: url("/assets/fonts/Karrik-Regular.woff2") format("woff2");
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Karrik";
+	src: url("/assets/fonts/Karrik-Italic.woff2") format("woff2");
+	font-weight: normal;
+	font-style: italic;
+	font-display: swap;
+}
+
+/* Apply Karrik font to entire site with sans-serif fallback */
+body {
+	font-family: Karrik, sans-serif;
+}
+
+/* ===== 3. SEMANTIC HTML ELEMENTS ===== */
+
+/**
+ * Base styles for semantic HTML elements
+ * These apply site-wide and create a consistent foundation
+ * Page-specific overrides are inlined in templates
+ */
+
+/* Links - wavy underline is signature brand style */
+a {
+	color: var(--link-color);
+	text-decoration-style: wavy;
+}
+
+a:hover {
+	color: var(--link-hover-color);
+	text-decoration-color: var(--link-hover-color);
+}
+
+/* Paragraphs - comfortable reading size with slight letter spacing */
+p {
+	color: var(--text-color);
+	letter-spacing: 0.01rem;
+	font-size: 1.4rem;
+	font-weight: normal;
+}
+
+/* Images - responsive by default, never overflow container */
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+/* Main heading - large, centered, tight letter-spacing for impact */
+h1 {
+	font-size: 3rem;
+	text-align: center;
+	margin: 0 0 1rem 0;
+	letter-spacing: -0.1rem;
+}
+
+/* Responsive typography - smaller text on mobile */
+@media (max-width: 768px) {
+	p {
+		font-size: 1.1rem;
+	}
+}
+
+/* ===== 4. PRINT STYLES ===== */
+
+/**
+ * Optimized styles for printing pages
+ * Removes colors, shadows, and backgrounds to save ink
+ * Shows link URLs for reference
+ * Prevents awkward page breaks
+ */
+@media print {
+	*,
+	*::before,
+	*::after {
+		background: transparent !important;
+		color: #000 !important;
+		box-shadow: none !important;
+		text-shadow: none !important;
+	}
+
+	/* Show URLs after links for print reference */
+	a,
+	a:visited {
+		text-decoration: underline;
+	}
+
+	a[href]:after {
+		content: " (" attr(href) ")";
+	}
+
+	/* Don't show URLs for fragment links or javascript */
+	a[href^="#"]:after,
+	a[href^="javascript:"]:after {
+		content: "";
+	}
+
+	/* Code blocks - wrap long lines */
+	pre {
+		white-space: pre-wrap !important;
+	}
+
+	/* Prevent page breaks inside these elements */
+	pre,
+	blockquote,
+	tr,
+	img {
+		border: 1px solid #999;
+		page-break-inside: avoid;
+	}
+
+	/* Prevent orphans and widows in text */
+	p,
+	h2,
+	h3 {
+		orphans: 3;
+		widows: 3;
+	}
+
+	/* Keep headings with following content */
+	h2,
+	h3 {
+		page-break-after: avoid;
+	}
+
+	/* Tables - proper header grouping */
+	thead {
+		display: table-header-group;
+	}
+}
+
+/* ===== 5. PAGE STRUCTURE ===== */
+
+/**
+ * Sticky footer flexbox layout
+ * Ensures footer stays at bottom even with minimal content
+ * html and body set to full height, flexbox column direction
+ * main takes all available space (flex: 1), pushing footer down
+ */
+html,
+body {
+	height: 100%;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+}
+
+/**
+ * Main content area
+ * Takes all available vertical space, pushing footer to bottom
+ * Horizontal padding for comfortable reading width
+ */
+main {
+	flex: 1;
+	padding: 0 3.5rem;
+}
+
+/* Mobile: reduce padding for smaller screens */
+@media (max-width: 768px) {
+	main {
+		padding: 0 1rem;
+	}
+}
+
+/* ===== 6. HEADER ===== */
+
+/**
+ * Header layout
+ * Desktop: horizontal flexbox with logo left, navbar right
+ * Mobile: vertical stack with centered content
+ *
+ * Logo sizing uses scoped CSS variables (--logo-size, --tagline-size)
+ * These can be overridden on specific pages like homepage
+ */
+header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 2rem;
+	padding: 2rem 3rem;
+}
+
+/* Default logo sizing for header (smaller than homepage) */
+header .logo-container {
+	--logo-size: 5rem;
+	--tagline-size: 1rem;
+}
+
+/* Navbar in header - aligned to right on desktop */
+header .navbar {
+	justify-content: flex-end;
+	column-gap: 1.3rem;
+	max-width: 100%;
+	line-height: 1;
+}
+
+header .navbar .navlink {
+	font-size: 2rem;
+}
+
+/* Mobile header: stack vertically, reduce sizes and spacing */
+@media (max-width: 768px) {
+	header {
+		padding: 1rem;
+		padding-top: 0;
+		flex-direction: column;
+		gap: 0;
+	}
+
+	header .logo-container {
+		margin-bottom: 1rem;
+	}
+
+	header .navbar {
+		gap: 0.7rem;
+		justify-content: flex-start;
+	}
+
+	header .navbar a {
+		font-size: 1.5rem;
+	}
+}
+
+/* ===== 7. FOOTER ===== */
+
+/**
+ * Footer with copyright info, GitHub link, beta notice
+ * Always centered, small text, lighter color
+ * Uses scoped --footer-font-size variable for consistent sizing
+ */
+footer {
+	--footer-font-size: 0.75rem;
+	text-align: center;
+	font-size: var(--footer-font-size);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding-top: 2rem;
+}
+
+/* Footer paragraphs - override default paragraph styles */
+footer p {
+	margin: 0.25rem;
+	font-size: inherit;
+	color: var(--lighter-text-color);
+	letter-spacing: -0.03rem;
+}
+
+/* Footer links - inherit size and use lighter color */
+footer a {
+	color: inherit;
+	font-size: inherit;
+	text-decoration-color: var(--lighter-text-color);
+}
+
+/* GitHub icon hover effect - changes to accent color */
+footer a:hover .github-logo {
+	fill: var(--link-hover-color);
+}
+
+/* Beta branch notice - red text for high visibility */
+footer #beta-notice {
+	font-size: 0.9rem;
+	color: red;
+}
+
+/* GitHub logo inline with text - sized relative to font */
+footer .github-logo {
+	display: inline-block;
+	height: calc(var(--footer-font-size) * 1.2);
+	width: auto;
+	vertical-align: -18%;
+	fill: var(--lighter-text-color);
+}
+
+/* Mobile footer: slightly smaller text */
+@media (max-width: 768px) {
+	footer {
+		padding-top: 0.5rem;
+		font-size: 0.65rem;
+	}
+
+	footer #beta-notice {
+		font-size: 0.75rem;
+	}
+}
+
+/* ===== 8. NAVBAR ===== */
+
+/**
+ * Navigation links with hover animations
+ * Features:
+ * - Scale up and translate on hover (bounce effect)
+ * - Active page gets larger scale and slight padding
+ * - Cubic-bezier timing creates playful bounce
+ * - Each link has custom color via --navbar-link-color inline style
+ *
+ * The navbar.js script uses these styles to create the logo hover effect
+ */
+.navbar {
+	display: flex;
+	letter-spacing: -0.08rem;
+	flex-wrap: wrap;
+}
+
+.navlink {
+	color: var(--text-color);
+	text-decoration: none;
+	flex-grow: 0;
+	flex-shrink: 0;
+	transition:
+		color var(--link-hover-transition-speed),
+		transform var(--link-hover-transition-speed),
+		translate var(--link-hover-transition-speed),
+		padding var(--link-hover-transition-speed);
+	transition-timing-function: var(--link-hover-transition-timing-function);
+}
+
+/* Hover effect: slight scale up and translate */
+.navlink:hover {
+	transform: scale(1.1);
+	translate: 0 -0.06rem;
+}
+
+/* Current page: larger scale and padding for emphasis */
+.navlink[aria-current="page"] {
+	transform: scale(1.2);
+	translate: 0 -0.07rem;
+	padding-left: calc(0.3rem + 0.05rem);
+	padding-right: calc(0.3rem + 0.05rem);
+}
+
+/* Both hover and current page: use custom navbar-link-color */
+.navlink:hover,
+.navlink[aria-current="page"] {
+	color: var(--navbar-link-color);
+}
+
+/* Hovering on current page: even bigger scale */
+.navlink:hover[aria-current="page"] {
+	color: var(--link-hover-color);
+	transform: scale(1.3);
+	translate: 0 -0.1rem;
+}
+
+/* ===== 9. BACKGROUND CONTAINER ===== */
+
+/**
+ * Fixed container for floating background elements
+ * Used by background.njk to display decorative floating horses
+ * Full viewport size, fixed position, pointer-events: none so it doesn't block clicks
+ * Low opacity and negative z-index keeps it in background
+ */
+.floating-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	pointer-events: none;
+	opacity: 0.1;
+	z-index: -10;
+}
+
+/* Children positioned absolutely within container */
+.floating-container > * {
+	position: absolute;
+	opacity: 1;
+}
+
+/* ===== 10. LOGO CONTAINER ===== */
+
+/**
+ * Logo container holds both text logo ("oddhorse") and SVG logo
+ * Color system:
+ * - --logo-color: Defaults to page color, changes on navbar hover (via navbar.js)
+ * - --logo-shadow-color: Shadow with transparency, modified on hover
+ * - SVG logo uses fill="currentColor" to inherit color from parent
+ *
+ * Sizing uses scoped variables --logo-size and --tagline-size
+ * These are set by the page (e.g., homepage sets larger size)
+ */
+.logo-container {
+	--logo-color: var(--page-color);
+	--logo-shadow-color: #00000000;
+	user-select: none;
+	-webkit-user-select: none;
+}
+
+/* Logo link - flexbox centers both text and SVG */
+.logo-container .logo-link {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-decoration: none;
+	color: var(--logo-color);
+	transition: color 0.1s ease-in-out;
+}
+
+/**
+ * Text logo - "oddhorse" text
+ * Uses --logo-size for fluid responsive sizing
+ * Text shadow animates on navbar hover
+ */
+.logo-container .text-logo {
+	margin: 0;
+	font-weight: normal;
+	letter-spacing: -0.08em;
+	font-size: var(--logo-size);
+	line-height: 1;
+	transition: text-shadow var(--link-hover-transition-speed);
+	transition-timing-function: var(--link-hover-transition-timing-function);
+	text-shadow: calc(var(--logo-size) / 2) 0px calc(var(--logo-size) * 0.5) var(--logo-shadow-color);
+}
+
+/* SVG logo - sized with --logo-size, inherits color from parent */
+.logo-container .oddhorse-logo {
+	width: var(--logo-size);
+	height: auto;
+	border-radius: 2px;
+}
+
+/* Logo hover - changes to link hover color */
+.logo-container .logo-link:hover {
+	color: var(--link-hover-color);
+}
+
+/**
+ * Tagline - random rotating text below logo
+ * Positioned absolutely relative to logo container
+ * Controlled by JavaScript in header-logo.njk
+ * Clickable to cycle through taglines, auto-rotates every 10 seconds
+ */
+.logo-container #tagline {
+	position: absolute;
+	margin: 0;
+	line-height: 1;
+	color: var(--lighter-text-color);
+	font-size: var(--tagline-size);
+	translate: 0 calc(var(--tagline-size) / 2 * -1);
+	padding-left: var(--tagline-size);
+	cursor: pointer;
+}
+
+/* ===== 11. ARTIFACT LIST ===== */
+
+/**
+ * Artifact list on homepage
+ * Features click tracking with localStorage:
+ * - Hollow dot indicator for unclicked items
+ * - Filled dot for clicked items
+ * - "NEW" badge for items added within 30 days
+ * - Custom color per artifact via --artifact-color inline style
+ *
+ * JavaScript in artifacts.js handles:
+ * - Adding .clicked or .unclicked classes
+ * - Adding .new class for recent items
+ * - Saving click state to localStorage
+ */
+.artifact-list {
+	list-style: none;
+	padding: 2rem 0;
+	margin: 0 auto;
+	max-width: 400px;
+}
+
+.artifact-item {
+	margin: 1rem 0;
+	position: relative;
+}
+
+/* Artifact link - flexbox layout with gap between elements */
+.artifact-link {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	padding: 0.5rem;
+	text-decoration: none;
+	color: var(--text-color);
+	transition: color var(--link-hover-transition-speed);
+}
+
+.artifact-item.clicked .artifact-link {
+	color: var(--lighter-text-color);
+}
+
+/* Hover changes to artifact's custom color */
+.artifact-link:hover,
+.artifact-item.clicked .artifact-link:hover {
+	color: var(--artifact-color, var(--link-hover-color));
+}
+
+/**
+ * Click status indicator - small circular dot
+ * Hollow (border only) when unclicked
+ * Filled (background) when clicked
+ */
+.artifact-status {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	flex-shrink: 0;
+	background: transparent;
+	border: 2px solid var(--text-color);
+}
+
+/* Clicked state - fill the dot */
+.artifact-item.clicked .artifact-status {
+	background: var(--text-color);
+}
+
+.artifact-description {
+	flex: 1;
+	font-size: 1.1rem;
+}
+
+/**
+ * "NEW" badge
+ * Hidden by default, shown only on items with .new class
+ * Small bordered badge with accent color
+ */
+.artifact-badge-new {
+	display: none;
+	font-size: 0.75rem;
+	font-weight: bold;
+	color: var(--link-hover-color);
+	padding: 0.2rem 0.4rem;
+	border: 1px solid var(--link-hover-color);
+	border-radius: 2px;
+}
+
+.artifact-item.new .artifact-badge-new {
+	display: block;
+}
+
+/* Mobile: smaller text and reduced padding */
+@media (max-width: 768px) {
+	.artifact-list {
+		padding: 1rem 0;
+	}
+
+	.artifact-description {
+		font-size: 1rem;
+	}
+}
+
+/* ===== 12. EMAIL SIGNUP FORM ===== */
+
+/**
+ * Mailchimp embedded signup form
+ * Custom styled to match site design
+ * Slight rotation on input for playful personality
+ */
+#mc_embed_shell {
+	max-width: fit-content;
+	margin: auto;
+	text-align: left;
+}
+
+#mc_embed_shell .mc_embed_text {
+	color: var(--text-color);
+	margin-left: 1em;
+	font-size: 1rem;
+}
+
+/* Email input with quirky 3-degree rotation */
+#mc_embed_shell input.email {
+	rotate: 3deg;
+	border: 1.5px solid var(--lighter-text-color);
+	border-radius: 2px;
+}
+
+#mc_embed_shell label,
+#mc_embed_shell input.email,
+#mc_embed_shell input.button {
+	font-size: 1rem;
+}
+
+/* Success message - bright green */
+#mc_embed_shell .formkit-alert-success {
+	color: #88e200;
+}
+
+#mc_embed_shell input.button {
+	margin-left: 2em;
+}
+
+/* ===== 13. UTILITY CLASSES ===== */
+
+/**
+ * .oddhorse-inline - special styling for "oddhorse" brand name in content
+ * Compressed horizontally (70%), stretched vertically (140%)
+ * Italic with brand color, wavy underline
+ * Negative margin compensates for transform scaling
+ */
+.oddhorse-inline {
+	display: inline-block;
+	font-size: 1.4rem;
+	transform: scaleX(70%) scaleY(140%) translateY(-4%);
+	margin: 0 -0.8rem;
+	text-decoration: inherit;
+	text-decoration-style: wavy;
+	color: var(--oddhorse-color);
+	font-style: italic;
+}
+
+/* YouTube video embed container - rounded corners */
+.yt-video {
+	border-radius: 4px;
+	overflow: hidden;
+	margin: 1.5rem;
+}
+
+/* Fluid image - constrained max width for large images */
+.img-fluid {
+	width: 35rem;
+}
+
+/* ===== 14. ANIMATIONS ===== */
+
+/**
+ * Float up and down animation
+ * Used for floating background elements (horses, decorations)
+ * Amount controlled by --translation-animation-amount variable
+ */
+@keyframes floatUpDown {
+	0% {
+		transform: translateY(0);
+	}
+
+	50% {
+		transform: translateY(var(--translation-animation-amount));
+	}
+
+	100% {
+		transform: translateY(0);
+	}
+}
+
+/**
+ * Fade out with sustain
+ * Used for Easter egg images that appear then fade
+ * Stays opaque for 20% of duration, then fades out
+ */
+@keyframes fadeOutSustain {
+	0% {
+		opacity: 1;
+	}
+
+	20% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+	}
+}
+
+/**
+ * Hoverwink - bounce/pop animation
+ * Two versions:
+ * 1. CSS :hover for simple hover effects
+ * 2. JavaScript-controlled via .hoverwink-animate class
+ */
+.hoverwink {
+	transition: transform var(--hoverwink-transition-speed);
+	transition-timing-function: var(--hoverwink-transition-timing-function);
+}
+
+.hoverwink:hover {
+	transform: scale(1.05) translateY(-0.02rem);
+}
+
+/* Programmatically controlled hoverwink animation */
+@keyframes hoverwink {
+	0% {
+		transform: scale(1) translateY(0);
+	}
+
+	100% {
+		transform: scale(1.06) translateY(-0.02rem);
+	}
+}
+
+/* Add this class via JavaScript to trigger animation */
+.hoverwink-animate {
+	animation: hoverwink var(--hoverwink-transition-speed) var(--hoverwink-transition-timing-function) forwards;
+}
+
+/* Reverse animation - animates back to original state */
+.hoverwink-reset {
+	animation: hoverwink var(--hoverwink-transition-speed) var(--hoverwink-transition-timing-function) reverse forwards;
+}
