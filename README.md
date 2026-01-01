@@ -13,9 +13,7 @@ version 5 was trying to be a single page app lmao
 
 - node.js
 - 11ty for static site generation
-- nunjucks for template language (GUYS THIS IS SO SICK BTW EVEN THOUGH ITS LIKE A MILLION EARS OLD)
-- vite for scss processing and js optimization
-- scss so i can do all the uhhh nesting rooles and stuff :3
+- nunjucks for template language (GUYS THIS IS SO SICK BTW EVEN THOUGH ITS LIKE A MILLION EARS OLD) (GUYS update dec 31 2025 I WANT TO PHASE OUT NUNJUCKS BECAUSE IT FEELS OLDDDDDDDDDDDDD)
 - biome for linting and formatting
 - github actions for auto deployment to server
 
