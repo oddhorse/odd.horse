@@ -23,10 +23,13 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: 20
-        cache: 'npm-beta'
+        cache: 'npm'
 
     - name: install dependencies
       run: npm ci
+
+    - name: clean dist folder
+      run: npm run clean
 
     - name: build
       run: npm run build
@@ -41,4 +44,4 @@ jobs:
       run: ssh-keyscan -H ${{ secrets.SSH_SERVER }} >> ~/.ssh/known_hosts
 
     - name: Deploy with rsync
-      run: rsync -avz ./dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_SERVER }}:/home/${{ secrets.SSH_USER }}/beta.odd.horse/
+      run: rsync -avz --delete ./dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_SERVER }}:/home/${{ secrets.SSH_USER }}/beta.odd.horse/
