@@ -6,6 +6,7 @@ website for the music artist [oddhorse](https://odd.horse)
 
 same git repo since jan 2020 :P old versions are tagged so feel free to peruse or whateva
 
+version 7 is new and mysterious and artifact-based. read my pdfs why don't you
 version 6 is template based using 11ty and nunjucks
 version 5 was trying to be a single page app lmao
 
@@ -14,18 +15,13 @@ version 5 was trying to be a single page app lmao
 - node.js
 - 11ty for static site generation
 - nunjucks for template language (GUYS THIS IS SO SICK BTW EVEN THOUGH ITS LIKE A MILLION EARS OLD) (GUYS update dec 31 2025 I WANT TO PHASE OUT NUNJUCKS BECAUSE IT FEELS OLDDDDDDDDDDDDD)
-- biome for linting and formatting
 - github actions for auto deployment to server
-
-## fyi
-
-~~git tree is shockingly fucked don't worry about it~~ git tree is no longer fucked. i stopped being a bitch and rebased commits until it went in a straight line like its supposed to
 
 ## credits
 
 oddhorse, first of all
 
-[matthiasott](https://github.com/matthiasott)'s [eleventy-plus-vite](https://github.com/matthiasott/eleventy-plus-vite/tree/main) template
+claude, for a little help in refactoring things
 
 ### fonts in use
 

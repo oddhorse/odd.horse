@@ -18,13 +18,7 @@ This is the website for music artist [oddhorse](https://odd.horse), built as a s
 - `npm run build-ghpages` - Build with GitHub Pages path prefix
 - `npm run bench` - Run with benchmark debugging enabled
 
-### Code Quality
-
-- `npx biome check` - Run linting and formatting checks
-- `npx biome format` - Format code according to biome.json config
-- `npx biome lint` - Run linting only
-
-No test suite is currently configured.
+No test suite or linting is currently configured.
 
 ## Architecture
 
@@ -185,12 +179,6 @@ Example:
 - **Page code**: Inline `<style>` or `<script>` tags for page-specific code
 
 ## Development Notes
-
-### Code Style (Biome Configuration)
-
-- **Indentation**: Tabs (width 2 for JS, width 3 for CSS)
-- **JavaScript**: Semicolons as needed, single quotes
-- **Formatting**: Auto-formatting enabled for consistency
 
 ### Content Management
 
