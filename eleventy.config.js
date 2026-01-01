@@ -15,8 +15,6 @@ import markdownIt from 'markdown-it'
 import markdownItAnchor from 'markdown-it-anchor'
 import simpleGit from 'simple-git'
 
-import pluginFilters from './filters.js'
-
 // ===== GIT INTEGRATION =====
 const git = simpleGit()
 
@@ -52,12 +50,6 @@ export default async function (eleventyConfig) {
 	eleventyConfig.addPassthroughCopy({ 'src/site.webmanifest': 'site.webmanifest' })
 
 	// ===== PLUGINS =====
-
-	/**
-	 * Custom filters plugin
-	 * Adds date formatting, utility functions, and other template helpers
-	 */
-	eleventyConfig.addPlugin(pluginFilters)
 
 	/**
 	 * Image optimization plugin

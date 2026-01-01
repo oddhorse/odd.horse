@@ -51,7 +51,6 @@ No test suite is currently configured.
   - `base.njk` - Main layout with header/footer
 - **Includes**: `src/_includes/` for reusable components (navbar, header-logo, footer, background)
 - **Data**: `src/_data/` for global data (artifacts, links, meta, build info)
-- **Filters**: `filters.js` (project root) provides date formatting and utility functions
 
 ### Asset Pipeline
 
