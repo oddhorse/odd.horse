@@ -48,17 +48,24 @@ No test suite or linting is currently configured.
 
 ### Asset Pipeline
 
-- **CSS**: Three files in `src/assets/css/`
+- **CSS**: Hybrid organization with 3 global files + inline template styles
   - `main.css` - Entry point that imports reset and global
   - `reset.css` - ⚠️ UNTOUCHABLE browser normalization (modern-normalize)
-  - `global.css` - All editable site-wide styles (fonts, variables, semantic elements, layout, components, animations, print)
-  - Page-specific styles are inlined in templates with `<style>` tags
+  - `global.css` - Site-wide reusable styles (~900 lines)
+    - CSS custom properties, fonts, semantic HTML base styles
+    - Site-wide components (header, footer, navbar, modal system)
+    - Utility classes and reusable animations
+  - **Inline template styles** - Page-specific and component-specific styles
+    - `index.njk` - Homepage layout and artifact list styles (~200 lines)
+    - `beta-menu.njk` - Beta menu component styles (~82 lines)
+    - `background.njk` - Background canvas styles (~22 lines)
 - **JavaScript**: Modular ES modules in `src/assets/js/`
-  - `main.js` - Entry point, initializes navbar, colors, artifact tracking
+  - `main.js` - Entry point, initializes navbar, colors, artifact tracking, modals
   - `navbar.js` - Logo hover color effect
   - `colors.js` - Derives hover colors from page color
   - `artifacts.js` - Click tracking with localStorage
-- **Modern CSS Features**: Custom properties (variables), clamp(), calc(), modern selectors
+  - `modals.js` - Modal system (contact and links popups)
+- **Modern CSS Features**: Custom properties (variables), clamp(), calc(), modern selectors, :has()
 
 ### Deployment
 
@@ -155,9 +162,87 @@ Example:
 - **Class names describe purpose**: `.artifact-list`, `.logo-container` (not `.purple-box`, `.flex-col`)
 - **No presentation classes**: Avoid utility classes like `.text-center` - use semantic CSS instead
 
+### CSS Organization Standards
+
+This project uses a hybrid approach balancing modularity with legibility for a codebase of this complexity (~900 lines global CSS, ~13 templates). The guiding principle: **co-locate page-specific code, centralize truly reusable code**.
+
+#### When to use global.css
+
+Put styles in `src/assets/css/global.css` when they are:
+
+- **CSS custom properties** (variables for colors, transitions, animations, etc.)
+- **Font-face declarations** (Karrik, FT88, etc.)
+- **Semantic HTML base styles** (a, p, h1, body, img, etc.)
+- **Layout systems used across multiple pages** (sticky footer, page structure, etc.)
+- **Site-wide components used on 2+ pages** (header, footer, navbar, modal system)
+- **Utility classes used across pages** (.oddhorse-inline, .emoticon, .darker, etc.)
+- **Reusable animations used in multiple places** (floatUpDown, fadeOutSustain, hoverwink)
+
+**Current global.css structure:**
+
+1. CSS Custom Properties
+2. Fonts
+3. Semantic HTML Elements
+4. Print Styles
+5. Page Structure
+6. Header
+7. Footer
+8. Navbar
+9. Background Container
+10. Logo Container
+11. Utility Classes
+12. Animations
+13. Modal System
+
+#### When to use inline template styles
+
+Put styles inline with `<style>` tags in templates when they are:
+
+- **Page-specific layouts and positioning** (only used on one page)
+- **Page-specific components** (artifact list on homepage, hero sections, etc.)
+- **Self-contained feature components** (beta-menu, background canvas)
+- **Page-specific overrides of global styles** (customizing logo size on homepage)
+- **Styles unique to a single template** (specific to that page's layout or content)
+
+**Examples of inline styles:**
+
+- `src/index.njk` - Homepage layout (body padding, flexbox centering, artifact list styles)
+- `src/_includes/beta-menu.njk` - Beta menu component (~82 lines, self-contained)
+- `src/_includes/background.njk` - Background canvas component (~22 lines, self-contained)
+
+#### Keep together for maintenance
+
+- **Site-wide reusable components** (modals, headers, footers) → `global.css`
+  - Rationale: Used across multiple pages, changing them affects entire site
+  - Example: Modal system could be extended with more modals (shop, image lightbox, etc.)
+
+- **Page-specific features** (artifact list, page heroes) → Inline in that page's template
+  - Rationale: Only used once, co-locating HTML and CSS improves maintainability
+  - Example: Artifact list (~187 lines) only appears on homepage
+
+- **Self-contained utility components** (beta-menu) → Inline in their include file
+  - Rationale: Component-specific styles travel with the component
+  - Example: Beta menu is a feature flag component, styles are part of its implementation
+
+#### Decision framework
+
+**When in doubt, ask:**
+
+1. Is it used on 2+ pages? → `global.css`
+2. Is it page-specific? → Inline in that page
+3. Is it a self-contained component? → Inline in that component
+4. Could it be reused later? → Consider `global.css` if it's infrastructure
+
+**For this codebase size:**
+
+- ~900 lines global CSS is manageable and aids discoverability
+- Aggressive modularization (separate CSS files per component) hurts legibility
+- Co-locate page-specific code for easier reasoning about behavior
+- Keep truly global/reusable code centralized for consistency
+
 ### Shared CSS Standards
 
-- **Base styles apply to semantic elements**: `<a>`, `<p>`, `<h1>` styled site-wide in base.css
+- **Base styles apply to semantic elements**: `<a>`, `<p>`, `<h1>` styled site-wide in global.css
 - **Page-specific styles inlined in templates**: Use `<style>` tags in individual .njk files for unique layouts
 - **CSS custom properties for reusable values**: Colors, transitions, spacing defined in `:root`
 - **Modern CSS features**: Use `clamp()`, `calc()`, `:is()`, CSS nesting where appropriate

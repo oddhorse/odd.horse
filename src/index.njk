@@ -5,50 +5,254 @@ layout: base
 
 {# Page-specific styles for homepage layout #}
 <style>
-	.homepage-container {
+	/* Body layout - creates centered artifact list with consumable padding */
+	body {
 		text-align: center;
 		padding: 2rem 1rem;
+		/* Adds space that gets consumed as content grows */
+		padding-bottom: 50vh;
+		min-height: 100vh;
+		box-sizing: border-box;
 	}
 
-	.homepage-container .logo-container {
+	/* Header stays at top */
+	header {
+		/* Logo and navbar container */
+	}
+
+	/* Main content wrapper - centers artifact list */
+	main {
+		display: flex;
+		justify-content: center;
+		margin-top: 2rem;
+	}
+
+	/* Logo customization for homepage */
+	.logo-container {
 		margin: 0 auto 1rem;
 		--logo-size: 7rem;
 		--tagline-size: 1.1rem;
 	}
 
-	.homepage-container .logo-container .logo {
+	.logo-container .logo {
 		width: 5rem;
 		height: auto;
 	}
 
-	.homepage-container .navbar {
-		margin-bottom: 3rem;
+	/* Navbar spacing */
+	.navbar {
+		margin-bottom: 2rem;
 	}
 
-	.homepage-container .artifact-list {
+	/* ===== ARTIFACT LIST ===== */
+
+	/**
+	 * Artifact list on homepage
+	 * Features click tracking with localStorage:
+	 * - Hollow dot indicator for unclicked items
+	 * - Filled dot for clicked items
+	 * - "NEW" badge for items added within 30 days
+	 * - "SEEN" badge for clicked items
+	 * - Custom color per artifact via --artifact-color inline style
+	 *
+	 * JavaScript in artifacts.js handles:
+	 * - Adding .clicked or .unclicked classes
+	 * - Adding .new class for recent items
+	 * - Saving click state to localStorage
+	 */
+	.artifact-list {
+		list-style: none;
+		padding: 2rem 0;
+		margin: 0 auto;
 		text-align: left;
+		width: 100%;
+		max-width: 400px;
+	}
+
+	.artifact-item {
+		margin: 0 0;
+		position: relative;
+		border: 1px solid var(--text-color);
+	}
+
+	/* Artifact link - flexbox layout with gap between elements */
+	.artifact-link {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		padding: 0.5rem;
+		text-decoration: none;
+		color: var(--text-color);
+		transition: color var(--link-hover-transition-speed);
+	}
+
+	.artifact-item.clicked .artifact-link {
+		color: var(--lighter-text-color);
+	}
+
+	/* Hover changes to artifact's custom color */
+	.artifact-link:hover,
+	.artifact-item.clicked .artifact-link:hover {
+		color: var(--artifact-color, var(--link-hover-color));
+	}
+
+	/* When badge is hovered, also apply hover effect to the link */
+	.artifact-item:has(.artifact-badge:hover) .artifact-link {
+		color: var(--artifact-color, var(--link-hover-color));
+	}
+
+	/* Hide the artifact status dot */
+	.artifact-status {
+		display: none;
+	}
+
+	.artifact-description {
+		flex: 1;
+		font-size: 1.1rem;
+	}
+
+	/* Date displayed after description - lighter, smaller, italic */
+	.artifact-date {
+		font-size: 0.85rem;
+		font-style: italic;
+		color: var(--lighter-text-color);
+		margin-left: 0.5rem;
+	}
+
+	.artifact-item.clicked .artifact-date {
+		color: var(--even-lighter-text-color);
+	}
+
+	/**
+	 * "NEW" badge animations
+	 * Pulse: Shrink and grow using sine wave
+	 * Bob: Wave up and down vertically
+	 */
+	@keyframes badge-pulse {
+		0%, 100% {
+			scale: 1;
+		}
+		50% {
+			scale: 1.15;
+		}
+	}
+
+	@keyframes badge-bob {
+		0%, 100% {
+			translate: 0 0;
+		}
+		50% {
+			translate: 0 -3px;
+		}
+	}
+
+	/**
+	 * "NEW" badge
+	 * Positioned exactly on top right corner of artifact item
+	 * Middle of text sits on the corner itself
+	 * Hidden by default, shown only on items with .new class
+	 */
+	.artifact-badge-new {
+		display: none;
+		position: absolute;
+		top: 0;
+		right: 0;
+		font-family: "FT88", sans-serif;
+		font-size: 1rem;
+		font-weight: bold;
+		color: red;
+		background: var(--background-color);
+		transform: translate(50%, -50%) rotate(5deg);
+		animation: badge-pulse 2s ease-in-out infinite, badge-bob 2s ease-in-out infinite;
+		user-select: none;
+		-webkit-user-select: none;
+		cursor: pointer;
+		transition: transform 0.2s ease;
+	}
+
+	.artifact-badge-new:hover,
+	.artifact-item:has(.artifact-link:hover) .artifact-badge-new {
+		transform: translate(50%, -50%) rotate(5deg) scale(1.2);
+		animation-play-state: paused;
+	}
+
+	.artifact-item.new .artifact-badge-new {
+		display: block;
+	}
+
+	/**
+	 * "SEEN" badge
+	 * Shows on clicked artifacts, positioned at top right corner
+	 * Hidden by default, shown only on items with .clicked class
+	 */
+	.artifact-badge-clicked {
+		display: none;
+		position: absolute;
+		top: 0;
+		right: 0;
+		font-family: "FT88", sans-serif;
+		font-size: 0.75rem;
+		font-weight: bold;
+		color: var(--lighter-text-color);
+		background: var(--background-color);
+		transform: translate(50%, -50%) rotate(5deg);
+		user-select: none;
+		-webkit-user-select: none;
+		cursor: pointer;
+		transition: transform 0.2s ease, color 0.2s ease;
+	}
+
+	.artifact-badge-clicked:hover,
+	.artifact-item:has(.artifact-link:hover) .artifact-badge-clicked {
+		transform: translate(50%, -50%) rotate(5deg) scale(1.1);
+		color: var(--text-color);
+	}
+
+	.artifact-item.clicked .artifact-badge-clicked {
+		display: block;
+	}
+
+	/* Hide NEW badge on clicked items, show SEEN instead */
+	.artifact-item.clicked .artifact-badge-new {
+		display: none;
+	}
+
+	/* Mobile: smaller text and reduced padding */
+	@media (max-width: 768px) {
+		.artifact-list {
+			padding: 1rem 0;
+		}
+
+		.artifact-description {
+			font-size: 1rem;
+		}
 	}
 
 	/* Mobile adjustments */
 	@media (max-width: 768px) {
-		.homepage-container {
+		body {
 			padding: 1rem 0.5rem;
 		}
 
-		.homepage-container .logo-container {
+		.logo-container {
 			--logo-size: 4rem;
 		}
 
-		.homepage-container .logo-container .logo {
+		.logo-container .logo {
 			width: 4rem;
 		}
 	}
 </style>
 
-<div class="homepage-container">
+{# Beta menu - only shows on beta branch #}
+{% include "beta-menu.njk" %}
 
-	{% include "navbar.njk" %}
-	{% include "header-logo.njk" %}
+{# Modal system for contact and links #}
+{% include "modals.njk" %}
+
+{% include "header.njk" %}
+
+<main>
 	<ul class="artifact-list">
 		{% for artifact in artifacts | reverse %}
 			<li class="artifact-item"
@@ -57,10 +261,10 @@ layout: base
 				<span class="artifact-badge artifact-badge-clicked">SEEN</span>
 				<span class="artifact-badge artifact-badge-new">NEW!</span>
 				<a href="{{ artifact.url }}"
-				 class="artifact-link"
-				 target="_blank"
-				 rel="noopener noreferrer"
-				 style="--artifact-color: {{ artifact.color or '#ff00bb' }};">
+					class="artifact-link"
+					target="_blank"
+					rel="noopener noreferrer"
+					style="--artifact-color: {{ artifact.color or '#ff00bb' }};">
 					<span class="artifact-status"></span>
 					<span class="artifact-description">{{ artifact.description }}</span>
 					<span class="artifact-date">{{ artifact.dateAdded }}</span>
@@ -68,4 +272,9 @@ layout: base
 			</li>
 		{% endfor %}
 	</ul>
-</div>
+</main>
+
+{# {% include "footer.njk" %} #}
+
+{# add-ins #}
+{# {% include "background.njk" %} #}

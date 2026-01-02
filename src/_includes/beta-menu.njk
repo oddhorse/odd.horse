@@ -7,6 +7,7 @@
 		<div class="beta-menu-content">
 			<h3>beta tools</h3>
 			<button class="beta-button" id="clear-clicks">clear click data</button>
+			<button class="beta-button" id="add-dummy-artifact">add dummy artifact</button>
 			<p class="beta-info">git branch: <a href="https://github.com/oddhorse/odd.horse/tree/{{ gitInfo.branch }}" target="_blank">{{ gitInfo.branch }}</a>
 			</p>
 			<p class="beta-info">commit: <a href="https://github.com/oddhorse/odd.horse/commit/{{ gitInfo.commit }}" target="_blank">{{ gitInfo.shortcommit }}</a>
@@ -128,6 +129,72 @@
 			} else {
 				console.error('Artifact functions not available')
 			}
+		})
+
+		// Add dummy artifact button
+		const addDummyButton = document.getElementById('add-dummy-artifact')
+		let dummyCounter = 1
+		addDummyButton.addEventListener('click', () => {
+			const artifactList = document.querySelector('.artifact-list')
+			if (!artifactList) {
+				console.error('Artifact list not found')
+				return
+			}
+
+			// Generate random color
+			const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0')
+
+			// Create dummy artifact element
+			const dummyId = `dummy-artifact-${dummyCounter}`
+			const dummyDate = new Date().toISOString().split('T')[0]
+
+			const li = document.createElement('li')
+			li.className = 'artifact-item unclicked new'
+			li.dataset.artifactId = dummyId
+			li.dataset.dateAdded = dummyDate
+
+			li.innerHTML = `
+				<span class="artifact-badge artifact-badge-clicked">SEEN</span>
+				<span class="artifact-badge artifact-badge-new">NEW!</span>
+				<a href="#" class="artifact-link" style="--artifact-color: ${randomColor};">
+					<span class="artifact-status"></span>
+					<span class="artifact-description">test artifact ${dummyCounter}</span>
+					<span class="artifact-date">${dummyDate}</span>
+				</a>
+			`
+
+			// Insert at the top of the list (newest first)
+			artifactList.insertBefore(li, artifactList.firstChild)
+
+			// Re-initialize tracking for the new artifact
+			const link = li.querySelector('.artifact-link')
+			if (link && window.initArtifactTracking) {
+				link.addEventListener('click', (e) => {
+					e.preventDefault() // Don't navigate for dummy links
+					// Mark as clicked manually
+					li.classList.remove('unclicked')
+					li.classList.add('clicked')
+				})
+			}
+
+			// Set up logo hover for new link
+			const logoContainer = document.querySelector('.logo-container')
+			if (logoContainer && link) {
+				const artifactColor = randomColor
+				const shadowColor = `${artifactColor}33`
+
+				link.addEventListener('mouseenter', () => {
+					logoContainer.style.setProperty('--logo-color', artifactColor)
+					logoContainer.style.setProperty('--logo-shadow-color', shadowColor)
+				})
+				link.addEventListener('mouseleave', () => {
+					logoContainer.style.setProperty('--logo-color', '')
+					logoContainer.style.setProperty('--logo-shadow-color', '')
+				})
+			}
+
+			dummyCounter++
+			console.log(`Added dummy artifact ${dummyCounter - 1}`)
 		})
 	</script>
 {% endif %}
