@@ -11,6 +11,8 @@
  * as you hover over different links throughout the site.
  */
 
+import { setupModalLinkHovers } from './modals.js'
+
 /**
  * Set up hover effects for navbar and artifact links
  * Attaches mouseenter/mouseleave handlers to change logo color on hover
@@ -88,4 +90,8 @@ export function setupNavbar() {
 			})
 		}
 	}
+
+	// Handle modal links (use --modal-link-color)
+	// This ensures links inside contact/links modals trigger logo color change
+	setupModalLinkHovers(logoContainer)
 }

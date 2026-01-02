@@ -1,0 +1,149 @@
+/**
+ * modals.js
+ * Handles modal open/close functionality and logo hover integration
+ *
+ * Modals are triggered by navbar buttons and can be closed via:
+ * - Close button click
+ * - Clicking outside modal container
+ * - Escape key press
+ *
+ * Links inside modals trigger the same logo color change effect as navbar links
+ * (integrated with navbar.js logo hover system)
+ */
+
+/**
+ * Open a modal by ID
+ * @param {string} modalId - ID of the modal content to show (e.g., 'modal-contact')
+ */
+export function openModal(modalId) {
+	const overlay = document.getElementById('modal-overlay')
+	const modalContent = document.getElementById(modalId)
+
+	if (!overlay || !modalContent) return
+
+	// Hide all modal content sections
+	document.querySelectorAll('.modal-content').forEach((content) => {
+		content.classList.remove('active')
+	})
+
+	// Show the requested modal content
+	modalContent.classList.add('active')
+
+	// Show overlay and prevent body scroll
+	document.body.classList.add('modal-open')
+
+	// Set ARIA attributes for accessibility
+	overlay.setAttribute('aria-hidden', 'false')
+
+	// Focus on close button for keyboard accessibility
+	const closeButton = overlay.querySelector('.modal-close')
+	if (closeButton) {
+		closeButton.focus()
+	}
+}
+
+/**
+ * Close the currently open modal
+ */
+export function closeModal() {
+	const overlay = document.getElementById('modal-overlay')
+	if (!overlay) return
+
+	// Hide overlay and restore body scroll
+	document.body.classList.remove('modal-open')
+
+	// Set ARIA attributes for accessibility
+	overlay.setAttribute('aria-hidden', 'true')
+
+	// Hide all modal content after transition completes
+	setTimeout(() => {
+		document.querySelectorAll('.modal-content').forEach((content) => {
+			content.classList.remove('active')
+		})
+	}, 200) // Match CSS transition duration
+}
+
+/**
+ * Set up modal system event handlers
+ * Called from main.js on DOMContentLoaded
+ */
+export function setupModals() {
+	const overlay = document.getElementById('modal-overlay')
+	const closeButton = document.querySelector('.modal-close')
+
+	if (!overlay) return
+
+	// Close button click
+	if (closeButton) {
+		closeButton.addEventListener('click', closeModal)
+	}
+
+	// Click outside modal container to close
+	overlay.addEventListener('click', (e) => {
+		// Only close if clicking the overlay itself, not the modal container
+		if (e.target === overlay) {
+			closeModal()
+		}
+	})
+
+	// Escape key to close
+	document.addEventListener('keydown', (e) => {
+		if (e.key === 'Escape' && document.body.classList.contains('modal-open')) {
+			closeModal()
+		}
+	})
+
+	// Set up navbar buttons to open modals
+	const contactButton = document.querySelector('[data-modal-trigger="contact"]')
+	const linksButton = document.querySelector('[data-modal-trigger="links"]')
+
+	if (contactButton) {
+		contactButton.addEventListener('click', (e) => {
+			e.preventDefault()
+			openModal('modal-contact')
+		})
+	}
+
+	if (linksButton) {
+		linksButton.addEventListener('click', (e) => {
+			e.preventDefault()
+			openModal('modal-links')
+		})
+	}
+}
+
+/**
+ * Set up logo color change for modal links
+ * This integrates with the existing navbar.js logo hover system
+ * Called from navbar.js setupNavbar() function
+ *
+ * @param {HTMLElement} logoContainer - The logo container element
+ */
+export function setupModalLinkHovers(logoContainer) {
+	if (!logoContainer) return
+
+	// Handle all links inside modals with .modal-link class
+	const modalLinks = document.querySelectorAll('.modal-link')
+
+	for (const link of modalLinks) {
+		// Get the custom color for this specific link
+		const linkColor = getComputedStyle(link)
+			.getPropertyValue('--modal-link-color')
+			.trim()
+
+		// Create semi-transparent shadow color (33 = 20% opacity in hex)
+		const shadowColor = `${linkColor}33`
+
+		// On hover, change logo to match link color
+		link.addEventListener('mouseenter', () => {
+			logoContainer.style.setProperty('--logo-color', linkColor)
+			logoContainer.style.setProperty('--logo-shadow-color', shadowColor)
+		})
+
+		// On mouse leave, reset to default (page color)
+		link.addEventListener('mouseleave', () => {
+			logoContainer.style.setProperty('--logo-color', '')
+			logoContainer.style.setProperty('--logo-shadow-color', '')
+		})
+	}
+}

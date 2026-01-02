@@ -1,20 +1,20 @@
 <nav class="navbar">
-	<a href="/links/"
-		 class="navlink floating"
-		 {% if page.url == "/links/" %}aria-current="page"{% endif %}
-		 style="--navbar-link-color: #1db954;">
+	<button data-modal-trigger="links"
+			class="navlink floating"
+			style="--navbar-link-color: #1db954;"
+			aria-label="Open links menu">
 		links
-	</a>
+	</button>
 	{# <a href="/shop/"
 		 class="navlink floating"
 		 {% if page.url == "/shop/" %}aria-current="page"{% endif %}
 		 style="--navbar-link-color: #ff00bb;">
 		shop
 	</a> #}
-	<a href="/contact/"
-		 class="navlink floating"
-		 {% if page.url == "/contact/" %}aria-current="page"{% endif %}
-		 style="--navbar-link-color: #d76aff;">
+	<button data-modal-trigger="contact"
+			class="navlink floating"
+			style="--navbar-link-color: #d76aff;"
+			aria-label="Open contact menu">
 		contact
-	</a>
+	</button>
 </nav>

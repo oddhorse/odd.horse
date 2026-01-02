@@ -1,0 +1,41 @@
+{# Modal system for contact and links #}
+<div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+	<div class="modal-container">
+		<button class="modal-close" aria-label="Close modal">×</button>
+
+		{# Contact Modal Content #}
+		<div class="modal-content" id="modal-contact" data-modal-color="#d76aff">
+			<h1>contact</h1>
+
+			<p>let's talk!</p>
+			<p>fans and friendly people
+				<span class="emoticon">:3</span>, come say
+				<a href="mailto:hi@odd.horse" class="modal-link" style="--modal-link-color: #d76aff;">hi<span class="darker">@odd.horse</span></a>!
+			</p>
+			<p>for bookings, business, or otherwise serious matters
+				<span class="emoticon">:(</span>,
+				<span class="oddhorse-inline">oddhorse</span>
+				is
+				<a href="mailto:him@odd.horse" class="modal-link" style="--modal-link-color: #d76aff;">him@odd.horse</a>!
+			</p>
+			<p>if you like instagram, i'm also
+				<a href="{{ links.instagram.url }}" target="_blank" class="modal-link" style="--modal-link-color: {{ links.instagram.color }};">there too</a>!</p>
+		</div>
+
+		{# Links Modal Content #}
+		<div class="modal-content" id="modal-links" data-modal-color="#1db954">
+			<h1>links</h1>
+
+			<ul class="links-list">
+			{% for name, data in links %}
+				<li>
+					<a href="{{ data.url }}" target="_blank" rel="noopener noreferrer" class="modal-link" style="--modal-link-color: {{ data.color }};">
+						<span class="link-icon">{{ data.icon }}</span>
+						<span class="link-name">{{ name }}</span>
+					</a>
+				</li>
+			{% endfor %}
+			</ul>
+		</div>
+	</div>
+</div>
