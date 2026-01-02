@@ -59,12 +59,19 @@ No test suite or linting is currently configured.
     - `index.njk` - Homepage layout and artifact list styles (~200 lines)
     - `beta-menu.njk` - Beta menu component styles (~82 lines)
     - `background.njk` - Background canvas styles (~22 lines)
-- **JavaScript**: Modular ES modules in `src/assets/js/`
-  - `main.js` - Entry point, initializes navbar, colors, artifact tracking, modals
-  - `navbar.js` - Logo hover color effect
-  - `colors.js` - Derives hover colors from page color
-  - `artifacts.js` - Click tracking with localStorage
-  - `modals.js` - Modal system (contact and links popups)
+- **JavaScript**: Hybrid organization with global modules + page-specific imports
+  - **Global modules** (loaded site-wide):
+    - `main.js` - Entry point, initializes navbar, colors, modals
+    - `navbar.js` - Logo hover color effect
+    - `colors.js` - Derives hover colors from page color
+    - `modals.js` - Modal system (contact and links popups)
+  - **Page-specific modules** (imported only where needed):
+    - `artifacts.js` - Click tracking with localStorage (imported in index.njk only)
+  - **Inline template scripts**:
+    - `index.njk` - Artifact tracking initialization
+    - `background.njk` - Canvas animation (~250 lines)
+    - `header-logo.njk` - Tagline rotation (~90 lines)
+    - `beta-menu.njk` - Dev tools (~100 lines)
 - **Modern CSS Features**: Custom properties (variables), clamp(), calc(), modern selectors, :has()
 
 ### Deployment
@@ -248,6 +255,81 @@ Put styles inline with `<style>` tags in templates when they are:
 - **Modern CSS features**: Use `clamp()`, `calc()`, `:is()`, CSS nesting where appropriate
 - **Mobile-first**: Base styles for mobile, `@media` queries for larger screens
 - **No preprocessing**: Plain CSS only - browsers handle modern features natively
+
+### JavaScript Organization Standards
+
+This project uses a hybrid approach mirroring the CSS organization philosophy: **co-locate component-specific code, centralize truly reusable functionality**. No bundling or preprocessing - native ES modules with browser imports.
+
+#### When to use global modules
+
+Put JavaScript in `src/assets/js/` modules when it is:
+
+- **Entry point** (`main.js`) that orchestrates initialization
+- **Feature modules used across multiple pages** (navbar, colors, artifacts, modals)
+- **Shared utilities** (device detection, number helpers, DOM helpers)
+- **Core functionality that other code depends on** (must be importable)
+- **Any code that needs to be imported and reused**
+
+**Current global module structure:**
+
+- `main.js` - Entry point, initializes site-wide features (navbar, colors, modals)
+- `navbar.js` - Logo hover color effects for all link types
+- `colors.js` - Color system (derives hover colors from page color)
+- `modals.js` - Modal system (contact and links popups)
+- `util.js` - General utilities (isMobile, randBtwn, etc.)
+
+**Page-specific modules** (kept as modules but only imported where needed):
+
+- `artifacts.js` - Click tracking with localStorage (imported only in index.njk)
+
+#### When to use inline template scripts
+
+Put JavaScript inline with `<script type="module">` in templates when it is:
+
+- **Component-specific interactive features** (background animation, tagline rotation)
+- **Page-specific UI behaviors** (only used on one page)
+- **Self-contained feature scripts** (beta-menu dev tools)
+- **Code that doesn't need to be imported elsewhere**
+- **Use IIFE pattern `(() => { ... })()` for scope isolation**
+
+**Examples of inline scripts:**
+
+- `src/index.njk` - Artifact tracking initialization (imports artifacts.js module)
+- `src/_includes/background.njk` - Canvas horse animation (~250 lines, IIFE pattern)
+- `src/_includes/header-logo.njk` - Tagline rotation system (~90 lines, IIFE pattern)
+- `src/_includes/beta-menu.njk` - Dev tools UI (~100 lines, IIFE pattern)
+
+#### Special cases
+
+- **Pre-render initialization** (page color in head.njk) - inline, NOT module (runs before CSS)
+- **External analytics** (gtag.njk) - async external script
+- **Debug/console functions** - expose on `window` from page-specific scripts (e.g., `window.wipeClickData()` exposed in index.njk)
+- **Page-specific modules** - Keep as .js files but import only in relevant templates (e.g., artifacts.js imported in index.njk, not main.js)
+
+#### Loading strategy
+
+- **Main app**: ES modules with `type="module"` (native browser support, deferred automatically)
+- **Entry point**: Loaded in `<head>` with `type="module"`
+- **Inline scripts**: Run independently in module scope
+- **No bundling**: Plain JavaScript, modules work natively in modern browsers
+
+#### Decision framework
+
+**When in doubt, ask:**
+
+1. Used across multiple pages or components? → Global module
+2. Component-specific interaction? → Inline in that component
+3. Needs to run before DOM/CSS? → Inline in head (NOT module)
+4. Needs to be imported by other code? → Global module
+5. Self-contained feature? → Inline with IIFE pattern
+
+**For this codebase size:**
+
+- ~6 modules, ~440 lines inline is appropriate and aids discoverability
+- Aggressive modularization (separate files per component) hurts legibility
+- Co-locate component-specific code for easier reasoning about behavior
+- Keep truly reusable code centralized for consistency
+- Not building a framework - don't over-engineer
 
 ### File Organization
 

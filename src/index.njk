@@ -5,26 +5,27 @@ layout: base
 
 {# Page-specific styles for homepage layout #}
 <style>
-	/* Body layout - creates centered artifact list with consumable padding */
+	/* Body layout - flexbox container for vertical centering */
 	body {
-		text-align: center;
-		padding: 2rem 1rem;
-		/* Adds space that gets consumed as content grows */
-		padding-bottom: 50vh;
-		min-height: 100vh;
-		box-sizing: border-box;
-	}
-
-	/* Header stays at top */
-	header {
-		/* Logo and navbar container */
-	}
-
-	/* Main content wrapper - centers artifact list */
-	main {
 		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
+		text-align: center;
+	}
+
+	/* Header takes only its content height, stays at top */
+	header {
+		flex: 0 0 auto;
+		padding: 2rem 1rem 0;
+	}
+
+	/* Main fills remaining space and centers its content */
+	main {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
 		justify-content: center;
-		margin-top: 2rem;
+		padding: 0 1rem 2rem;
 	}
 
 	/* Logo customization for homepage */
@@ -63,7 +64,7 @@ layout: base
 	.artifact-list {
 		list-style: none;
 		padding: 2rem 0;
-		margin: 0 auto;
+		margin: auto;
 		text-align: left;
 		width: 100%;
 		max-width: 400px;
@@ -230,8 +231,12 @@ layout: base
 
 	/* Mobile adjustments */
 	@media (max-width: 768px) {
-		body {
-			padding: 1rem 0.5rem;
+		header {
+			padding: 1rem 0.5rem 0;
+		}
+
+		main {
+			padding: 0 0.5rem 1rem;
 		}
 
 		.logo-container {
@@ -273,6 +278,18 @@ layout: base
 		{% endfor %}
 	</ul>
 </main>
+
+{# Artifact tracking - only used on homepage #}
+<script type="module">
+	import { initArtifactTracking, wipeClickData, refreshArtifactUI } from '/assets/js/artifacts.js'
+
+	// Initialize artifact tracking on page load
+	initArtifactTracking()
+
+	// Expose functions to window for debugging and beta menu access
+	window.wipeClickData = wipeClickData
+	window.refreshArtifactUI = refreshArtifactUI
+</script>
 
 {# {% include "footer.njk" %} #}
 
