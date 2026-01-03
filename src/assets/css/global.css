@@ -444,7 +444,7 @@ footer {
 	--logo-shadow-color: #00000000;
 	user-select: none;
 	-webkit-user-select: none;
-	cursor: default;
+	cursor: pointer;
 	width: fit-content;
 }
 
@@ -472,6 +472,11 @@ footer {
 	transition: text-shadow var(--link-hover-transition-speed);
 	transition-timing-function: var(--link-hover-transition-timing-function);
 	text-shadow: calc(var(--logo-size) / 2) 0px calc(var(--logo-size) * 0.5) var(--logo-shadow-color);
+}
+
+/* Individual letter spans - must be inline-block for transforms to work */
+.logo-container .text-logo span {
+	display: inline-block;
 }
 
 /* SVG logo - sized with --logo-size, inherits color from parent */

@@ -1,92 +1,166 @@
 <div class="logo-container">
     <a {% if page.url != "/" %}href="/"{% endif %} class="logo-link">
-        <h1 class="text-logo">
-            oddhorse
-        </h1>
-        {% include "icons/OH-thick.svg" %}
+        <h1 class="text-logo" data-text="oddhorse"></h1>
+        <span class="letter-icon hoverwink">{% include "icons/OH-thick.svg" %}</span>
 
     </a>
     <h2 id="tagline" style="opacity: 0;" class="hoverwink">is him!</h2>
 </div>
 
 <script type="module">
-    /* background — isolated ES‑module to avoid globals and build‑time interference */
-
+    /**
+ * Tagline rotation system
+ * Cycles through random taglines with bounce animation
+ * - Auto-rotates every 10 seconds
+ * - Click tagline to cycle manually and reset timer
+ * - Isolated in IIFE to avoid global scope pollution
+ */
     (() => {
+        // ===== CONSTANTS =====
+        const ROTATION_INTERVAL_MS = 10000 // 10 seconds between auto-rotations
 
-        const tl = document.getElementById("tagline");
+        // ===== STATE =====
+        const taglineElement = document.getElementById('tagline')
+        const taglines = {{ taglines | dump | safe }}
 
-        let taglines = {{ taglines | dump | safe }};
+        // Shuffle taglines into random order using Fisher-Yates algorithm
+        const shuffledTaglines = [...taglines].sort(() => Math.random() - 0.5)
 
-        let taglinesOrder = [];
+        let currentIndex = 0
+        let rotationTimer = null
 
-        let currentTaglineIndex = 0;
+        // ===== HELPER FUNCTIONS =====
 
-        // load taglines into random order
-        let ind,
-            thistl;
-        while (taglines.length > 0) {
-            ind = Math.floor(Math.random() * taglines.length);
-            thistl = taglines[ind];
-            taglines.splice(ind, 1); // deletes from master pool
-            taglinesOrder.push(thistl); // adds to active pool
+        /**
+	 * Get next tagline in rotation
+	 * Cycles back to start after reaching end
+	 * @returns {string} Next tagline text
+	 */
+        function getNextTagline() {
+            currentIndex = (currentIndex + 1) % shuffledTaglines.length
+            return shuffledTaglines[currentIndex]
         }
 
-        // triggers tagline bounce anim
+        /**
+	 * Trigger bounce animation on tagline
+	 * Adds animation class, then removes it after animation completes
+	 */
         function bounceTagline() {
-            tl
+            taglineElement
                 .classList
-                .add('hoverwink-animate');
+                .add('hoverwink-animate')
 
-            // Optional: remove the class after animation completes
+            // Remove class after animation completes (duration from CSS variable)
+            const animationDuration = parseFloat(getComputedStyle(taglineElement).getPropertyValue('--hoverwink-transition-speed')) * 1000
+
             setTimeout(() => {
-                tl
+                taglineElement
                     .classList
-                    .remove('hoverwink-animate');
-            }, parseFloat(getComputedStyle(tl).getPropertyValue('--hoverwink-transition-speed')) * 1000);
+                    .remove('hoverwink-animate')
+            }, animationDuration)
         }
 
-        /* Wait for DOM to be fully loaded */
-        document.addEventListener("DOMContentLoaded", () => {
-
-            // populate tagline with first one
-            tl.innerHTML = taglinesOrder[currentTaglineIndex];
-            tl.style.opacity = 1;
-            bounceTagline();
-        });
-
-        // Add click event to update tagline
-        document.addEventListener("click", (event) => {
-            if (event.target.closest('#tagline')) {
-                tl.innerHTML = getNewTagline();
-                bounceTagline();
-            }
-        });
-
-        // cycles index and gets tagline
-        function getNewTagline() {
-            currentTaglineIndex = (currentTaglineIndex + 1) % taglinesOrder.length;
-            return taglinesOrder[currentTaglineIndex];
+        /**
+	 * Update tagline text and trigger bounce animation
+	 */
+        function rotateTagline() {
+            taglineElement.innerHTML = getNextTagline()
+            bounceTagline()
         }
 
-        // Create a variable to store the timer ID
-        let rotateTimer = setInterval(() => {
-            tl.innerHTML = getNewTagline();
-            bounceTagline();
-        }, 10000);
-
-        // Reset timer on click
-        document.addEventListener("click", (event) => {
-            if (event.target.closest('#tagline')) {
-                // Clear the existing timer
-                clearInterval(rotateTimer);
-                // Set a new timer
-                rotateTimer = setInterval(() => {
-                    tl.innerHTML = getNewTagline();
-                    bounceTagline();
-                }, 10000);
+        /**
+	 * Start or restart the auto-rotation timer
+	 */
+        function startRotationTimer() {
+            // Clear existing timer if any
+            if (rotationTimer) {
+                clearInterval(rotationTimer)
             }
-        });
 
-    })();
+            // Start new timer
+            rotationTimer = setInterval(rotateTagline, ROTATION_INTERVAL_MS)
+        }
+
+        // ===== EVENT HANDLERS =====
+
+        /**
+	 * Set up all click event listeners for logo elements
+	 * Add new click handlers here as logo becomes more interactive
+	 */
+        function setupClickHandlers() {
+            // Tagline: Click to manually rotate and reset timer
+            taglineElement.addEventListener('click', () => {
+                rotateTagline()
+                startRotationTimer()
+            })
+
+            // Example: Add more click handlers here
+            // const logoIcon = document.querySelector('.letter-icon')
+            // logoIcon.addEventListener('click', () => {
+            //      Handle logo icon click
+            // })
+        }
+
+        /**
+	 * Set up all hover event listeners for logo elements
+	 * Add new hover handlers here (or keep in navbar.js for color changes)
+	 */
+        function setupHoverHandlers() {
+            // Example: Add hover effects here if not handled by navbar.js
+            // taglineElement.addEventListener('mouseenter', () => {
+            //      Handle tagline hover
+            // })
+            // taglineElement.addEventListener('mouseleave', () => {
+            //      Handle tagline unhover
+            // })
+        }
+
+        // ===== INITIALIZATION =====
+
+        /**
+	 * Split text logo into individual letter spans for styling
+	 * Reads text from data-text attribute and wraps each letter in a span
+	 */
+        function initializeTextLogo() {
+            const textLogo = document.querySelector('.text-logo')
+            if (!textLogo) 
+                return
+
+            const text = textLogo.getAttribute('data-text') || 'oddhorse'
+
+            // Wrap each letter in a span with appropriate classes
+            const letterSpans = text
+                .split('')
+                .map((letter) => {
+                    return `<span class="letter-${letter} hoverwink">${letter}</span>`
+                })
+                .join('')
+
+            textLogo.innerHTML = letterSpans
+        }
+
+        /**
+	 * Initialize tagline system on DOM ready
+	 * Sets up initial state and attaches all event handlers
+	 */
+        function init() {
+            // Initialize text logo with letter spans
+            initializeTextLogo()
+
+            // Initialize tagline display
+            taglineElement.innerHTML = shuffledTaglines[currentIndex]
+            taglineElement.style.opacity = 1
+            bounceTagline()
+
+            // Start auto-rotation
+            startRotationTimer()
+
+            // Attach event handlers
+            setupClickHandlers()
+            setupHoverHandlers()
+        }
+
+        // Wait for DOM to be fully loaded, then initialize
+        document.addEventListener('DOMContentLoaded', init)
+    })()
 </script>
