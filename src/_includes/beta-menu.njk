@@ -1,5 +1,5 @@
 {# Beta menu - only shown on beta branch #}
-{% if gitInfo.branch == "beta" %}
+{% if gitInfo.branch != "main" %}
 	<div class="beta-menu">
 		<button class="beta-menu-toggle" aria-label="Toggle beta menu">
 			<span class="beta-label">BETA</span>
@@ -142,11 +142,16 @@
 			}
 
 			// Generate random color
-			const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0')
+			const randomColor = '#' + Math
+				.floor(Math.random() * 16777215)
+				.toString(16)
+				.padStart(6, '0')
 
 			// Create dummy artifact element
 			const dummyId = `dummy-artifact-${dummyCounter}`
-			const dummyDate = new Date().toISOString().split('T')[0]
+			const dummyDate = new Date()
+				.toISOString()
+				.split('T')[0]
 
 			const li = document.createElement('li')
 			li.className = 'artifact-item unclicked new'
@@ -172,8 +177,12 @@
 				link.addEventListener('click', (e) => {
 					e.preventDefault() // Don't navigate for dummy links
 					// Mark as clicked manually
-					li.classList.remove('unclicked')
-					li.classList.add('clicked')
+					li
+						.classList
+						.remove('unclicked')
+					li
+						.classList
+						.add('clicked')
 				})
 			}
 
@@ -184,12 +193,20 @@
 				const shadowColor = `${artifactColor}33`
 
 				link.addEventListener('mouseenter', () => {
-					logoContainer.style.setProperty('--logo-color', artifactColor)
-					logoContainer.style.setProperty('--logo-shadow-color', shadowColor)
+					logoContainer
+						.style
+						.setProperty('--logo-color', artifactColor)
+					logoContainer
+						.style
+						.setProperty('--logo-shadow-color', shadowColor)
 				})
 				link.addEventListener('mouseleave', () => {
-					logoContainer.style.setProperty('--logo-color', '')
-					logoContainer.style.setProperty('--logo-shadow-color', '')
+					logoContainer
+						.style
+						.setProperty('--logo-color', '')
+					logoContainer
+						.style
+						.setProperty('--logo-shadow-color', '')
 				})
 			}
 
