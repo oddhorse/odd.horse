@@ -71,7 +71,7 @@ layout: base
 	}
 
 	.artifact-item {
-		margin: 0 0;
+		margin: 0;
 		position: relative;
 		border: 1px solid var(--text-color);
 	}
@@ -92,13 +92,8 @@ layout: base
 	}
 
 	/* Hover changes to artifact's custom color */
-	.artifact-link:hover,
-	.artifact-item.clicked .artifact-link:hover {
-		color: var(--artifact-color, var(--link-hover-color));
-	}
-
-	/* When badge is hovered, also apply hover effect to the link */
-	.artifact-item:has(.artifact-badge:hover) .artifact-link {
+	.artifact-item.clicked .artifact-link:hover,
+	.artifact-link:hover {
 		color: var(--artifact-color, var(--link-hover-color));
 	}
 
@@ -130,7 +125,8 @@ layout: base
 	 * Bob: Wave up and down vertically
 	 */
 	@keyframes badge-pulse {
-		0%, 100% {
+		0%,
+		100% {
 			scale: 1;
 		}
 		50% {
@@ -139,7 +135,8 @@ layout: base
 	}
 
 	@keyframes badge-bob {
-		0%, 100% {
+		0%,
+		100% {
 			translate: 0 0;
 		}
 		50% {
@@ -167,11 +164,12 @@ layout: base
 		animation: badge-pulse 2s ease-in-out infinite, badge-bob 2s ease-in-out infinite;
 		user-select: none;
 		-webkit-user-select: none;
-		cursor: pointer;
+		cursor: default;
+		pointer-events: none;
 		transition: transform 0.2s ease;
 	}
 
-	.artifact-badge-new:hover,
+	/* Badge reacts when link is hovered (badge itself has pointer-events: none) */
 	.artifact-item:has(.artifact-link:hover) .artifact-badge-new {
 		transform: translate(50%, -50%) rotate(5deg) scale(1.2);
 		animation-play-state: paused;
@@ -199,11 +197,12 @@ layout: base
 		transform: translate(50%, -50%) rotate(5deg);
 		user-select: none;
 		-webkit-user-select: none;
-		cursor: pointer;
+		cursor: default;
+		pointer-events: none;
 		transition: transform 0.2s ease, color 0.2s ease;
 	}
 
-	.artifact-badge-clicked:hover,
+	/* Badge reacts when link is hovered (badge itself has pointer-events: none) */
 	.artifact-item:has(.artifact-link:hover) .artifact-badge-clicked {
 		transform: translate(50%, -50%) rotate(5deg) scale(1.1);
 		color: var(--text-color);
@@ -281,7 +280,7 @@ layout: base
 
 {# Artifact tracking - only used on homepage #}
 <script type="module">
-	import { initArtifactTracking, wipeClickData, refreshArtifactUI } from '/assets/js/artifacts.js'
+	import {initArtifactTracking, wipeClickData, refreshArtifactUI} from '/assets/js/artifacts.js'
 
 	// Initialize artifact tracking on page load
 	initArtifactTracking()
