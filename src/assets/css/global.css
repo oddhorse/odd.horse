@@ -293,182 +293,116 @@ header .logo-container {
 	--tagline-size: 1rem;
 }
 
-/* Navbar in header - aligned to right on desktop */
-header .navbar {
-	justify-content: flex-end;
-	column-gap: 1.3rem;
-	max-width: 100%;
-	line-height: 1;
-}
-
-header .navbar .navlink {
-	font-size: 2rem;
-}
-
-/* Mobile header: stack vertically, reduce sizes and spacing */
+/* Mobile header: reduce sizes and spacing */
 @media (max-width: 768px) {
 	header {
 		padding: 1rem;
 		padding-top: 0;
-		flex-direction: column;
-		gap: 0;
 	}
 
 	header .logo-container {
 		margin-bottom: 1rem;
-	}
-
-	header .navbar {
-		gap: 0.7rem;
-		justify-content: flex-start;
-	}
-
-	header .navbar a {
-		font-size: 1.5rem;
 	}
 }
 
 /* ===== 7. FOOTER ===== */
 
 /**
- * Footer with copyright info, GitHub link, beta notice
- * Always centered, small text, lighter color
- * Uses scoped --footer-font-size variable for consistent sizing
+ * Footer with social icons and modal trigger buttons
+ * Two rows: social icons on top, modal buttons below
+ * All centered, scales down on mobile
  */
 footer {
-	--footer-font-size: 0.75rem;
 	text-align: center;
-	font-size: var(--footer-font-size);
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
-	padding-top: 2rem;
+	align-items: center;
+	gap: 1.5rem;
+	padding: 2rem 1rem;
 }
 
-/* Footer paragraphs - override default paragraph styles */
-footer p {
-	margin: 0.25rem;
-	font-size: inherit;
-	color: var(--lighter-text-color);
-	letter-spacing: -0.03rem;
-}
-
-/* Footer links - inherit size and use lighter color */
-footer a {
-	color: inherit;
-	font-size: inherit;
-	text-decoration-color: var(--lighter-text-color);
-}
-
-/* GitHub icon hover effect - changes to accent color */
-footer a:hover .github-logo {
-	fill: var(--link-hover-color);
-}
-
-/* Beta branch notice - red text for high visibility */
-footer #beta-notice {
-	font-size: 0.9rem;
-	color: red;
-}
-
-/* GitHub logo inline with text - sized relative to font */
-footer .github-logo {
-	display: inline-block;
-	height: calc(var(--footer-font-size) * 1.2);
-	width: auto;
-	vertical-align: -18%;
-	fill: var(--lighter-text-color);
-}
-
-/* Mobile footer: slightly smaller text */
-@media (max-width: 768px) {
-	footer {
-		padding-top: 0.5rem;
-		font-size: 0.65rem;
-	}
-
-	footer #beta-notice {
-		font-size: 0.75rem;
-	}
-}
-
-/* ===== 8. NAVBAR ===== */
-
-/**
- * Button reset for navbar triggers
- * Navbar uses buttons instead of links for modal triggers
- * Reset all button styles to make them look like text links
- */
-button.navlink {
-	background: none;
-	border: none;
-	padding: 0;
-	font-family: inherit;
-	font-size: inherit;
-	cursor: pointer;
-	/* Override any browser default button styles */
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
-}
-
-/**
- * Navigation links with hover animations
- * Features:
- * - Scale up and translate on hover (bounce effect)
- * - Active page gets larger scale and slight padding
- * - Cubic-bezier timing creates playful bounce
- * - Each link has custom color via --navbar-link-color inline style
- *
- * The navbar.js script uses these styles to create the logo hover effect
- */
-.navbar {
+/* Footer social icons row */
+.footer-social-icons {
 	display: flex;
-	letter-spacing: -0.08rem;
+	gap: 1rem;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Individual social icon link */
+.footer-social-icon {
+	display: inline-block;
+	color: var(--text-color);
+	text-decoration: none;
+	transition: color var(--link-hover-transition-speed);
+}
+
+/* SVG inside social icon - sized at 1.5rem */
+.footer-social-icon svg {
+	width: 1.5rem;
+	height: 1.5rem;
+	display: block;
+}
+
+/* Hover effect for social icons */
+.footer-social-icon:hover {
+	color: var(--footer-icon-color, var(--link-hover-color));
+}
+
+/* Footer modal buttons row */
+.footer-modal-buttons {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+	justify-content: center;
 	flex-wrap: wrap;
 }
 
-.navlink {
+/* Individual footer button - similar to navbar buttons */
+.footer-button {
+	background: none;
+	border: none;
 	color: var(--text-color);
+	font-family: inherit;
+	font-size: 1rem;
+	cursor: pointer;
+	padding: 0.5rem 1rem;
 	text-decoration: none;
-	flex-grow: 0;
-	flex-shrink: 0;
-	transition:
-		color var(--link-hover-transition-speed),
-		transform var(--link-hover-transition-speed),
-		translate var(--link-hover-transition-speed),
-		padding var(--link-hover-transition-speed);
-	transition-timing-function: var(--link-hover-transition-timing-function);
+	transition: color var(--link-hover-transition-speed);
 }
 
-/* Hover effect: slight scale up and translate */
-.navlink:hover {
-	transform: scale(1.1);
-	translate: 0 -0.06rem;
+/* Hover effect for footer buttons */
+.footer-button:hover {
+	color: var(--footer-button-color, var(--link-hover-color));
 }
 
-/* Current page: larger scale and padding for emphasis */
-.navlink[aria-current="page"] {
-	transform: scale(1.2);
-	translate: 0 -0.07rem;
-	padding-left: calc(0.3rem + 0.05rem);
-	padding-right: calc(0.3rem + 0.05rem);
+/* Mobile footer: scale down to fit */
+@media (max-width: 768px) {
+	footer {
+		gap: 1rem;
+		padding: 1.5rem 0.5rem;
+	}
+
+	.footer-social-icons {
+		gap: 0.75rem;
+	}
+
+	.footer-social-icon svg {
+		width: 1.25rem;
+		height: 1.25rem;
+	}
+
+	.footer-modal-buttons {
+		gap: 0.75rem;
+	}
+
+	.footer-button {
+		font-size: 0.875rem;
+		padding: 0.4rem 0.75rem;
+	}
 }
 
-/* Both hover and current page: use custom navbar-link-color */
-.navlink:hover,
-.navlink[aria-current="page"] {
-	color: var(--navbar-link-color);
-}
-
-/* Hovering on current page: even bigger scale */
-.navlink:hover[aria-current="page"] {
-	color: var(--link-hover-color);
-	transform: scale(1.3);
-	translate: 0 -0.1rem;
-}
-
-/* ===== 9. BACKGROUND CONTAINER ===== */
+/* ===== 8. BACKGROUND CONTAINER ===== */
 
 /**
  * Fixed container for floating background elements
@@ -493,7 +427,7 @@ button.navlink {
 	opacity: 1;
 }
 
-/* ===== 10. LOGO CONTAINER ===== */
+/* ===== 9. LOGO CONTAINER ===== */
 
 /**
  * Logo container holds both text logo ("oddhorse") and SVG logo
@@ -564,13 +498,14 @@ button.navlink {
 	line-height: 1;
 	color: var(--lighter-text-color);
 	font-size: var(--tagline-size);
-	font-weight: normal; /* Override default h2 bold weight */
+	font-weight: normal;
+	/* Override default h2 bold weight */
 	translate: 0 calc(var(--tagline-size) / 2 * -1);
 	padding-left: var(--tagline-size);
 	cursor: pointer;
 }
 
-/* ===== 11. UTILITY CLASSES ===== */
+/* ===== 10. UTILITY CLASSES ===== */
 
 /**
  * .oddhorse-inline - special styling for "oddhorse" brand name in content
@@ -601,7 +536,7 @@ button.navlink {
 	width: 35rem;
 }
 
-/* ===== 12. ANIMATIONS ===== */
+/* ===== 11. ANIMATIONS ===== */
 
 /**
  * Float up and down animation
@@ -677,7 +612,7 @@ button.navlink {
 	animation: hoverwink var(--hoverwink-transition-speed) var(--hoverwink-transition-timing-function) reverse forwards;
 }
 
-/* ===== 13. MODAL SYSTEM ===== */
+/* ===== 12. MODAL SYSTEM ===== */
 
 /**
  * Modal overlay and content system
@@ -783,26 +718,26 @@ body.modal-open .modal-container {
 	scale: 1.4;
 }
 
-.modal-content#modal-contact > p:first-of-type {
+.modal-content#modal-contact>p:first-of-type {
 	margin-bottom: 3rem;
 	text-align: right;
 	margin-right: 10vw;
 	font-size: 3rem;
 }
 
-.modal-content#modal-contact > p:nth-of-type(2) {
+.modal-content#modal-contact>p:nth-of-type(2) {
 	margin-top: 1.5rem;
 	margin-bottom: 1.2rem;
 	margin-left: 32%;
 }
 
-.modal-content#modal-contact > p:nth-of-type(3) {
+.modal-content#modal-contact>p:nth-of-type(3) {
 	margin-top: 0.8rem;
 	margin-bottom: 1.6rem;
 	margin-left: 24%;
 }
 
-.modal-content#modal-contact > p:nth-of-type(4) {
+.modal-content#modal-contact>p:nth-of-type(4) {
 	margin-top: 1.3rem;
 	margin-bottom: 0.9rem;
 	margin-left: 8%;
@@ -855,14 +790,14 @@ body.modal-open .modal-container {
 		max-height: 90vh;
 	}
 
-	.modal-content#modal-contact > p:first-of-type {
+	.modal-content#modal-contact>p:first-of-type {
 		font-size: 2rem;
 		margin-right: 5vw;
 	}
 
-	.modal-content#modal-contact > p:nth-of-type(2),
-	.modal-content#modal-contact > p:nth-of-type(3),
-	.modal-content#modal-contact > p:nth-of-type(4) {
+	.modal-content#modal-contact>p:nth-of-type(2),
+	.modal-content#modal-contact>p:nth-of-type(3),
+	.modal-content#modal-contact>p:nth-of-type(4) {
 		margin-left: 10%;
 	}
 }

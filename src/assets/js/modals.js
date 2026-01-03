@@ -2,12 +2,12 @@
  * modals.js
  * Handles modal open/close functionality and logo hover integration
  *
- * Modals are triggered by navbar buttons and can be closed via:
+ * Modals are triggered by footer buttons and can be closed via:
  * - Close button click
  * - Clicking outside modal container
  * - Escape key press
  *
- * Links inside modals trigger the same logo color change effect as navbar links
+ * Links inside modals trigger the same logo color change effect as footer links
  * (integrated with navbar.js logo hover system)
  */
 
@@ -93,27 +93,23 @@ export function setupModals() {
 		}
 	})
 
-	// Set up navbar buttons to open modals
-	const contactButton = document.querySelector('[data-modal-trigger="contact"]')
-	const linksButton = document.querySelector('[data-modal-trigger="links"]')
+	// Set up modal trigger buttons (from footer)
+	// Use generic selector to work anywhere on page
+	const modalTriggers = document.querySelectorAll('[data-modal-trigger]')
 
-	if (contactButton) {
-		contactButton.addEventListener('click', (e) => {
-			e.preventDefault()
-			openModal('modal-contact')
-		})
-	}
+	modalTriggers.forEach((trigger) => {
+		const modalId = trigger.getAttribute('data-modal-trigger')
 
-	if (linksButton) {
-		linksButton.addEventListener('click', (e) => {
+		trigger.addEventListener('click', (e) => {
 			e.preventDefault()
-			openModal('modal-links')
+			// Convert trigger ID to full modal ID (e.g., 'stream' → 'modal-stream')
+			openModal(`modal-${modalId}`)
 		})
-	}
+	})
 }
 
 /**
- * Set up logo color change for modal links
+ * Set up logo color change for modal links, footer icons, and footer buttons
  * This integrates with the existing navbar.js logo hover system
  * Called from navbar.js setupNavbar() function
  *
@@ -142,6 +138,56 @@ export function setupModalLinkHovers(logoContainer) {
 
 		// On mouse leave, reset to default (page color)
 		link.addEventListener('mouseleave', () => {
+			logoContainer.style.setProperty('--logo-color', '')
+			logoContainer.style.setProperty('--logo-shadow-color', '')
+		})
+	}
+
+	// Handle footer social icons
+	const footerIcons = document.querySelectorAll('.footer-social-icon')
+
+	for (const icon of footerIcons) {
+		// Get the custom color for this specific icon
+		const iconColor = getComputedStyle(icon)
+			.getPropertyValue('--footer-icon-color')
+			.trim()
+
+		// Create semi-transparent shadow color
+		const shadowColor = `${iconColor}33`
+
+		// On hover, change logo to match icon color
+		icon.addEventListener('mouseenter', () => {
+			logoContainer.style.setProperty('--logo-color', iconColor)
+			logoContainer.style.setProperty('--logo-shadow-color', shadowColor)
+		})
+
+		// On mouse leave, reset to default
+		icon.addEventListener('mouseleave', () => {
+			logoContainer.style.setProperty('--logo-color', '')
+			logoContainer.style.setProperty('--logo-shadow-color', '')
+		})
+	}
+
+	// Handle footer modal buttons
+	const footerButtons = document.querySelectorAll('.footer-button')
+
+	for (const button of footerButtons) {
+		// Get the custom color for this specific button
+		const buttonColor = getComputedStyle(button)
+			.getPropertyValue('--footer-button-color')
+			.trim()
+
+		// Create semi-transparent shadow color
+		const shadowColor = `${buttonColor}33`
+
+		// On hover, change logo to match button color
+		button.addEventListener('mouseenter', () => {
+			logoContainer.style.setProperty('--logo-color', buttonColor)
+			logoContainer.style.setProperty('--logo-shadow-color', shadowColor)
+		})
+
+		// On mouse leave, reset to default
+		button.addEventListener('mouseleave', () => {
 			logoContainer.style.setProperty('--logo-color', '')
 			logoContainer.style.setProperty('--logo-shadow-color', '')
 		})

@@ -22,18 +22,38 @@
 				<a href="{{ links.instagram.url }}" target="_blank" class="modal-link" style="--modal-link-color: {{ links.instagram.color }};">there too</a>!</p>
 		</div>
 
-		{# Links Modal Content #}
-		<div class="modal-content" id="modal-links" data-modal-color="#1db954">
-			<h1>links</h1>
+		{# Stream Modal Content - Streaming platforms #}
+		<div class="modal-content" id="modal-stream" data-modal-color="#1db954">
+			<h1>stream!</h1>
 
 			<ul class="links-list">
 			{% for name, data in links %}
+				{% if name == "spotify" or name == "apple music" or name == "soundcloud" or name == "nina protocol" %}
 				<li>
 					<a href="{{ data.url }}" target="_blank" rel="noopener noreferrer" class="modal-link" style="--modal-link-color: {{ data.color }};">
 						<span class="link-icon">{{ data.icon }}</span>
 						<span class="link-name">{{ name }}</span>
 					</a>
 				</li>
+				{% endif %}
+			{% endfor %}
+			</ul>
+		</div>
+
+		{# Socials Modal Content - Social media platforms #}
+		<div class="modal-content" id="modal-socials" data-modal-color="#e4405f">
+			<h1>socials</h1>
+
+			<ul class="links-list">
+			{% for name, data in links %}
+				{% if name == "instagram" or name == "youtube" or name == "tiktok" %}
+				<li>
+					<a href="{{ data.url }}" target="_blank" rel="noopener noreferrer" class="modal-link" style="--modal-link-color: {{ data.color }};">
+						<span class="link-icon">{{ data.icon }}</span>
+						<span class="link-name">{{ name }}</span>
+					</a>
+				</li>
+				{% endif %}
 			{% endfor %}
 			</ul>
 		</div>

@@ -28,5 +28,10 @@
 		"color": "#ff0000",
 		"icon": "📹",
 		"url": "https://www.youtube.com/@oddhorse"
+	},
+	"tiktok": {
+		"color": "#f8034d",
+		"icon": "🎵",
+		"url": "https://www.tiktok.com/@oddhorse"
 	}
 }

@@ -157,10 +157,12 @@ export default async function (eleventyConfig) {
 	 * CSS: Plain CSS, no SCSS compilation needed
 	 * JS: ES modules loaded natively by browser
 	 * Favicons: Copied as-is
+	 * Icons: SVG icons for social links
 	 */
 	eleventyConfig.addPassthroughCopy('src/assets/css')
 	eleventyConfig.addPassthroughCopy('src/assets/js')
 	eleventyConfig.addPassthroughCopy('src/assets/favicon')
+	eleventyConfig.addPassthroughCopy('src/assets/icons')
 
 	/**
 	 * Watch for changes in assets during development

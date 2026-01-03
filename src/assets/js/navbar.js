@@ -2,48 +2,25 @@
  * navbar.js
  * Handles hover effects that change the logo color
  *
- * Navbar links have --navbar-link-color, artifact links have --artifact-color.
- * When hovering over any link, the logo's --logo-color variable is updated
- * to match that link's color. The logo SVG uses fill="currentColor" to
- * inherit this color dynamically.
+ * Artifact links have --artifact-color. When hovering over any link,
+ * the logo's --logo-color variable is updated to match that link's color.
+ * The logo SVG uses fill="currentColor" to inherit this color dynamically.
  *
  * This creates the signature odd.horse effect where the logo changes color
  * as you hover over different links throughout the site.
+ *
+ * Also integrates with modals.js to set up footer and modal link hover effects.
  */
 
 import { setupModalLinkHovers } from './modals.js'
 
 /**
- * Set up hover effects for navbar and artifact links
+ * Set up hover effects for artifact links and integrate modal/footer link hovers
  * Attaches mouseenter/mouseleave handlers to change logo color on hover
  */
 export function setupNavbar() {
 	const logoContainer = document.querySelector('.logo-container')
 	if (!logoContainer) return
-
-	// Handle navbar links (use --navbar-link-color)
-	const navlinks = document.querySelectorAll('.navlink')
-	for (const link of navlinks) {
-		// Get the color defined for this specific navbar link
-		const navlinkColor = getComputedStyle(link)
-			.getPropertyValue('--navbar-link-color')
-			.trim()
-
-		// Create semi-transparent shadow color (33 = 20% opacity in hex)
-		const shadowColor = `${navlinkColor}33`
-
-		// On hover, change logo to match navbar link color
-		link.addEventListener('mouseenter', () => {
-			logoContainer.style.setProperty('--logo-color', navlinkColor)
-			logoContainer.style.setProperty('--logo-shadow-color', shadowColor)
-		})
-
-		// On mouse leave, reset to default (page color)
-		link.addEventListener('mouseleave', () => {
-			logoContainer.style.setProperty('--logo-color', '') // Reset to default
-			logoContainer.style.setProperty('--logo-shadow-color', '')
-		})
-	}
 
 	// Handle artifact links (use --artifact-color)
 	const artifactLinks = document.querySelectorAll('.artifact-link')
