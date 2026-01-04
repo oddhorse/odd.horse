@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+###############################################################################
+# SessionStart Hook - Eleventy Development Server
+###############################################################################
+# This hook runs when a new Claude Code session starts in this project.
+# It automatically starts the Eleventy dev server in the background.
+#
+# What it does:
+# 1. Checks if dev server is already running (port 8080)
+# 2. If not running, starts `npm run serve` in background
+# 3. Saves the PID to .dev-server.pid for cleanup later
+# 4. Waits for server to be ready before continuing
+#
+# This ensures the dev server is always available when you start working.
+###############################################################################
+
+# Color output helpers
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# Path to PID file (stores the background process ID)
+PID_FILE="/Users/bear/Desktop/ODDHORSE SITE/.dev-server.pid"
+PORT=8080
+
+echo -e "${GREEN}[SessionStart Hook]${NC} Checking Eleventy dev server..."
+
+# Check if server is already running on port 8080
+if lsof -Pi :$PORT -sTCP:LISTEN -t >/dev/null 2>&1; then
+    echo -e "${YELLOW}Dev server already running on port $PORT${NC}"
+    exit 0
+fi
+
+# Start dev server in background
+echo -e "${GREEN}Starting Eleventy dev server...${NC}"
+cd "/Users/bear/Desktop/ODDHORSE SITE"
+
+# Start server in background, redirect output to log file
+nohup npm run serve > .dev-server.log 2>&1 &
+SERVER_PID=$!
+
+# Save PID for cleanup in SessionEnd hook
+echo $SERVER_PID > "$PID_FILE"
+
+echo -e "${GREEN}Dev server started (PID: $SERVER_PID)${NC}"
+echo -e "${YELLOW}Waiting for server to be ready...${NC}"
+
+# Wait for server to start (max 30 seconds)
+for i in {1..30}; do
+    if lsof -Pi :$PORT -sTCP:LISTEN -t >/dev/null 2>&1; then
+        echo -e "${GREEN}✓ Dev server ready at http://localhost:$PORT${NC}"
+        exit 0
+    fi
+    sleep 1
+done
+
+echo -e "${YELLOW}Warning: Server may still be starting. Check .dev-server.log if issues occur.${NC}"
+exit 0

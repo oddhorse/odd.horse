@@ -25,3 +25,7 @@ dist-ssr
 
 unused
 .htaccess
+
+# Claude Code hooks generated files
+.dev-server.pid
+.dev-server.log

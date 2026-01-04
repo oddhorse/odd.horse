@@ -258,7 +258,8 @@ layout: base
 
 <main>
 	<ul class="artifact-list">
-		{% for artifact in artifacts | reverse %}
+		{# Sort artifacts by date, newest first #}
+		{% for artifact in artifacts | sort(reverse=true, attribute='dateAdded') %}
 			<li class="artifact-item"
 				data-artifact-id="{{ artifact.id }}"
 				data-date-added="{{ artifact.dateAdded }}">
