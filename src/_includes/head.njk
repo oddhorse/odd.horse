@@ -18,9 +18,13 @@
 
     {# Main stylesheet - plain CSS with modern features #}
     <link rel="stylesheet" href="/assets/css/main.css">
+    {# add bundled css #}
+    {% getBundle "css" %}
 
     {# Main JavaScript - ES module with navbar, colors, artifact tracking #}
     <script type="module" src="/assets/js/main.js"></script>
+    {# add bundled js #}
+    {% getBundle "js" %}
 
     {# Set page color variable - defaults to black if not defined #}
     <script>
