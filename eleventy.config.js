@@ -10,6 +10,7 @@
 
 // ===== IMPORTS =====
 import { eleventyImageTransformPlugin } from '@11ty/eleventy-img'
+import eleventyPluginBundle from '@11ty/eleventy-plugin-bundle'
 import { DateTime } from 'luxon'
 import markdownIt from 'markdown-it'
 import markdownItAnchor from 'markdown-it-anchor'
@@ -50,6 +51,13 @@ export default async function (eleventyConfig) {
 	eleventyConfig.addPassthroughCopy({ 'src/site.webmanifest': 'site.webmanifest' })
 
 	// ===== PLUGINS =====
+
+	/**
+	 * Bundle plugin
+	 * Extracts inline <style> and <script> tags from templates
+	 * Bundles them into consolidated CSS/JS files for cleaner output
+	 */
+	eleventyConfig.addPlugin(eleventyPluginBundle)
 
 	/**
 	 * Image optimization plugin
