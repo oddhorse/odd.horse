@@ -30,6 +30,7 @@ version 5 was trying to be a single page app lmao
 [ ] add/investigate existing content security policy <https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP>
 [ ] add prefetch rules for subpages <https://developer.mozilla.org/en-US/docs/Web/API/Speculation_Rules_API>
 [ ] add styling for blog posts
+[ ] rhythm game
 
 ## credits
 
