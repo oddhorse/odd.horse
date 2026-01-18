@@ -19,12 +19,12 @@
     {# Main stylesheet - plain CSS with modern features #}
     <link rel="stylesheet" href="/assets/css/main.css">
     {# add bundled css #}
-    {% getBundle "css" %}
+    <style>{% getBundle "css" %}</style>
 
     {# Main JavaScript - ES module with navbar, colors, artifact tracking #}
     <script type="module" src="/assets/js/main.js"></script>
-    {# add bundled js #}
-    {% getBundle "js" %}
+    {# add bundled js - must be module for import support #}
+    <script type="module">{% getBundle "js" %}</script>
 
     {# Set page color variable - defaults to black if not defined #}
     <script>

@@ -26,7 +26,8 @@ No test suite or linting is currently configured.
 
 - **11ty** handles static site generation with Nunjucks templating
 - **Plain CSS** - no preprocessing, uses modern browser features natively
-- **ES Modules** - JavaScript loaded natively by browser, no bundling
+- **ES Modules** - JavaScript loaded natively by browser
+- **11ty Bundle Plugin** - Consolidates inline `{% css %}` and `{% js %}` blocks into single output
 - **eleventy.config.js** contains the main configuration including:
   - Direct asset copying (CSS and JS copied to dist as-is)
   - Image optimization with multiple formats (WebP, SVG, JPEG)
@@ -79,7 +80,7 @@ No test suite or linting is currently configured.
 - **GitHub Actions** handle automated deployment
 - **Main branch** → Production server via SSH/rsync
 - **Beta branch** → Beta server for testing
-- No build-time asset processing - browser handles modern CSS/JS natively
+- Inline CSS/JS bundled at build time via 11ty bundle plugin
 
 ## Code Standards
 
@@ -358,3 +359,86 @@ Put JavaScript inline with `<script type="module">` in templates when it is:
 
 - Image optimization with multiple formats and responsive sizes
 - Font loading optimization with custom font files (Karrik typeface)
+
+## Technology Gotchas
+
+### 11ty Bundle Plugin (`@11ty/eleventy-plugin-bundle`)
+
+The bundle plugin concatenates `{% css %}` and `{% js %}` blocks from templates into consolidated output. Critical gotchas when using it:
+
+#### 1. `{% getBundle %}` outputs content only, not wrapper tags
+
+```njk
+{# WRONG - getBundle already outputs raw content #}
+{% getBundle "js" %}
+
+{# RIGHT - you provide the wrapper tags #}
+<style>{% getBundle "css" %}</style>
+<script type="module">{% getBundle "js" %}</script>
+```
+
+#### 2. Use `type="module"` if any bundled code uses `import`
+
+Bundled JS runs in a regular `<script>` by default. If ANY `{% js %}` block uses ES module syntax (`import`/`export`), you MUST use `type="module"`:
+
+```njk
+{# In head.njk #}
+<script type="module">{% getBundle "js" %}</script>
+```
+
+Without this, you'll get: `SyntaxError: Cannot use import statement outside a module`
+
+#### 3. Bundled scripts in `<head>` run before DOM exists
+
+Unlike `<script type="module">` (which defers automatically), bundled code in regular `<script>` tags executes immediately. Any code that queries DOM elements must wait for DOMContentLoaded:
+
+```javascript
+{% js %}
+// WRONG - runs before <body> exists
+const btn = document.querySelector('.my-button')
+btn.addEventListener('click', ...) // ERROR: btn is null
+
+// RIGHT - wait for DOM
+document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.querySelector('.my-button')
+    btn.addEventListener('click', ...)
+})
+{% endjs %}
+```
+
+#### 4. Defensive semicolons for IIFEs
+
+When multiple `{% js %}` blocks are concatenated, missing semicolons cause syntax errors. A block ending with `})` followed by one starting with `(` parses as a function call:
+
+```javascript
+// Block 1 ends:
+})
+// Block 2 starts immediately:
+(() => { ... })()
+
+// JavaScript sees: })(() => { ... })()
+// Tries to call undefined as a function!
+```
+
+**Fix:** Always start IIFEs with a defensive semicolon:
+
+```javascript
+{% js %}
+;(() => {
+    // your code
+})()
+{% endjs %}
+```
+
+#### 5. Buckets for organizing bundles
+
+Use named buckets to separate code that needs different handling:
+
+```njk
+{% js "defer" %}
+// Code that can load later
+{% endjs %}
+
+{# In layout, at end of body: #}
+<script>{% getBundle "js", "defer" %}</script>
+```

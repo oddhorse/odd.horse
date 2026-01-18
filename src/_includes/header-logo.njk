@@ -7,7 +7,7 @@
     <h2 id="tagline" style="opacity: 0;" class="hoverwink">is him!</h2>
 </div>
 
-<script type="module">
+{% js %}
     /**
  * Tagline rotation system
  * Cycles through random taglines with bounce animation
@@ -15,7 +15,7 @@
  * - Click tagline to cycle manually and reset timer
  * - Isolated in IIFE to avoid global scope pollution
  */
-    (() => {
+    ;(() => {
         // ===== CONSTANTS =====
         const ROTATION_INTERVAL_MS = 10000 // 10 seconds between auto-rotations
 
@@ -163,4 +163,4 @@
         // Wait for DOM to be fully loaded, then initialize
         document.addEventListener('DOMContentLoaded', init)
     })()
-</script>
+{% endjs %}

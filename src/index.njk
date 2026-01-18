@@ -4,7 +4,7 @@ layout: base
 ---
 
 {# Page-specific styles for homepage layout #}
-<style>
+{% css %}
 	/* Body layout - flexbox container for vertical centering */
 	body {
 		display: flex;
@@ -246,7 +246,7 @@ layout: base
 			width: 4rem;
 		}
 	}
-</style>
+{% endcss %}
 
 {# Beta menu - only shows on beta branch #}
 {% include "beta-menu.njk" %}
@@ -280,7 +280,7 @@ layout: base
 </main>
 
 {# Artifact tracking - only used on homepage #}
-<script type="module">
+{% js %}
 	import {initArtifactTracking, wipeClickData, refreshArtifactUI} from '/assets/js/artifacts.js'
 
 	// Initialize artifact tracking on page load
@@ -289,7 +289,7 @@ layout: base
 	// Expose functions to window for debugging and beta menu access
 	window.wipeClickData = wipeClickData
 	window.refreshArtifactUI = refreshArtifactUI
-</script>
+{% endjs %}
 
 {% include "footer.njk" %}
 

@@ -2,7 +2,7 @@
 
 <canvas id="background"></canvas>
 
-<style>
+{% css %}
     #background {
         /* places bg under everything, takes up whole page */
         position: absolute;
@@ -23,9 +23,9 @@
         opacity: 0;
         transition: opacity 2s ease-in-out;
     }
-</style>
+{% endcss %}
 
-<script type="module">
+{% js %}
     /* background — isolated ES‑module to avoid globals and build‑time interference */
 
     const canvas = document.getElementById("background");
@@ -252,7 +252,7 @@
         }
 
     })();
-</script>
+{% endjs %}
 
 {#
 <!-- Horse of the Day snippet (oddhorse) – fully self‑contained and Eleventy‑img‑safe -->
