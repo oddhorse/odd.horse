@@ -20,15 +20,23 @@
 		"description": "horsecube.pdf",
 		"url": "/artifacts/horsecube.pdf",
 		"type": "pdf",
-		"dateAdded": "2025-12-25",
+		"dateAdded": "2026-01-18",
 		"color": "#6369bb"
 	},
 	{
-		"id": "soccer-shiny-card",
-		"description": "soccer shiny card",
-		"url": "/artifacts/soccer-shiny-card.njk",
-		"type": "page",
-		"dateAdded": "2025-12-28",
+		"id": "toogetherrr-link",
+		"description": "LAST NORMAL SONG",
+		"url": "https://too.fm/oddhorse-toogetherrr",
+		"type": "link",
+		"dateAdded": "2026-01-19",
+		"color": "#d76aff"
+	},
+	{
+		"id": "so-far-from-home",
+		"description": "an underrated album",
+		"url": "https://too.fm/oddhorse-sffh",
+		"type": "link",
+		"dateAdded": "2026-01-27",
 		"color": "#d76aff"
 	}
 ]
