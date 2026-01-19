@@ -1,0 +1,44 @@
+---
+title: treats
+color: "#d76aff"
+layout: base
+#tags: main
+---
+
+{% css %}
+main {
+    /* center elements horiz */
+    margin: auto;
+    width: fit-content;
+    height: fit-content;
+
+    flex: 0;
+}
+
+.logo-container {
+    --logo-size: 6rem;
+}
+
+
+.more {
+    text-align: center;
+
+    a {
+        color: var(--lighter-text-color);
+        font-size: 1rem;
+    }
+}
+{% endcss %}
+
+<main>
+    <link rel="stylesheet" href="/assets/css/pages/treats.scss">
+    <a href="/" class="logo-link logo-container">
+        {% include "icons/OH-thick.svg" %}
+    </a>
+    {% include "mailchimp.njk" %}
+    <p class="more">
+        <a href="/" >
+        ...click for more oddhorse !
+    </a>
+    </p>
+</main>

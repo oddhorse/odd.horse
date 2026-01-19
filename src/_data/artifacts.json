@@ -8,6 +8,14 @@
 		"color": "#ff00bb"
 	},
 	{
+		"id": "treats",
+		"description": "tap in for treats 📲",
+		"url": "/treats",
+		"type": "link",
+		"dateAdded": "2026-01-30",
+		"color": "#ff00bb"
+	},
+	{
 		"id": "blog-1",
 		"description": "on the cusp",
 		"url": "/artifacts/on-the-cusp",
@@ -33,7 +41,7 @@
 	},
 	{
 		"id": "so-far-from-home",
-		"description": "an underrated album",
+		"description": "underrated album (old!)",
 		"url": "https://too.fm/oddhorse-sffh",
 		"type": "link",
 		"dateAdded": "2026-01-27",
