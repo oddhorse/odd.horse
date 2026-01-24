@@ -19,18 +19,25 @@ version 5 was trying to be a single page app lmao
 
 ## to-do
 
+### before first release
+
 [ ] hardcode artifact urls to not have a subfolder.
 [ ] make new layout page for artifacts that just embeds the head in there with no header/whatever, in case we need to make artifacts that are actual pages themselves
-[ ] investigate changing template syntax to webc instead of njk.
 [ ] spiffy up the head declaration. tell me what needs to be added to make it as complete as possible.
+[ ] add/investigate existing content security policy <https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP>
+[ ] add prefetch rules for subpages <https://developer.mozilla.org/en-US/docs/Web/API/Speculation_Rules_API>
+[ ] add styling for blog posts
+[ ] add stampede button to list of artifacts
+[ ] finish mouseover effects and onclick audio snippets for each letter in header logo
+
+### bigger fish
+
+[ ] investigate changing template syntax to webc instead of njk.
 [ ] streaming link icons that, on mouseover, change randomdistortions put on them
 [ ] every letter on oddhorse has mouseover and bounces up and down and says something when you click on it
 [ ] notification opt-in for new updates
 [ ] guestbook
-[ ] add/investigate existing content security policy <https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP>
-[ ] add prefetch rules for subpages <https://developer.mozilla.org/en-US/docs/Web/API/Speculation_Rules_API>
-[ ] add styling for blog posts
-[ ] rhythm game
+[ ] osu!mania-style rhythm game (vertical scrolling, multiple lanes, timing-based)
 
 ## credits
 
