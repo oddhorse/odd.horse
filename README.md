@@ -27,14 +27,16 @@ version 5 was trying to be a single page app lmao
 [ ] add/investigate existing content security policy <https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP>
 [ ] add prefetch rules for subpages <https://developer.mozilla.org/en-US/docs/Web/API/Speculation_Rules_API>
 [ ] add styling for blog posts
+[ ] streaming link icons that, on mouseover, change randomdistortions put on them
 [ ] add stampede button to list of artifacts
 [ ] finish mouseover effects and onclick audio snippets for each letter in header logo
+[ ] custom cursor
+[ ] fix mobile artifact list width
 
 ### bigger fish
 
 [ ] investigate changing template syntax to webc instead of njk.
-[ ] streaming link icons that, on mouseover, change randomdistortions put on them
-[ ] every letter on oddhorse has mouseover and bounces up and down and says something when you click on it
+
 [ ] notification opt-in for new updates
 [ ] guestbook
 [ ] osu!mania-style rhythm game (vertical scrolling, multiple lanes, timing-based)
