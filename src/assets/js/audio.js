@@ -7,6 +7,7 @@
 let audioCtx = null
 let masterGain = null
 const buffers = new Map() // key -> AudioBuffer
+const activeSources = new Map() // key -> current AudioBufferSourceNode
 
 /**
  * loads a piece of audio from given ogg/mp3 locations given browser capabilities
@@ -20,28 +21,6 @@ export function initAudioCtx() {
 	masterGain.gain.value = 1
 	masterGain.connect(audioCtx.destination)
 	return audioCtx
-}
-
-export function setupAudio() {
-	// Initialize AudioContext lazily and arrange a first-user-gesture preload
-	initAudioCtx()
-
-	function onceLoad() {
-		document.removeEventListener('pointerdown', onceLoad)
-		// preload under key 'click'
-		loadAudio('click', ['/assets/audio/click.ogg', '/assets/audio/click.mp3']).catch(() => { })
-	}
-	document.addEventListener('pointerdown', onceLoad, { once: true })
-
-	//[TODO] remove/use for audio playback registration code
-	// central click handler for logo playback
-	const logo = document.querySelector('.logo-link')
-	if (logo) {
-		logo.addEventListener('click', async () => {
-			try { await resumeAudio() } catch (e) { }
-			playAudio('click')
-		})
-	}
 }
 
 /**
@@ -77,12 +56,37 @@ export function playAudio(key, { volume = 0.6 } = {}) {
 	if (!audioCtx) initAudioCtx()
 	const buf = buffers.get(key)
 	if (!buf) return
+	// If there's already a source for this key, stop it so the sound restarts
+	if (activeSources.has(key)) {
+		try {
+			const prev = activeSources.get(key)
+			prev.stop()
+		} catch (e) {
+			// ignore
+		}
+		activeSources.delete(key)
+	}
+
 	const src = audioCtx.createBufferSource()
 	src.buffer = buf
 	const gain = audioCtx.createGain()
 	gain.gain.value = volume
 	src.connect(gain).connect(masterGain)
+	// remove reference when finished
+	src.onended = () => {
+		if (activeSources.get(key) === src) activeSources.delete(key)
+	}
 	src.start(0)
+	activeSources.set(key, src)
+}
+
+export function stopAudio(key) {
+	if (!audioCtx) return
+	const src = activeSources.get(key)
+	if (src) {
+		try { src.stop() } catch (e) { }
+		activeSources.delete(key)
+	}
 }
 
 /**

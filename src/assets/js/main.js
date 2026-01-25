@@ -14,10 +14,8 @@
 import { defineColors } from './colors.js'
 import { setupNavbar } from './navbar.js'
 import { setupModals } from './modals.js'
-import { setupAudio } from './audio.js'
+import { initAudioCtx, loadAudio, playAudio, resumeAudio } from './audio.js'
 import { initHeaderLogo } from './header-logo.js'
-
-
 
 /**
  * Initialize all site functionality when DOM is ready
@@ -27,6 +25,23 @@ document.addEventListener('DOMContentLoaded', () => {
 	defineColors()
 	setupModals()
 	initHeaderLogo()
-	// call centralized audio setup
-	setupAudio()
+
+	// Initialize audio context
+	initAudioCtx()
+
+	// Preload audio on first user gesture
+	function onceLoad() {
+		document.removeEventListener('pointerdown', onceLoad)
+		loadAudio('wheel-of-fortune', ['/assets/audio/yeah-thats-it.ogg', '/assets/audio/yeah-thats-it.mp3']).catch(() => { })
+	}
+	document.addEventListener('pointerdown', onceLoad, { once: true })
+
+	// Wire logo click to play audio
+	const logo = document.querySelector('.logo-link')
+	if (logo) {
+		logo.addEventListener('click', async () => {
+			try { await resumeAudio() } catch (e) { }
+			playAudio('wheel-of-fortune')
+		})
+	}
 })

@@ -46,6 +46,7 @@ export default async function (eleventyConfig) {
 	 */
 	eleventyConfig.addPassthroughCopy('src/assets/fonts')
 	eleventyConfig.addPassthroughCopy('src/assets/images')
+	eleventyConfig.addPassthroughCopy('src/assets/audio')
 	eleventyConfig.addPassthroughCopy({ 'src/artifacts': 'artifacts' })
 	eleventyConfig.addPassthroughCopy({ 'src/site.webmanifest': 'site.webmanifest' })
 
