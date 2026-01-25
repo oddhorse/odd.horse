@@ -472,6 +472,9 @@ footer {
 	transition: text-shadow var(--link-hover-transition-speed);
 	transition-timing-function: var(--link-hover-transition-timing-function);
 	text-shadow: calc(var(--logo-size) / 2) 0px calc(var(--logo-size) * 0.5) var(--logo-shadow-color);
+	display: inline-flex;
+	gap: 0;
+	align-items: baseline;
 }
 
 /* Individual letter spans - must be inline-block for transforms to work */

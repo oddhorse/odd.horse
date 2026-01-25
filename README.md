@@ -21,6 +21,7 @@ version 5 was trying to be a single page app lmao
 
 ### before first release
 
+[ ] make open in new tab functionality optional
 [ ] hardcode artifact urls to not have a subfolder.
 [ ] make new layout page for artifacts that just embeds the head in there with no header/whatever, in case we need to make artifacts that are actual pages themselves
 [ ] spiffy up the head declaration. tell me what needs to be added to make it as complete as possible.

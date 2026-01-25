@@ -14,6 +14,10 @@
 import { defineColors } from './colors.js'
 import { setupNavbar } from './navbar.js'
 import { setupModals } from './modals.js'
+import { setupAudio } from './audio.js'
+import { initHeaderLogo } from './header-logo.js'
+
+
 
 /**
  * Initialize all site functionality when DOM is ready
@@ -22,4 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	setupNavbar()
 	defineColors()
 	setupModals()
+	initHeaderLogo()
+	// call centralized audio setup
+	setupAudio()
 })
