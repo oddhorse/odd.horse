@@ -33,11 +33,12 @@ version 5 was trying to be a single page app lmao
 [ ] custom cursor
 [ ] fix mobile artifact list width
 
-### bigger fish
+[ ] investigate util.js usage and remove if unused.
 
-[ ] investigate changing template syntax to webc instead of njk.
+### bigger fish and also things i'm kicking down the roooooadddd
 
 [ ] notification opt-in for new updates
+[ ] further consolidate files and improve structure. too cluttered and big for such a small site!!!
 [ ] guestbook
 [ ] osu!mania-style rhythm game (vertical scrolling, multiple lanes, timing-based)
 

@@ -4,7 +4,7 @@ layout: base
 ---
 
 {# Page-specific styles for homepage layout #}
-{% css %}
+<style>
 	/* Body layout - flexbox container for vertical centering */
 	body {
 		display: flex;
@@ -246,7 +246,7 @@ layout: base
 			width: 4rem;
 		}
 	}
-{% endcss %}
+</style>
 
 {# Beta menu - only shows on beta branch #}
 {% include "beta-menu.njk" %}
@@ -259,7 +259,7 @@ layout: base
 <main>
 	<ul class="artifact-list">
 		{# Sort artifacts by date, newest first #}
-		{% for artifact in artifacts | sort(reverse=true, attribute='dateAdded') %}
+		{% for artifact in artifacts | sort(reverse = true, attribute = 'dateAdded') %}
 			<li class="artifact-item"
 				data-artifact-id="{{ artifact.id }}"
 				data-date-added="{{ artifact.dateAdded }}">
@@ -280,7 +280,7 @@ layout: base
 </main>
 
 {# Artifact tracking - only used on homepage #}
-{% js %}
+<script type="module">
 	import {initArtifactTracking, wipeClickData, refreshArtifactUI} from '/assets/js/artifacts.js'
 
 	// Initialize artifact tracking on page load
@@ -289,7 +289,7 @@ layout: base
 	// Expose functions to window for debugging and beta menu access
 	window.wipeClickData = wipeClickData
 	window.refreshArtifactUI = refreshArtifactUI
-{% endjs %}
+</script>
 
 {% include "footer.njk" %}
 

@@ -27,7 +27,7 @@ No test suite or linting is currently configured.
 - **11ty** handles static site generation with Nunjucks templating
 - **Plain CSS** - no preprocessing, uses modern browser features natively
 - **ES Modules** - JavaScript loaded natively by browser
-- **11ty Bundle Plugin** - Consolidates inline `{% css %}` and `{% js %}` blocks into single output
+- **11ty Bundle Plugin** - Consolidates inline `<style>` and `{% js %}` blocks into single output
 - **eleventy.config.js** contains the main configuration including:
   - Direct asset copying (CSS and JS copied to dist as-is)
   - Image optimization with multiple formats (WebP, SVG, JPEG)
@@ -364,7 +364,7 @@ Put JavaScript inline with `<script type="module">` in templates when it is:
 
 ### 11ty Bundle Plugin (`@11ty/eleventy-plugin-bundle`)
 
-The bundle plugin concatenates `{% css %}` and `{% js %}` blocks from templates into consolidated output. Critical gotchas when using it:
+The bundle plugin concatenates `<style>` and `{% js %}` blocks from templates into consolidated output. Critical gotchas when using it:
 
 #### 1. `{% getBundle %}` outputs content only, not wrapper tags
 

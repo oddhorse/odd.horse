@@ -1,5 +1,7 @@
 /**
  * util.js
+ * NOTE: This file appears unused in the current codebase. Keep for now but consider removing.
+ * TODO: Verify usage and remove if unused. Add to README to-do list.
  * General utility functions for DOM manipulation, random numbers, and device detection
  */
 
