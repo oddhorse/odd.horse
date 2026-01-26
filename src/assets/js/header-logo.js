@@ -16,6 +16,7 @@
  *   as a plain script; it only runs when the DOM is ready.
  */
 
+import { resumeAudio, playAudio } from './audio.js'
 
 // ===== CONSTANTS =====
 const ROTATION_INTERVAL_MS = 10000
@@ -69,6 +70,21 @@ function startRotationTimer() {
 }
 
 // ===== EVENT HANDLERS =====
+/**
+ * registers first element found by given query selector to play specified audio when clicked
+ * @param {string} querySelector selector to search element by
+ * @param {string} audioKey identifier for sound to play
+ */
+function registerElClickToAudio(querySelector, audioKey) {
+	const el = document.querySelector(querySelector)
+	if (el) {
+		el.addEventListener('click', async () => {
+			await resumeAudio().catch(() => { })
+			playAudio(audioKey)
+		})
+	}
+}
+
 /** Attach click handlers for tagline and logo pieces */
 function setupClickHandlers() {
 	// Click tagline to immediately rotate and reset timer
@@ -83,6 +99,16 @@ function setupClickHandlers() {
 		piece.addEventListener('click', () => bounceElement(piece))
 	}
 
+	// Wire logo click to play audio (resume context on first click, then play)
+	registerElClickToAudio('.header-logo-piece.letter-icon', "wheel-of-fortune")
+	registerElClickToAudio('.header-logo-piece.letter-o1', "o1")
+	registerElClickToAudio('.header-logo-piece.letter-d1', "d1")
+	registerElClickToAudio('.header-logo-piece.letter-d2', "d2")
+	registerElClickToAudio('.header-logo-piece.letter-h', "h")
+	registerElClickToAudio('.header-logo-piece.letter-o2', "o2")
+	registerElClickToAudio('.header-logo-piece.letter-r', "r")
+	registerElClickToAudio('.header-logo-piece.letter-s', "s")
+	registerElClickToAudio('.header-logo-piece.letter-e', "e")
 
 }
 

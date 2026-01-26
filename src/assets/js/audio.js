@@ -10,9 +10,8 @@ const buffers = new Map() // key -> AudioBuffer
 const activeSources = new Map() // key -> current AudioBufferSourceNode
 
 /**
- * loads a piece of audio from given ogg/mp3 locations given browser capabilities
- * @param {Array<string>} urls - locations of one sound in both ogg and mp3 formats
- * @returns the audiobuffer wrapped in a promise
+ * Initializes the global AudioContext and master gain node (lazy singleton)
+ * @returns {AudioContext} The initialized or existing AudioContext instance
  */
 export function initAudioCtx() {
 	if (audioCtx) return audioCtx
@@ -48,9 +47,11 @@ export async function loadAudio(key, urls) {
 }
 
 /**
- * plays audio buffer
- * @param {string} key identifier for sound to play
- * @param {number} volume well
+ * Plays a cached audio buffer by key. Restarts if already playing.
+ * @param {string} key - Identifier for the sound to play
+ * @param {Object} [options] - Playback options
+ * @param {number} [options.volume=0.6] - Playback volume (0.0 to 1.0)
+ * @returns {void}
  */
 export function playAudio(key, { volume = 0.6 } = {}) {
 	if (!audioCtx) initAudioCtx()
@@ -80,6 +81,11 @@ export function playAudio(key, { volume = 0.6 } = {}) {
 	activeSources.set(key, src)
 }
 
+/**
+ * Stops a currently playing audio source by key
+ * @param {string} key - Identifier for the sound to stop
+ * @returns {void}
+ */
 export function stopAudio(key) {
 	if (!audioCtx) return
 	const src = activeSources.get(key)
@@ -90,7 +96,8 @@ export function stopAudio(key) {
 }
 
 /**
- * wakes that thang back up
+ * Resumes the AudioContext if suspended (required after user gesture for autoplay policy)
+ * @returns {Promise<void>}
  */
 export async function resumeAudio() {
 	if (!audioCtx) initAudioCtx()

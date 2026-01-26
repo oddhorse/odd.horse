@@ -30,10 +30,11 @@ version 5 was trying to be a single page app lmao
 [ ] add styling for blog posts
 [ ] streaming link icons that, on mouseover, change randomdistortions put on them
 [ ] add stampede button to list of artifacts
+ when you click too many times in a period of time they get  tired and refuse to stampede
 [ ] finish mouseover effects and onclick audio snippets for each letter in header logo
 [ ] custom cursor
 [ ] fix mobile artifact list width
-
+[ ] add oddhorse image to artifacts
 [ ] investigate util.js usage and remove if unused.
 
 ### bigger fish and also things i'm kicking down the roooooadddd
@@ -42,6 +43,15 @@ version 5 was trying to be a single page app lmao
 [ ] further consolidate files and improve structure. too cluttered and big for such a small site!!!
 [ ] guestbook
 [ ] osu!mania-style rhythm game (vertical scrolling, multiple lanes, timing-based)
+[ ] make contact page template-based
+[ ] rank streaming service list by least to most evil
+[ ] oddhorse clicker game where you're hitting me with a hammer and secrets fall out
+[ ] email template system for contact page
+[ ] make rotating horse cube
+[ ] 3d "garden"
+[ ] little ai chatbot that sucks and you can pry secrets from
+[ ] make a famousbirthdays page?
+[ ]
 
 ## credits
 
