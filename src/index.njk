@@ -260,21 +260,25 @@ layout: base
 	<ul class="artifact-list">
 		{# Sort artifacts by date, newest first #}
 		{% for artifact in artifacts | sort(reverse = true, attribute = 'dateAdded') %}
-			<li class="artifact-item"
+			{% if not artifact.hidden %}
+				<li class="artifact-item"
 				data-artifact-id="{{ artifact.id }}"
 				data-date-added="{{ artifact.dateAdded }}">
-				<span class="artifact-badge artifact-badge-clicked">SEEN</span>
-				<span class="artifact-badge artifact-badge-new">NEW!</span>
-				<a href="{{ artifact.url }}"
+					<span class="artifact-badge artifact-badge-clicked">SEEN</span>
+					<span class="artifact-badge artifact-badge-new">NEW!</span>
+					<a href="{{ artifact.url }}"
 					class="artifact-link"
-					target="_blank"
-					rel="noopener noreferrer"
+					{% if artifact.newtab %}
+						target="_blank"
+						rel="noopener noreferrer"
+					{% endif %}
 					style="--artifact-color: {{ artifact.color or '#ff00bb' }};">
-					<span class="artifact-status"></span>
-					<span class="artifact-description">{{ artifact.description }}</span>
-					<span class="artifact-date">{{ artifact.dateAdded }}</span>
-				</a>
-			</li>
+						<span class="artifact-status"></span>
+						<span class="artifact-description">{{ artifact.description }}</span>
+						<span class="artifact-date">{{ artifact.dateAdded }}</span>
+					</a>
+				</li>
+			{% endif %}
 		{% endfor %}
 	</ul>
 </main>
