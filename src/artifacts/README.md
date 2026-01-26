@@ -1,8 +1,9 @@
-# Artifacts Directory
+# artifacts dir
 
-This directory contains the artifact files referenced in `/src/_data/artifacts.json`.
+this directory is for artifacts
 
-Add your files here and reference them in the artifacts.json file like:
+artifacts list is registered in `/src/_data/artifacts.json`
+
 ```json
 {
   "id": "my-artifact",
@@ -13,14 +14,3 @@ Add your files here and reference them in the artifacts.json file like:
   "color": "#ff00bb"
 }
 ```
-
-Current placeholder files:
-- mac-n-cheese.txt (example text file)
-- README.md (this file)
-
-You'll need to add:
-- system-prompt.pdf
-- pyramid.jpg
-- beat-2019.mp3
-
-Or update artifacts.json with different files!
