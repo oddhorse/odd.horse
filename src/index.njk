@@ -217,6 +217,54 @@ layout: base
 		display: none;
 	}
 
+	/* ===== STAMPEDE OVERLAY ===== */
+
+	/**
+ * Stampede horses - animated elements that gallop across screen
+ * Created dynamically by stampede() function, removed after animation
+ *
+ * Uses existing horse walk frame images from background system
+ * Positioned above all content (z-index above modals at 1000)
+ * No interaction - purely decorative
+ */
+	.stampede-horse {
+		/* Position above everything (modals are z-index 1000) */
+		position: fixed;
+		z-index: 1100;
+
+		/* Start offscreen left */
+		left: -150px;
+
+		/* Crisp pixel art rendering - matches background.njk */
+		image-rendering: -moz-crisp-edges;
+		image-rendering: -webkit-crisp-edges;
+		image-rendering: pixelated;
+		image-rendering: crisp-edges;
+
+		/* No interaction - purely decorative */
+		pointer-events: none;
+
+		/* Animate across screen - duration set inline per horse for variation */
+		animation: stampede-run linear forwards;
+	}
+
+	/**
+ * Animation: run from offscreen left to offscreen right
+ * Each horse has random duration (1.5-2.5s) set via inline style
+ * GPU accelerated via transform (better performance than left/right)
+ */
+	@keyframes stampede-run {
+		from {
+			transform: translateX(0);
+		}
+		to {
+			/* Move across viewport plus buffer for horse width */
+			transform: translateX(calc(100vw + 400px));
+		}
+	}
+
+	/* ===== END STAMPEDE OVERLAY ===== */
+
 	/* Mobile: smaller text and reduced padding */
 	@media (max-width: 768px) {
 		.artifact-list {

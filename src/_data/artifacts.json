@@ -9,6 +9,14 @@
 		"hidden": true
 	},
 	{
+		"id": "stampede",
+		"description": "STAMPEDE!!!",
+		"url": "#",
+		"type": "link",
+		"dateAdded": "2026-01-28",
+		"color": "#00ffbb"
+	},
+	{
 		"id": "treats",
 		"description": "tap in for treats 📲",
 		"url": "/treats",

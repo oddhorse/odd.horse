@@ -16,6 +16,7 @@ import { setupNavbar } from './navbar.js'
 import { setupModals } from './modals.js'
 import { initAudioCtx, loadAudio, playAudio, resumeAudio } from './audio.js'
 import { initHeaderLogo } from './header-logo.js'
+import { initStampede } from './stampede.js'
 
 /**
  * Initialize all site functionality when DOM is ready
@@ -25,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	defineColors()
 	setupModals()
 	initHeaderLogo()
+	initStampede()
 
 	// Initialize audio context and preload sounds immediately (no lag on first click)
 	initAudioCtx()
