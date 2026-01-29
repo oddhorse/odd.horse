@@ -1,0 +1,20 @@
+---
+layout:
+eleventyExcludeFromCollections: true
+latestRelease: toogetherrr
+latestReleaseLink: https://open.spotify.com/track/1NWrFDrhEBdkScEipJwXkA
+---
+
+{# this page redirects to most recent release #}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="refresh" content="0; url={{ latestReleaseLink }}"/>
+		<link rel="canonical" href="/1">
+		<title>redirecting to latest release...</title>
+	</head>
+	<body>
+		<p>redirecting to <a href="{{ latestReleaseLink }}">{{ latestRelease }}</a>...</p>
+	</body>
+</html>
