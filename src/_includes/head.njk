@@ -59,7 +59,10 @@
 
 	{# Prefetch internal artifact pages for faster navigation #}
 	{% for artifact in artifacts %}
-		{% if artifact.url and artifact.url != '#' and not artifact.url.startsWith('http') and not artifact.hidden %}
+		{% if artifact.url and artifact.url != '#' and not artifact
+			.url
+			.startsWith('http')and not artifact
+			.hidden %}
 			<link rel="prefetch" href="{{ artifact.url }}">
 		{% endif %}
 	{% endfor %}
@@ -79,7 +82,7 @@
 
 	<!-- === Security & Privacy (editable) === -->
 	<meta name="referrer" content="strict-origin-when-cross-origin">
-	<meta name="color-scheme" content="light dark">
+	<meta name="color-scheme" content="light">
 	<meta name="format-detection" content="telephone=no">
 	<!-- Note: set CSP and other hard security headers at the server level; inline scripts may require CSP hashes/nonces. -->
 	<!-- === /Security & Privacy === -->
