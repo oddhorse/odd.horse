@@ -40,31 +40,42 @@
 	<meta name="twitter:image" content="{{ twitter.image | default(og.image | default(ogImage | default(meta.ogImage | default('')))) }}">
 	<!-- === /Social === -->
 
-	<!-- === Performance Hints (editable) === -->
-	{# Keep your critical font preloads (present below). Add preconnects for external origins you use. #}
+	<!-- === Performance Hints === -->
+	{# Preconnect to external origins if configured #}
 	{% if site.preconnect %}
 		{% for host in site.preconnect %}
 			<link rel="preconnect" href="{{ host }}" crossorigin>
 		{% endfor %}
 	{% endif %}
 
-	{# Preload a Largest Contentful Paint image if you set `page.lcpImage` in frontmatter #}
+	{# Preload critical fonts #}
+	<link rel="preload" href="/assets/fonts/Karrik-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+	<link rel="preload" href="/assets/fonts/Karrik-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+	{# Preload LCP image if specified in frontmatter #}
 	{% if page.lcpImage %}
 		<link rel="preload" as="image" href="{{ page.lcpImage }}" imagesrcset="{{ page.lcpImageSrcset | default('') }}" imagesizes="{{ page.lcpImageSizes | default('') }}" fetchpriority="high">
 	{% endif %}
+
+	{# Prefetch internal artifact pages for faster navigation #}
+	{% for artifact in artifacts %}
+		{% if artifact.url and artifact.url != '#' and not artifact.url.startsWith('http') and not artifact.hidden %}
+			<link rel="prefetch" href="{{ artifact.url }}">
+		{% endif %}
+	{% endfor %}
+
+	{# Preconnect to external links for instant loading #}
+	{% for key, link in links %}
+		{% set origin = link.url | getOrigin %}
+		<link rel="preconnect" href="{{ origin }}">
+	{% endfor %}
 	<!-- === /Performance === -->
 
-	<!-- === PWA & Mobile (editable) === -->
+	<!-- === Favicons === -->
 	<link rel="icon" type="image/x-icon" href="/assets/favicon/favicon.ico">
-	<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png">
-	<link rel="manifest" href="/site.webmanifest">
-
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-status-bar-style" content="default">
-	<link rel="mask-icon" href="/assets/favicon/safari-pinned.svg" color="{{ color | default('#000000') }}">
-	<!-- === /PWA & Mobile === -->
+	<!-- === /Favicons === -->
 
 	<!-- === Security & Privacy (editable) === -->
 	<meta name="referrer" content="strict-origin-when-cross-origin">
@@ -75,11 +86,6 @@
 
 	{# Main stylesheet - plain CSS with modern features #}
 	<link rel="stylesheet" href="/assets/css/main.css">
-	{# bundled CSS placeholder removed — using external stylesheet link above #}
-
-	{# Keep preloading the project's fonts (critical) #}
-	<link rel="preload" href="/assets/fonts/Karrik-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-	<link rel="preload" href="/assets/fonts/Karrik-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
 
 	{# Main JavaScript - ES module with navbar, colors, artifact tracking #}
 	<script type="module" src="/assets/js/main.js"></script>
