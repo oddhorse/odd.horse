@@ -5,32 +5,10 @@ layout: base
 #tags: main
 ---
 
-<style>
-	main {
-		/* center elements horiz */
-		margin: auto;
-		width: fit-content;
-		height: fit-content;
-
-		flex: 0;
-	}
-
-	.logo-container {
-		--logo-size: 6rem;
-	}
-
-	.more {
-		text-align: center;
-
-		a {
-			color: var(--lighter-text-color);
-			font-size: 1rem;
-		}
-	}
-</style>
+{# Treats-specific CSS #}
+<link rel="stylesheet" href="/assets/css/pages/treats.css">
 
 <main>
-	<link rel="stylesheet" href="/assets/css/pages/treats.scss">
 	<a href="/" class="logo-link logo-container">
 		{% include "icons/OH-thick.svg" %}
 	</a>

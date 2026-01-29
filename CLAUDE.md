@@ -49,31 +49,46 @@ No test suite or linting is currently configured.
 
 ### Asset Pipeline
 
-- **CSS**: Hybrid organization with 3 global files + inline template styles
-  - `main.css` - Entry point that imports reset and global
-  - `reset.css` - ⚠️ UNTOUCHABLE browser normalization (modern-normalize)
-  - `global.css` - Site-wide reusable styles (~900 lines)
-    - CSS custom properties, fonts, semantic HTML base styles
-    - Site-wide components (header, footer, navbar, modal system)
-    - Utility classes and reusable animations
-  - **Inline template styles** - Page-specific and component-specific styles
-    - `index.njk` - Homepage layout and artifact list styles (~200 lines)
-    - `beta-menu.njk` - Beta menu component styles (~82 lines)
-    - `background.njk` - Background canvas styles (~22 lines)
-- **JavaScript**: Hybrid organization with global modules + page-specific imports
-  - **Global modules** (loaded site-wide):
-    - `main.js` - Entry point, initializes navbar, colors, modals
+- **CSS**: Hybrid organization with global styles + page-specific files
+  - **Global CSS** (loaded on ALL pages):
+    - `main.css` - Entry point that imports reset and global
+    - `reset.css` - ⚠️ UNTOUCHABLE browser normalization (modern-normalize)
+    - `global.css` - Foundation styles (~647 lines)
+      - CSS custom properties, fonts, semantic HTML base styles
+      - Site-wide layout systems (sticky footer, flexbox)
+      - Truly global components (header, footer, navbar)
+      - Utility classes and reusable animations
+  - **Page-specific CSS** (loaded only where needed):
+    - `pages/index.css` - Homepage styles (~600 lines)
+      - Flexbox centering layout, logo size override (7rem)
+      - Artifact list with click tracking UI
+      - Stampede overlay animations
+      - Modal system (contact and links)
+      - Chaos hover effects
+    - `pages/treats.css` - Treats page styles (~25 lines)
+      - Centered layout, logo size (6rem)
+  - **Inline component styles** - Self-contained component CSS
+    - `beta-menu.njk` - Beta menu component (~82 lines)
+    - `background.njk` - Background canvas (~22 lines)
+- **JavaScript**: Core + page-specific loading strategy
+  - **Core JS** (loaded on ALL pages via head.njk):
+    - `core.js` - Essential features (navbar, colors, modals)
     - `navbar.js` - Logo hover color effect
     - `colors.js` - Derives hover colors from page color
-    - `modals.js` - Modal system (contact and links popups)
-  - **Page-specific modules** (imported only where needed):
-    - `artifacts.js` - Click tracking with localStorage (imported in index.njk only)
-  - **Inline template scripts**:
+    - `modals.js` - Modal system initialization
+  - **Page-specific JS** (loaded only on specific pages):
+    - `homepage.js` - Homepage features (stampede, chaos, header-logo, audio)
+      - Loaded only on index.njk
+      - Includes audio preloading (9 files, ~500KB)
+      - Initializes homepage-only interactive features
+    - `artifacts.js` - Click tracking module (imported by homepage.js)
+  - **Inline template scripts** - Component-specific JavaScript
     - `index.njk` - Artifact tracking initialization
-    - `background.njk` - Canvas animation (~250 lines)
-    - `header-logo.njk` - Tagline rotation (~90 lines)
-    - `beta-menu.njk` - Dev tools (~100 lines)
+    - `background.njk` - Canvas animation (~250 lines, IIFE)
+    - `header-logo.njk` - Tagline rotation (~90 lines, IIFE)
+    - `beta-menu.njk` - Dev tools (~100 lines, IIFE)
 - **Modern CSS Features**: Custom properties (variables), clamp(), calc(), modern selectors, :has()
+- **Loading Strategy**: Pages specify their CSS/JS via `<link>` and `<script>` tags in templates
 
 ### Deployment
 
@@ -172,7 +187,7 @@ Example:
 
 ### CSS Organization Standards
 
-This project uses a hybrid approach balancing modularity with legibility for a codebase of this complexity (~900 lines global CSS, ~13 templates). The guiding principle: **co-locate page-specific code, centralize truly reusable code**.
+This project uses a **modern per-page loading strategy**: global foundation styles + page-specific CSS files. The guiding principle: **load only what you need, when you need it**.
 
 #### When to use global.css
 
@@ -182,11 +197,11 @@ Put styles in `src/assets/css/global.css` when they are:
 - **Font-face declarations** (Karrik, FT88, etc.)
 - **Semantic HTML base styles** (a, p, h1, body, img, etc.)
 - **Layout systems used across multiple pages** (sticky footer, page structure, etc.)
-- **Site-wide components used on 2+ pages** (header, footer, navbar, modal system)
+- **Truly site-wide components** (header, footer, navbar - used on ALL pages)
 - **Utility classes used across pages** (.oddhorse-inline, .emoticon, .darker, etc.)
 - **Reusable animations used in multiple places** (floatUpDown, fadeOutSustain, hoverwink)
 
-**Current global.css structure:**
+**Current global.css structure (~647 lines):**
 
 1. CSS Custom Properties
 2. Fonts
@@ -197,56 +212,86 @@ Put styles in `src/assets/css/global.css` when they are:
 7. Footer
 8. Navbar
 9. Background Container
-10. Logo Container
+10. Logo Container (5rem default size)
 11. Utility Classes
 12. Animations
-13. Modal System
+
+**Note:** Modal system and chaos hover have been moved to pages/index.css (homepage-only).
+
+#### When to use pages/*.css files
+
+Put styles in `src/assets/css/pages/[pagename].css` when they are:
+
+- **Page-specific layouts and positioning** (only used on that page)
+- **Page-specific components** (artifact list, stampede, modals used only on homepage)
+- **Page-specific overrides** (logo size customization, layout changes)
+- **Feature-specific styles** (chaos hover, click tracking UI)
+
+**Current page CSS files:**
+
+- `pages/index.css` - Homepage styles (~600 lines)
+  - Flexbox vertical centering layout
+  - Logo size override (7rem vs 5rem global)
+  - Artifact list with badges and animations
+  - Stampede overlay animations
+  - Modal system (contact and links)
+  - Chaos hover effects
+- `pages/treats.css` - Treats page (~25 lines)
+  - Centered compact layout
+  - Logo size override (6rem)
 
 #### When to use inline template styles
 
 Put styles inline with `<style>` tags in templates when they are:
 
-- **Page-specific layouts and positioning** (only used on one page)
-- **Page-specific components** (artifact list on homepage, hero sections, etc.)
-- **Self-contained feature components** (beta-menu, background canvas)
-- **Page-specific overrides of global styles** (customizing logo size on homepage)
-- **Styles unique to a single template** (specific to that page's layout or content)
+- **Self-contained component styles** (beta-menu, background canvas)
+- **One-off layout tweaks** under ~20 lines
+- **Tightly coupled to template structure** (styles that make no sense without the HTML)
 
 **Examples of inline styles:**
 
-- `src/index.njk` - Homepage layout (body padding, flexbox centering, artifact list styles)
 - `src/_includes/beta-menu.njk` - Beta menu component (~82 lines, self-contained)
 - `src/_includes/background.njk` - Background canvas component (~22 lines, self-contained)
 
-#### Keep together for maintenance
+#### How pages load styles
 
-- **Site-wide reusable components** (modals, headers, footers) → `global.css`
-  - Rationale: Used across multiple pages, changing them affects entire site
-  - Example: Modal system could be extended with more modals (shop, image lightbox, etc.)
+Pages specify which CSS files to load via `<link>` tags in templates:
 
-- **Page-specific features** (artifact list, page heroes) → Inline in that page's template
-  - Rationale: Only used once, co-locating HTML and CSS improves maintainability
-  - Example: Artifact list (~187 lines) only appears on homepage
+```njk
+{# In index.njk #}
+<link rel="stylesheet" href="/assets/css/pages/index.css">
 
-- **Self-contained utility components** (beta-menu) → Inline in their include file
-  - Rationale: Component-specific styles travel with the component
-  - Example: Beta menu is a feature flag component, styles are part of its implementation
+{# In treats.njk #}
+<link rel="stylesheet" href="/assets/css/pages/treats.css">
+```
+
+**All pages load:**
+- `main.css` (via head.njk) → imports reset.css + global.css
+
+**Only homepage loads:**
+- `pages/index.css` → artifact list, stampede, modals, chaos hover
+
+**Only treats page loads:**
+- `pages/treats.css` → centered layout, logo sizing
+
+**Shop/404 pages:**
+- Only global.css (minimal overhead)
 
 #### Decision framework
 
 **When in doubt, ask:**
 
-1. Is it used on 2+ pages? → `global.css`
-2. Is it page-specific? → Inline in that page
-3. Is it a self-contained component? → Inline in that component
-4. Could it be reused later? → Consider `global.css` if it's infrastructure
+1. Used on ALL pages? → `global.css`
+2. Used on ONE page? → `pages/[pagename].css`
+3. Self-contained component? → Inline in that component
+4. Could be reused across pages later? → Start in pages/, move to global when second use appears
 
-**For this codebase size:**
+**Benefits of this approach:**
 
-- ~900 lines global CSS is manageable and aids discoverability
-- Aggressive modularization (separate CSS files per component) hurts legibility
-- Co-locate page-specific code for easier reasoning about behavior
-- Keep truly global/reusable code centralized for consistency
+- Clear separation: global vs page-specific is explicit
+- Performance: pages only load CSS they need (~600KB less on shop/404 pages)
+- Maintainability: all homepage styles in one file, not scattered across global + inline
+- Testability: test-styles.njk shows pure global defaults without page overrides
 
 ### Shared CSS Standards
 
@@ -259,29 +304,56 @@ Put styles inline with `<style>` tags in templates when they are:
 
 ### JavaScript Organization Standards
 
-This project uses a hybrid approach mirroring the CSS organization philosophy: **co-locate component-specific code, centralize truly reusable functionality**. No bundling or preprocessing - native ES modules with browser imports.
+This project uses a **modern per-page loading strategy** mirroring the CSS organization: **core features loaded globally, page-specific features loaded only where needed**. No bundling or preprocessing - native ES modules with browser imports.
 
-#### When to use global modules
+#### When to use core.js (always loaded)
 
-Put JavaScript in `src/assets/js/` modules when it is:
+Put features in `core.js` when they are:
 
-- **Entry point** (`main.js`) that orchestrates initialization
-- **Feature modules used across multiple pages** (navbar, colors, artifacts, modals)
-- **Shared utilities** (device detection, number helpers, DOM helpers)
-- **Core functionality that other code depends on** (must be importable)
-- **Any code that needs to be imported and reused**
+- **Essential site-wide functionality** (navbar, color system, modals)
+- **Used on ALL pages** (header, footer interactions)
+- **Minimal overhead** (small file size, fast initialization)
 
-**Current global module structure:**
+**Current core.js (~20 lines):**
+- Imports and initializes: `navbar.js`, `colors.js`, `modals.js`
+- Loaded in head.njk on ALL pages
 
-- `main.js` - Entry point, initializes site-wide features (navbar, colors, modals)
+**Core modules (imported by core.js):**
 - `navbar.js` - Logo hover color effects for all link types
 - `colors.js` - Color system (derives hover colors from page color)
-- `modals.js` - Modal system (contact and links popups)
+- `modals.js` - Modal system initialization
 - `util.js` - General utilities (isMobile, randBtwn, etc.)
 
-**Page-specific modules** (kept as modules but only imported where needed):
+#### When to use page-specific JS files
 
-- `artifacts.js` - Click tracking with localStorage (imported only in index.njk)
+Put JavaScript in `src/assets/js/[pagename].js` when it is:
+
+- **Used on ONE page only** (homepage features, treats interactions)
+- **Large features** (audio preloading, stampede, chaos hover)
+- **Page-specific interactions** (artifact click tracking, header-logo rotation)
+
+**Current page-specific JS:**
+
+- `homepage.js` - Homepage features (~35 lines + imports)
+  - Loaded only on index.njk via `<script type="module">`
+  - Imports: `stampede.js`, `chaos-hover.js`, `header-logo.js`, `audio.js`
+  - Preloads 9 audio files (~500KB) on page load
+  - Initializes all homepage-only interactive features
+- `artifacts.js` - Click tracking module (imported by homepage.js)
+
+#### When to use feature modules
+
+Keep features as separate importable modules when:
+
+- **Reusable functionality** (could be imported by multiple pages)
+- **Logical separation** (stampede, chaos hover are distinct features)
+- **Easier maintenance** (one feature per file)
+
+**Current feature modules:**
+- `stampede.js` - Horse stampede effect
+- `chaos-hover.js` - Chaotic link hover animations
+- `header-logo.js` - Tagline rotation and audio
+- `audio.js` - Audio context and preloading system
 
 #### When to use inline template scripts
 
@@ -307,30 +379,51 @@ Put JavaScript inline with `<script type="module">` in templates when it is:
 - **Debug/console functions** - expose on `window` from page-specific scripts (e.g., `window.wipeClickData()` exposed in index.njk)
 - **Page-specific modules** - Keep as .js files but import only in relevant templates (e.g., artifacts.js imported in index.njk, not main.js)
 
+#### How pages load JavaScript
+
+Pages specify which JS files to load via `<script type="module">` tags:
+
+```njk
+{# In head.njk (ALL pages) #}
+<script type="module" src="/assets/js/core.js"></script>
+
+{# In index.njk (homepage only) #}
+<script type="module" src="/assets/js/homepage.js"></script>
+```
+
+**All pages load:**
+- `core.js` → navbar, colors, modals (~2KB)
+
+**Only homepage loads:**
+- `homepage.js` → stampede, chaos, header-logo, audio preloading (~500KB with audio)
+
+**Shop/404 pages:**
+- Only core.js (minimal overhead)
+
 #### Loading strategy
 
-- **Main app**: ES modules with `type="module"` (native browser support, deferred automatically)
-- **Entry point**: Loaded in `<head>` with `type="module"`
-- **Inline scripts**: Run independently in module scope
+- **ES modules**: `type="module"` (native browser support, deferred automatically)
+- **Core loaded in head**: Always available by DOMContentLoaded
+- **Page-specific loaded in template**: Only where needed
 - **No bundling**: Plain JavaScript, modules work natively in modern browsers
 
 #### Decision framework
 
 **When in doubt, ask:**
 
-1. Used across multiple pages or components? → Global module
-2. Component-specific interaction? → Inline in that component
-3. Needs to run before DOM/CSS? → Inline in head (NOT module)
-4. Needs to be imported by other code? → Global module
-5. Self-contained feature? → Inline with IIFE pattern
+1. Used on ALL pages? → Add to `core.js`
+2. Used on ONE page? → Create/use `[pagename].js`
+3. Component-specific interaction? → Inline in that component with IIFE
+4. Needs to run before DOM/CSS? → Inline in head (NOT module)
+5. Could be imported by other code? → Feature module (stampede.js, etc.)
 
-**For this codebase size:**
+**Benefits of this approach:**
 
-- ~6 modules, ~440 lines inline is appropriate and aids discoverability
-- Aggressive modularization (separate files per component) hurts legibility
-- Co-locate component-specific code for easier reasoning about behavior
-- Keep truly reusable code centralized for consistency
-- Not building a framework - don't over-engineer
+- Clear separation: core vs page-specific is explicit
+- Performance: shop/404 don't load ~500KB of audio files
+- Automatic scoping: homepage.js only runs on homepage, no conditional logic needed
+- Maintainability: all homepage JS in one entry point (homepage.js)
+- No lazy loading complexity: just conditional script tags
 
 ### File Organization
 
