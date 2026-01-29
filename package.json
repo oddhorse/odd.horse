@@ -14,7 +14,8 @@
 		"clean": "del-cli dist",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"prepare": "husky",
-		"version:bump": "node scripts/bump-version.js"
+		"version:bump": "node scripts/bump-version.js",
+		"compress": "node scripts/compress-images.js"
 	},
 	"keywords": [],
 	"repository": {

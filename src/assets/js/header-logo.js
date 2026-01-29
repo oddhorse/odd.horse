@@ -16,98 +16,113 @@
  *   as a plain script; it only runs when the DOM is ready.
  */
 
-(() => {
-	// ===== CONSTANTS =====
-	const ROTATION_INTERVAL_MS = 10000
+import { resumeAudio, playAudio } from './audio.js'
 
-	// ===== STATE =====
-	const taglineElement = document.getElementById('tagline')
+// ===== CONSTANTS =====
+const ROTATION_INTERVAL_MS = 10000
 
-	// Read taglines from data attribute set on the element by Nunjucks
-	let taglines = []
-	try {
-		const raw = taglineElement && taglineElement.getAttribute('data-taglines')
-		if (raw) taglines = JSON.parse(raw)
-	} catch (err) {
-		console.error('Failed to parse taglines for header-logo:', err)
-		taglines = []
-	}
+// ===== STATE =====
+const taglineElement = document.getElementById('tagline')
 
-	if (!taglineElement || !Array.isArray(taglines) || taglines.length === 0) return
+// Read taglines from data attribute set on the element by Nunjucks
+let taglines = []
+try {
+	const raw = taglineElement && taglineElement.getAttribute('data-taglines')
+	if (raw) taglines = JSON.parse(raw)
+} catch (err) {
+	console.error('Failed to parse taglines for header-logo:', err)
+	taglines = []
+}
 
-	// Randomize the tagline order once on load
-	const shuffledTaglines = [...taglines].sort(() => Math.random() - 0.5)
+//if (!taglineElement || !Array.isArray(taglines) || taglines.length === 0) return
 
-	// Mutable state
-	let currentIndex = 0
-	let rotationTimer = null
+// Randomize the tagline order once on load
+const shuffledTaglines = [...taglines].sort(() => Math.random() - 0.5)
 
-	// ===== HELPER FUNCTIONS =====
-	/** Return the next tagline (wraps to start) */
-	function getNextTagline() {
-		currentIndex = (currentIndex + 1) % shuffledTaglines.length
-		return shuffledTaglines[currentIndex]
-	}
+// Mutable state
+let currentIndex = 0
+let rotationTimer = null
 
-	/** Add and later remove the bounce animation class */
-	function bounceElement(elToBounce) {
-		elToBounce.classList.add('hoverwink-animate')
-		const animationDuration = parseFloat(getComputedStyle(elToBounce).getPropertyValue('--hoverwink-transition-speed')) * 1000
-		setTimeout(() => elToBounce.classList.remove('hoverwink-animate'), animationDuration)
-	}
+// ===== HELPER FUNCTIONS =====
+/** Return the next tagline (wraps to start) */
+function getNextTagline() {
+	currentIndex = (currentIndex + 1) % shuffledTaglines.length
+	return shuffledTaglines[currentIndex]
+}
 
-	/** Swap in next tagline and animate it */
-	function rotateTagline() {
-		taglineElement.innerHTML = getNextTagline()
-		bounceElement(taglineElement)
-	}
+/** Add and later remove the bounce animation class */
+function bounceElement(elToBounce) {
+	elToBounce.classList.add('hoverwink-animate')
+	const animationDuration = parseFloat(getComputedStyle(elToBounce).getPropertyValue('--hoverwink-transition-speed')) * 1000
+	setTimeout(() => elToBounce.classList.remove('hoverwink-animate'), animationDuration)
+}
 
-	/** Start or restart the automatic rotation interval */
-	function startRotationTimer() {
-		if (rotationTimer) clearInterval(rotationTimer)
-		rotationTimer = setInterval(rotateTagline, ROTATION_INTERVAL_MS)
-	}
+/** Swap in next tagline and animate it */
+function rotateTagline() {
+	taglineElement.innerHTML = getNextTagline()
+	bounceElement(taglineElement)
+}
 
-	// ===== EVENT HANDLERS =====
-	/** Attach click handlers for tagline and logo pieces */
-	function setupClickHandlers() {
-		// Click tagline to immediately rotate and reset timer
-		taglineElement.addEventListener('click', () => {
-			rotateTagline()
-			startRotationTimer()
+/** Start or restart the automatic rotation interval */
+function startRotationTimer() {
+	if (rotationTimer) clearInterval(rotationTimer)
+	rotationTimer = setInterval(rotateTagline, ROTATION_INTERVAL_MS)
+}
+
+// ===== EVENT HANDLERS =====
+/**
+ * registers first element found by given query selector to play specified audio when clicked
+ * @param {string} querySelector selector to search element by
+ * @param {string} audioKey identifier for sound to play
+ */
+function registerElClickToAudio(querySelector, audioKey) {
+	const el = document.querySelector(querySelector)
+	if (el) {
+		el.addEventListener('click', async () => {
+			await resumeAudio().catch(() => { })
+			playAudio(audioKey)
 		})
-
-		// Clicking any letter piece triggers a bounce for fun
-		const headerLogoPieces = document.getElementsByClassName('header-logo-piece')
-		for (const piece of headerLogoPieces) {
-			piece.addEventListener('click', () => bounceElement(piece))
-		}
 	}
+}
 
-	// ===== INITIALIZATION HELPERS =====
-	/** Split the textual logo into per-letter spans for styling/interaction */
-	function initializeTextLogo() {
-		const textLogo = document.querySelector('.text-logo')
-		if (!textLogo) return
-
-		const text = textLogo.getAttribute('data-text') || 'oddhorse'
-		const letterSpans = text
-			.split('')
-			.map((letter) => `<span class="header-logo-piece letter-${letter} hoverwink">${letter}</span>`)
-			.join('')
-		textLogo.innerHTML = letterSpans
-	}
-
-	// ===== BOOTSTRAP =====
-	/** Initialize logo and start rotation once DOM is ready */
-	function init() {
-		initializeTextLogo()
-		taglineElement.innerHTML = shuffledTaglines[currentIndex]
-		taglineElement.style.opacity = 1
-		bounceElement(taglineElement)
+/** Attach click handlers for tagline and logo pieces */
+function setupClickHandlers() {
+	// Click tagline to immediately rotate and reset timer
+	taglineElement.addEventListener('click', () => {
+		rotateTagline()
 		startRotationTimer()
-		setupClickHandlers()
+	})
+
+	// Clicking any letter piece triggers a bounce for fun
+	const headerLogoPieces = document.getElementsByClassName('header-logo-piece')
+	for (const piece of headerLogoPieces) {
+		piece.addEventListener('click', () => bounceElement(piece))
 	}
 
-	document.addEventListener('DOMContentLoaded', init)
-})()
+	// Wire logo click to play audio (resume context on first click, then play)
+	registerElClickToAudio('.header-logo-piece.letter-icon', "wheel-of-fortune")
+	registerElClickToAudio('.header-logo-piece.letter-o1', "o1")
+	registerElClickToAudio('.header-logo-piece.letter-d1', "d1")
+	registerElClickToAudio('.header-logo-piece.letter-d2', "d2")
+	registerElClickToAudio('.header-logo-piece.letter-h', "h")
+	registerElClickToAudio('.header-logo-piece.letter-o2', "o2")
+	registerElClickToAudio('.header-logo-piece.letter-r', "r")
+	registerElClickToAudio('.header-logo-piece.letter-s', "s")
+	registerElClickToAudio('.header-logo-piece.letter-e', "e")
+
+}
+
+// ===== AUDIO =====
+
+
+
+
+// ===== BOOTSTRAP =====
+/** Initialize logo and start rotation */
+export function initHeaderLogo() {
+	taglineElement.innerHTML = shuffledTaglines[currentIndex]
+	taglineElement.style.opacity = 1
+	bounceElement(taglineElement)
+	startRotationTimer()
+	setupClickHandlers()
+}

@@ -1,9 +1,17 @@
 <div class="logo-container">
 	<a {% if page.url != "/" %}href="/"{% endif %} class="logo-link">
-		<h1 class="text-logo" data-text="oddhorse"></h1>
+		<h1 class="text-logo">
+			<span class="header-logo-piece letter-o1 hoverwink">o</span>
+			<span class="header-logo-piece letter-d1 hoverwink">d</span>
+			<span class="header-logo-piece letter-d2 hoverwink">d</span>
+			<span class="header-logo-piece letter-h hoverwink">h</span>
+			<span class="header-logo-piece letter-o2 hoverwink">o</span>
+			<span class="header-logo-piece letter-r hoverwink">r</span>
+			<span class="header-logo-piece letter-s hoverwink">s</span>
+			<span class="header-logo-piece letter-e hoverwink">e</span>
+		</h1>
 		<span class="header-logo-piece letter-icon hoverwink">{% include "icons/OH-thick.svg" %}</span>
 
 	</a>
 	<h2 id="tagline" data-taglines="{{ taglines | dump }}" style="opacity: 0;" class="hoverwink">is him!</h2>
 </div>
-<script type="module" src="/assets/js/header-logo.js"></script>

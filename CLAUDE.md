@@ -442,3 +442,48 @@ Use named buckets to separate code that needs different handling:
 {# In layout, at end of body: #}
 <script>{% getBundle "js", "defer" %}</script>
 ```
+
+### CSS Transforms and Scrollable Overflow
+
+When applying CSS transforms to elements, the transformed visual bounds can extend past the element's layout box and contribute to the document's scrollable area (causing scrollbars to appear).
+
+#### The Problem
+
+- `overflow: hidden` on an element clips **children**, not the element's own transform
+- `contain: paint` clips visual rendering but also visually clips transforms (no visual overflow)
+- Transforms that scale up or translate can cause the page to scroll
+
+#### The Solution: `contain: layout`
+
+Use `contain: layout` with `overflow: visible` to allow visual overflow while preventing scroll contribution:
+
+```css
+.element-with-wild-transforms {
+    contain: layout;
+    /* Prevents element from contributing to scrollable overflow
+       while still allowing visual rendering outside bounds */
+    overflow: visible;
+    /* Allow transforms to be visible outside the box */
+}
+```
+
+#### Why This Works
+
+- `contain: layout` isolates the element's layout from the rest of the page
+- The element's transformed bounds don't contribute to document scroll calculation
+- But visual rendering is still allowed to extend past the element's border box
+
+#### Alternative: Inner Wrapper
+
+If you need `overflow: hidden` for clipping (e.g., to clip children), wrap content in an inner element and apply transforms to that:
+
+```javascript
+// Wrap content in inner span
+const inner = document.createElement('span')
+inner.innerHTML = el.innerHTML
+el.innerHTML = ''
+el.appendChild(inner)
+
+// Apply transforms to inner - gets clipped by outer's overflow:hidden
+inner.style.transform = 'rotate(45deg) scale(1.5)'
+```

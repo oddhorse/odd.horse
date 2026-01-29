@@ -21,6 +21,19 @@
  * 14. Animations (float, fade, hoverwink effects)
  */
 
+/* ===== 0. BOX SIZING ===== */
+
+/**
+ * Universal border-box sizing
+ * Ensures padding is included in element width calculations
+ * Prevents overflow issues when adding padding to full-width elements
+ */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
 /* ===== 1. CSS CUSTOM PROPERTIES ===== */
 
 /**
@@ -250,6 +263,7 @@ body {
 	margin: 0;
 	display: flex;
 	flex-direction: column;
+	overflow-x: hidden;
 }
 
 /**
@@ -339,8 +353,8 @@ footer {
 
 /* SVG inside social icon - sized at 1.5rem */
 .footer-social-icon svg {
-	width: 1.5rem;
-	height: 1.5rem;
+	width: 1.6rem;
+	height: 100%;
 	display: block;
 }
 
@@ -364,7 +378,7 @@ footer {
 	border: none;
 	color: var(--text-color);
 	font-family: inherit;
-	font-size: 1rem;
+	font-size: 1.4rem;
 	cursor: pointer;
 	padding: 0.5rem 1rem;
 	text-decoration: none;
@@ -380,7 +394,7 @@ footer {
 @media (max-width: 768px) {
 	footer {
 		gap: 1rem;
-		padding: 1.5rem 0.5rem;
+		padding: 1.5rem;
 	}
 
 	.footer-social-icons {
@@ -388,8 +402,7 @@ footer {
 	}
 
 	.footer-social-icon svg {
-		width: 1.25rem;
-		height: 1.25rem;
+		width: 2rem;
 	}
 
 	.footer-modal-buttons {
@@ -397,7 +410,7 @@ footer {
 	}
 
 	.footer-button {
-		font-size: 0.875rem;
+		font-size: 1.5rem;
 		padding: 0.4rem 0.75rem;
 	}
 }
@@ -472,6 +485,9 @@ footer {
 	transition: text-shadow var(--link-hover-transition-speed);
 	transition-timing-function: var(--link-hover-transition-timing-function);
 	text-shadow: calc(var(--logo-size) / 2) 0px calc(var(--logo-size) * 0.5) var(--logo-shadow-color);
+	display: inline-flex;
+	gap: 0;
+	align-items: baseline;
 }
 
 /* Individual letter spans - must be inline-block for transforms to work */
@@ -805,4 +821,41 @@ body.modal-open .modal-container {
 	.modal-content#modal-contact>p:nth-of-type(4) {
 		margin-left: 10%;
 	}
+}
+
+/* ===== 13. CHAOS HOVER ===== */
+
+/**
+ * Chaotic hover effect system
+ * Apply .chaos-hover to any link for rapid random style cycling
+ * JS (chaos-hover.js) handles the cycling logic - rapidly swapping
+ * colors, fonts, transforms, and occasionally images
+ *
+ * Intentionally choppy - no transitions, discrete jumps only
+ */
+
+/* Base state - locked box that clips content changes */
+.chaos-hover {
+	position: relative;
+	display: inline-block;
+	/* Required for width/height to work */
+	transition: none !important;
+	/* Kill all transitions for maximum chop */
+	overflow: visible;
+	/* Allow visual overflow */
+	contain: layout;
+	/* Prevent element from contributing to scrollable overflow
+	   while still allowing visual rendering outside bounds */
+	vertical-align: bottom;
+	/* Prevent baseline shift from different fonts */
+	transform-origin: center;
+	/* Keep transforms centered in the box */
+}
+
+/* Image replacement styling - when JS swaps link text for an image */
+.chaos-hover-image {
+	display: inline-block;
+	vertical-align: middle;
+	pointer-events: none;
+	/* Clicks should go through to the link */
 }
