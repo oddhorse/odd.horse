@@ -17,6 +17,7 @@ dist-ssr
 !.vscode/extensions.json
 .idea
 .DS_Store
+Icon?
 *.suo
 *.ntvs*
 *.njsproj
@@ -29,3 +30,5 @@ unused
 # Claude Code hooks generated files
 .dev-server.pid
 .dev-server.log
+
+SITE ASSETS
