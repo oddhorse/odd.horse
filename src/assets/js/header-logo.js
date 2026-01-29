@@ -24,6 +24,29 @@ const ROTATION_INTERVAL_MS = 10000
 // ===== STATE =====
 const taglineElement = document.getElementById('tagline')
 
+const logoLinkElement = document.getElementById('logo-link')
+
+const o1Element = document.getElementById("letter-o1")
+const d1Element = document.getElementById("letter-d1")
+const d2Element = document.getElementById("letter-d2")
+const hElement = document.getElementById("letter-h")
+const o2Element = document.getElementById("letter-o2")
+const rElement = document.getElementById("letter-r")
+const sElement = document.getElementById("letter-s")
+const eElement = document.getElementById("letter-e")
+const iconElement = document.getElementById("letter-icon")
+
+let clickOrder = ""
+
+let o1Clicked = false
+let d1Clicked = false
+let d2Clicked = false
+let hClicked = false
+let o2Clicked = false
+let rClicked = false
+let sClicked = false
+let eClicked = false
+
 // Read taglines from data attribute set on the element by Nunjucks
 let taglines = []
 try {
@@ -85,6 +108,26 @@ function registerElClickToAudio(querySelector, audioKey) {
 	}
 }
 
+// sets letter state to clicked, if unclicked
+function clickLetter(letter) {
+	if (!(letter.getAttribute('class').includes('clicked'))) {
+		letter.classList.add('clicked')
+		letter.classList.remove('hoverwink')
+	}
+}
+
+// resets letter state to unclicked, if clicked
+function unclickLetter(letter) {
+	if (letter.getAttribute('class').includes('clicked')) {
+		letter.classList.remove('clicked')
+		letter.classList.add('hoverwink')
+	}
+}
+
+function isLetterClicked(letter) {
+	return letter.getAttribute('class').includes('clicked')
+}
+
 /** Attach click handlers for tagline and logo pieces */
 function setupClickHandlers() {
 	// Click tagline to immediately rotate and reset timer
@@ -92,6 +135,86 @@ function setupClickHandlers() {
 		rotateTagline()
 		startRotationTimer()
 	})
+
+	o1Element.addEventListener('click', () => {
+		if (!isLetterClicked(o1Element)) clickOrder += "o"
+		console.log(clickOrder)
+
+		clickLetter(o1Element)
+	})
+
+	d1Element.addEventListener('click', () => {
+		if (!isLetterClicked(d1Element)) clickOrder += "d"
+		console.log(clickOrder)
+		clickLetter(d1Element)
+	})
+
+	d2Element.addEventListener('click', () => {
+		if (!isLetterClicked(d2Element)) clickOrder += "D"
+		console.log(clickOrder)
+		clickLetter(d2Element)
+	})
+
+	hElement.addEventListener('click', () => {
+		if (!isLetterClicked(hElement)) clickOrder += "h"
+		console.log(clickOrder)
+		clickLetter(hElement)
+	})
+
+	o2Element.addEventListener('click', () => {
+		if (!isLetterClicked(o2Element)) clickOrder += "O"
+		console.log(clickOrder)
+		clickLetter(o2Element)
+	})
+
+	rElement.addEventListener('click', () => {
+		if (!isLetterClicked(rElement)) clickOrder += "r"
+		console.log(clickOrder)
+		clickLetter(rElement)
+	})
+
+	sElement.addEventListener('click', () => {
+		if (!isLetterClicked(sElement)) clickOrder += "s"
+		console.log(clickOrder)
+		clickLetter(sElement)
+	})
+
+	eElement.addEventListener('click', () => {
+		if (!isLetterClicked(eElement)) clickOrder += "e"
+		console.log(clickOrder)
+		clickLetter(eElement)
+	})
+
+	iconElement.addEventListener('click', () => {
+
+		if (clickOrder === "odDhOrse") {
+			console.log("correct!")
+		} else {
+			console.log("wrong!")
+		}
+
+		clickOrder = ""
+		unclickLetter(o1Element)
+		unclickLetter(d1Element)
+		unclickLetter(d2Element)
+		unclickLetter(hElement)
+		unclickLetter(o2Element)
+		unclickLetter(rElement)
+		unclickLetter(sElement)
+		unclickLetter(eElement)
+	})
+
+	/*
+	logoLinkElement.addEventListener('click', (e) => {
+		// if order is not correct or on the way to being correct, reset
+		if (!(clickOrder === "o" || clickOrder === "od" || clickOrder === "odD" || clickOrder === "odDh" || clickOrder === "odDhO" || clickOrder === "odDhOr" || clickOrder === "odDhOrs" || clickOrder === "odDhOrse")) {
+			clickOrder = ""
+			console.log("wrong!")
+		}
+
+	})
+
+	*/
 
 	// Clicking any letter piece triggers a bounce for fun
 	const headerLogoPieces = document.getElementsByClassName('header-logo-piece')

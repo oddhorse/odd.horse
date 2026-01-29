@@ -1,16 +1,16 @@
 <div class="logo-container">
-	<a {% if page.url != "/" %}href="/"{% endif %} class="logo-link">
+	<a {% if page.url != "/" %}href="/"{% endif %} class="logo-link" id="logo-link">
 		<h1 class="text-logo">
-			<span class="header-logo-piece letter-o1 hoverwink">o</span>
-			<span class="header-logo-piece letter-d1 hoverwink">d</span>
-			<span class="header-logo-piece letter-d2 hoverwink">d</span>
-			<span class="header-logo-piece letter-h hoverwink">h</span>
-			<span class="header-logo-piece letter-o2 hoverwink">o</span>
-			<span class="header-logo-piece letter-r hoverwink">r</span>
-			<span class="header-logo-piece letter-s hoverwink">s</span>
-			<span class="header-logo-piece letter-e hoverwink">e</span>
+			<span class="header-logo-piece letter-o1 hoverwink" id="letter-o1">o</span>
+			<span class="header-logo-piece letter-d1 hoverwink" id="letter-d1">d</span>
+			<span class="header-logo-piece letter-d2 hoverwink" id="letter-d2">d</span>
+			<span class="header-logo-piece letter-h hoverwink" id="letter-h">h</span>
+			<span class="header-logo-piece letter-o2 hoverwink" id="letter-o2">o</span>
+			<span class="header-logo-piece letter-r hoverwink" id="letter-r">r</span>
+			<span class="header-logo-piece letter-s hoverwink" id="letter-s">s</span>
+			<span class="header-logo-piece letter-e hoverwink" id="letter-e">e</span>
 		</h1>
-		<span class="header-logo-piece letter-icon hoverwink">{% include "icons/OH-thick.svg" %}</span>
+		<span class="header-logo-piece letter-icon hoverwink" id="letter-icon">{% include "icons/OH-thick.svg" %}</span>
 
 	</a>
 	<h2 id="tagline" data-taglines="{{ taglines | dump }}" style="opacity: 0;" class="hoverwink">is him!</h2>

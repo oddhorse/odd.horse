@@ -36,6 +36,7 @@ version 5 was trying to be a single page app lmao
 [ ] fix mobile artifact list width
 [ ] add oddhorse image to artifacts
 [ ] investigate util.js usage and remove if unused.
+[ ] make it flash words when you type them in
 
 ### bigger fish and also things i'm kicking down the roooooadddd
 

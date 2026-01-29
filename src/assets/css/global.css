@@ -480,6 +480,12 @@ footer {
 /* Individual letter spans - must be inline-block for transforms to work */
 .logo-container .text-logo span {
 	display: inline-block;
+	pointer-events: all;
+	cursor: pointer;
+}
+
+.logo-container .text-logo span.clicked {
+	color: #ff00bb;
 }
 
 /* SVG logo - sized with --logo-size, inherits color from parent */
