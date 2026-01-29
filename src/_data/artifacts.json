@@ -5,7 +5,16 @@
 		"url": "/artifacts/system-prompt.pdf",
 		"type": "pdf",
 		"dateAdded": "2025-12-15",
-		"color": "#ff00bb"
+		"color": "#ff00bb",
+		"hidden": true
+	},
+	{
+		"id": "stampede",
+		"description": "STAMPEDE!!!",
+		"url": "#",
+		"type": "link",
+		"dateAdded": "2026-01-28",
+		"color": "#00ffbb"
 	},
 	{
 		"id": "treats",
@@ -21,7 +30,8 @@
 		"url": "/artifacts/on-the-cusp",
 		"type": "text",
 		"dateAdded": "2026-01-04",
-		"color": "#31ddff"
+		"color": "#31ddff",
+		"newtab": true
 	},
 	{
 		"id": "horse-cube",
@@ -29,7 +39,8 @@
 		"url": "/artifacts/horsecube.pdf",
 		"type": "pdf",
 		"dateAdded": "2026-01-18",
-		"color": "#6369bb"
+		"color": "#6369bb",
+		"newtab": true
 	},
 	{
 		"id": "toogetherrr-link",
@@ -37,7 +48,8 @@
 		"url": "https://too.fm/oddhorse-toogetherrr",
 		"type": "link",
 		"dateAdded": "2026-01-19",
-		"color": "#d76aff"
+		"color": "#d76aff",
+		"newtab": true
 	},
 	{
 		"id": "so-far-from-home",
@@ -45,6 +57,7 @@
 		"url": "https://too.fm/oddhorse-sffh",
 		"type": "link",
 		"dateAdded": "2026-01-27",
-		"color": "#d76aff"
+		"color": "#d76aff",
+		"newtab": true
 	}
 ]
