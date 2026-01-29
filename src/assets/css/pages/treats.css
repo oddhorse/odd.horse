@@ -1,0 +1,32 @@
+/**
+ * pages/treats.css
+ * Treats page styling for odd.horse
+ *
+ * Simple centered layout with:
+ * - Logo at 6rem size
+ * - Mailchimp signup form
+ * - "More" link back to homepage
+ */
+
+/* Main content centered and compact */
+main {
+	margin: auto;
+	width: fit-content;
+	height: fit-content;
+	flex: 0;
+}
+
+/* Logo size override for treats page */
+.logo-container {
+	--logo-size: 6rem;
+}
+
+/* "More" link styling */
+.more {
+	text-align: center;
+}
+
+.more a {
+	color: var(--lighter-text-color);
+	font-size: 1rem;
+}
