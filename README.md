@@ -56,7 +56,7 @@ version 5 was trying to be a single page app lmao
 [ ] 3d "garden"
 [ ] little ai chatbot that sucks and you can pry secrets from
 [ ] make a famousbirthdays page?
-[ ]
+[ ] specifically add web application stuff to head and site
 
 ## credits
 

@@ -108,3 +108,11 @@ if (typeof window !== 'undefined') {
 	window.pickRandHorses = pickRandHorses
 	window.randIntBtwn = randIntBtwn
 }
+
+// Eagerly load all horses after page loads
+window.addEventListener('load', () => {
+	for (let i = 1; i <= 47; i++) {
+		const img = new Image();
+		img.src = `/assets/images/stampede/horse-${i}.png`;
+	}
+});

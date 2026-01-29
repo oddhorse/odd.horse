@@ -50,6 +50,29 @@ export default async function (eleventyConfig) {
 	eleventyConfig.addPassthroughCopy({ 'src/artifacts': 'artifacts' })
 	eleventyConfig.addPassthroughCopy({ 'src/site.webmanifest': 'site.webmanifest' })
 
+	// ===== CUSTOM FILTERS =====
+
+	/**
+	 * Extract domain from URL for dns-prefetch
+	 * Usage: {{ url | getDomain }}
+	 * Example: "https://open.spotify.com/artist/123" -> "open.spotify.com"
+	 */
+	eleventyConfig.addFilter('getDomain', function (url) {
+		if (!url) return ''
+		return url.replace(/^https?:\/\//, '').split('/')[0]
+	})
+
+	/**
+	 * Extract origin (protocol + domain) from URL for preconnect
+	 * Usage: {{ url | getOrigin }}
+	 * Example: "https://open.spotify.com/artist/123" -> "https://open.spotify.com"
+	 */
+	eleventyConfig.addFilter('getOrigin', function (url) {
+		if (!url) return ''
+		const match = url.match(/^https?:\/\/[^\/]+/)
+		return match ? match[0] : ''
+	})
+
 	// ===== PLUGINS =====
 
 	// Bundling removed: inline script/style extraction no longer used
