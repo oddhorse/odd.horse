@@ -31,11 +31,11 @@ function spawnHorses(horseNums) {
 	console.log(horseNums)
 	for (let i = 0; i < horseNums.length; i++) {
 		const horse = document.createElement('img')
-		horse.src = `/assets/images/stampede/horse-${horseNums[i]}.jpg`
+		horse.src = `/assets/images/stampede/horse-${horseNums[i]}.png`
 		horse.className = 'stampede-horse'
 		horse.alt = `Horse ${horseNums[i]}`
-		horse.style.top = `${10 + Math.random() * 80}%`
-		horse.style.width = `${60 + Math.random() * 60}px`
+		horse.style.top = `${0 + Math.random() * 80}%`
+		horse.style.width = `${150 + Math.random() * 60}px`
 		horse.style.height = horse.style.width
 		horse.style.animationDuration = `${1 + Math.random()}s`
 		horse.style.left = `${-150 - randIntBtwn(0, 200)}px`
