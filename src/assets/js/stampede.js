@@ -37,7 +37,7 @@ function spawnHorses(horseNums) {
 		horse.style.top = `${0 + Math.random() * 80}%`
 		horse.style.width = `${150 + Math.random() * 60}px`
 		horse.style.height = horse.style.width
-		horse.style.animationDuration = `${1 + Math.random()}s`
+		horse.style.animationDuration = `${2 + Math.random()}s`
 		horse.style.left = `${-150 - randIntBtwn(0, 200)}px`
 
 		horse.addEventListener('animationend', () => {
