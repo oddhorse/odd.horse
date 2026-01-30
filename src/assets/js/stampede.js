@@ -94,7 +94,7 @@ async function stampede() {
 
 	// play audio
 	await resumeAudio()
-	playAudio('wheel-of-fortune', { volume: 0.5 })
+	playAudio('stampede', { volume: 0.5 })
 
 
 

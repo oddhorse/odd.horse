@@ -38,4 +38,5 @@ document.addEventListener('DOMContentLoaded', () => {
 	loadAudio('s', ['/assets/audio/s.ogg', '/assets/audio/s.mp3']).catch(() => { })
 	loadAudio('e', ['/assets/audio/e.ogg', '/assets/audio/e.mp3']).catch(() => { })
 	loadAudio('wheel-of-fortune', ['/assets/audio/yeah-thats-it.ogg', '/assets/audio/yeah-thats-it.mp3']).catch(() => { })
+	loadAudio('stampede', ['/assets/audio/elephant.ogg', '/assets/audio/elephant.mp3']).catch(() => { })
 })
