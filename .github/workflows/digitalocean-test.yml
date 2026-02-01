@@ -1,5 +1,5 @@
 # DigitalOcean infrastructure testing
-# Deploy to test location on DigitalOcean droplet
+# Deploy to production path on DigitalOcean droplet
 # Test with IP address before switching DNS
 
 on:
@@ -19,7 +19,7 @@ jobs:
     - name: set up node.js
       uses: actions/setup-node@v4
       with:
-        node-version: 20
+        node-version: 24
         cache: 'npm'
 
     - name: install dependencies
@@ -40,21 +40,21 @@ jobs:
     - name: add known hosts
       run: ssh-keyscan -H ${{ secrets.DO_SERVER_IP }} >> ~/.ssh/known_hosts
 
-    # Deploy static site to test location
+    # Deploy to production path (accessed via IP during testing)
     - name: Deploy static site
-      run: rsync -avz --delete ./dist/ ${{ secrets.DO_USER }}@${{ secrets.DO_SERVER_IP }}:/var/www/test.odd.horse/
+      run: rsync -avz --delete ./dist/ ${{ secrets.DO_USER }}@${{ secrets.DO_SERVER_IP }}:/var/www/odd.horse/
 
     # Optional: Deploy server.js for backend testing
     # - name: Deploy backend files
     #   run: |
-    #     rsync -avz ./server.js ${{ secrets.DO_USER }}@${{ secrets.DO_SERVER_IP }}:/srv/oddhorse-test/
-    #     rsync -avz ./package.json ${{ secrets.DO_USER }}@${{ secrets.DO_SERVER_IP }}:/srv/oddhorse-test/
+    #     rsync -avz ./server.js ${{ secrets.DO_USER }}@${{ secrets.DO_SERVER_IP }}:/srv/oddhorse/
+    #     rsync -avz ./package.json ${{ secrets.DO_USER }}@${{ secrets.DO_SERVER_IP }}:/srv/oddhorse/
 
     # - name: Install deps and restart
     #   run: |
     #     ssh ${{ secrets.DO_USER }}@${{ secrets.DO_SERVER_IP }} << 'EOF'
-    #       cd /srv/oddhorse-test
+    #       cd /srv/oddhorse
     #       npm install --production
-    #       pm2 restart oddhorse-test || pm2 start server.js --name oddhorse-test
+    #       pm2 restart oddhorse || pm2 start server.js --name oddhorse
     #       pm2 save
     #     EOF

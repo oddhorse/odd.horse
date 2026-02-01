@@ -41,21 +41,21 @@ sudo ufw enable
 ### 3. Create Web Directories
 
 ```bash
-# Create directory for test site
-sudo mkdir -p /var/www/test.odd.horse
-sudo chown -R $USER:$USER /var/www/test.odd.horse
-sudo chmod -R 755 /var/www/test.odd.horse
+# Create directory for production site (accessed via IP during testing)
+sudo mkdir -p /var/www/odd.horse
+sudo chown -R $USER:$USER /var/www/odd.horse
+sudo chmod -R 755 /var/www/odd.horse
 
 # If adding backend later
-sudo mkdir -p /srv/oddhorse-test
-sudo chown -R $USER:$USER /srv/oddhorse-test
+sudo mkdir -p /srv/oddhorse
+sudo chown -R $USER:$USER /srv/oddhorse
 ```
 
 ### 4. Configure nginx
 
-Create test site config:
+Create site config:
 ```bash
-sudo nano /etc/nginx/sites-available/test.odd.horse
+sudo nano /etc/nginx/sites-available/odd.horse
 ```
 
 Paste this config:
@@ -64,10 +64,10 @@ server {
     listen 80;
     listen [::]:80;
 
-    # Accept requests by IP or test subdomain
-    server_name YOUR_DROPLET_IP test.odd.horse;
+    # Accept requests by IP during testing, domain after DNS switch
+    server_name YOUR_DROPLET_IP odd.horse www.odd.horse;
 
-    root /var/www/test.odd.horse;
+    root /var/www/odd.horse;
     index index.html;
 
     location / {
@@ -92,7 +92,7 @@ server {
 
 Enable the site:
 ```bash
-sudo ln -s /etc/nginx/sites-available/test.odd.horse /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/odd.horse /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl reload nginx
 ```
@@ -158,32 +158,7 @@ http://YOUR_DROPLET_IP/
 - [ ] All links work
 - [ ] Mobile responsive (resize browser)
 
-### Test via test.odd.horse (Optional)
-
-If you want to use a subdomain for testing:
-
-**Add DNS record:**
-```
-Type    Name    Value               TTL
-A       test    YOUR_DROPLET_IP     3600
-```
-
-Wait 5 minutes, then visit:
-```
-http://test.odd.horse/
-```
-
-**Optional: Add SSL for test subdomain:**
-```bash
-# On droplet
-sudo apt install certbot python3-certbot-nginx -y
-sudo certbot --nginx -d test.odd.horse
-```
-
-Then visit:
-```
-https://test.odd.horse/
-```
+**Note:** You're testing the production setup, just accessing it via IP instead of domain. When you switch DNS, the same files will work at `https://odd.horse/`
 
 ---
 
@@ -277,7 +252,7 @@ git push
 
 On droplet, edit the nginx config:
 ```bash
-sudo nano /etc/nginx/sites-available/test.odd.horse
+sudo nano /etc/nginx/sites-available/odd.horse
 ```
 
 Add BEFORE the `location /` block:
