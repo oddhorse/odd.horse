@@ -1,17 +1,24 @@
 # DigitalOcean Setup & Testing Guide
 
-Testing infrastructure on the `digitalocean` branch before switching DNS.
+Progressive setup guide: get nginx working first, then add production features.
+
+**Note:** This guide assumes you're using **Cloudflare** for DNS/CDN. Production sections cover Cloudflare-specific config.
 
 ---
 
-## Phase 1: Initial Droplet Setup
+## Phase 1: Minimal Setup - Get nginx Working
+
+Goal: Get your site running on the droplet and test via IP address.
 
 ### 1. Create Droplet
 
-- [ ] Create $6/month Ubuntu 24.04 droplet
-- [ ] Save droplet IP address: `___.___.___.___`
-- [ ] Add your SSH key during creation
-- [ ] Wait for droplet to boot (~60 seconds)
+- [ ] Go to DigitalOcean → Create Droplet
+- [ ] **Image:** Ubuntu 24.04 LTS
+- [ ] **Size:** Basic - $6/month (1GB RAM)
+- [ ] **Datacenter:** Closest to you (SF, NYC, etc.)
+- [ ] **Authentication:** Add your SSH key
+- [ ] Wait ~60 seconds for droplet to boot
+- [ ] Save droplet IP: `___.___.___.___`
 
 ### 2. Initial Server Setup
 
@@ -25,47 +32,37 @@ sudo apt update && sudo apt upgrade -y
 # Install nginx
 sudo apt install nginx -y
 
-# Install Node.js (if adding backend later)
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-sudo apt-get install -y nodejs
-
-# Install PM2 (if adding backend later)
-sudo npm install -g pm2
-
 # Setup firewall
 sudo ufw allow 'Nginx Full'
 sudo ufw allow OpenSSH
 sudo ufw enable
+# When prompted "Command may disrupt existing ssh connections", type 'y'
 ```
 
-### 3. Create Web Directories
+### 3. Create Web Directory
 
 ```bash
-# Create directory for production site (accessed via IP during testing)
+# Create directory for your site
 sudo mkdir -p /var/www/odd.horse
 sudo chown -R $USER:$USER /var/www/odd.horse
 sudo chmod -R 755 /var/www/odd.horse
-
-# If adding backend later
-sudo mkdir -p /srv/oddhorse
-sudo chown -R $USER:$USER /srv/oddhorse
 ```
 
-### 4. Configure nginx
+### 4. Create Minimal nginx Config
 
-Create site config:
 ```bash
 sudo nano /etc/nginx/sites-available/odd.horse
 ```
 
-Paste this config:
+**Paste this minimal config:**
+
 ```nginx
 server {
     listen 80;
     listen [::]:80;
 
-    # Accept requests by IP during testing, domain after DNS switch
-    server_name YOUR_DROPLET_IP odd.horse www.odd.horse;
+    # Accept any request (test via IP)
+    server_name _;
 
     root /var/www/odd.horse;
     index index.html;
@@ -73,78 +70,43 @@ server {
     location / {
         try_files $uri $uri/ /index.html;
     }
-
-    # Cache static assets
-    location ~* \.(jpg|jpeg|png|gif|ico|css|js|svg|woff|woff2|ogg|mp3)$ {
-        expires 1y;
-        add_header Cache-Control "public, immutable";
-    }
-
-    # Gzip compression
-    gzip on;
-    gzip_vary on;
-    gzip_min_length 1024;
-    gzip_types text/plain text/css text/xml text/javascript
-               application/x-javascript application/xml+rss
-               application/javascript application/json;
 }
 ```
 
-Enable the site:
+**Enable the site:**
+
 ```bash
+# Enable your site
 sudo ln -s /etc/nginx/sites-available/odd.horse /etc/nginx/sites-enabled/
+
+# Remove default nginx page
+sudo rm /etc/nginx/sites-enabled/default
+
+# Test config
 sudo nginx -t
+
+# Reload nginx
 sudo systemctl reload nginx
 ```
 
----
+### 5. Deploy Your Site Manually
 
-## Phase 2: GitHub Actions Setup
-
-### 1. Add GitHub Secrets
-
-Go to: `Settings` → `Secrets and variables` → `Actions` → `New repository secret`
-
-Add these secrets:
-- [ ] `DO_SSH_KEY` - Your private SSH key for the droplet
-- [ ] `DO_SERVER_IP` - Your droplet IP address
-- [ ] `DO_USER` - SSH username (probably `root` or your username)
-
-**Get your SSH key:**
-```bash
-# On your local machine
-cat ~/.ssh/id_rsa
-# Copy the entire output (including BEGIN/END lines)
-```
-
-### 2. Push digitalocean Branch
+**From your local machine:**
 
 ```bash
-# Make sure you're on the branch
-git branch --show-current  # Should say "digitalocean"
+cd "/Users/bear/Desktop/ODDHORSE SITE"
 
-# Commit the workflow file
-git add .github/workflows/digitalocean-test.yml
-git add DIGITALOCEAN-SETUP.md
-git commit -m "Add DigitalOcean test deployment workflow"
+# Build the site
+npm run build
 
-# Push to GitHub
-git push -u origin digitalocean
+# Deploy to droplet
+rsync -avz --delete dist/ root@YOUR_DROPLET_IP:/var/www/odd.horse/
 ```
 
-### 3. Trigger Deployment
+### 6. Test It Works!
 
-- [ ] Go to GitHub Actions tab
-- [ ] Watch the workflow run
-- [ ] Verify it completes successfully
+**Visit in your browser:**
 
----
-
-## Phase 3: Testing (Before DNS Switch)
-
-### Test via IP Address
-
-Visit your site using the droplet IP:
 ```
 http://YOUR_DROPLET_IP/
 ```
@@ -153,187 +115,254 @@ http://YOUR_DROPLET_IP/
 - [ ] Homepage loads
 - [ ] CSS loads correctly
 - [ ] Images load
-- [ ] Audio files load (for stampede, etc.)
-- [ ] JavaScript works (artifact tracking, modals, etc.)
+- [ ] JavaScript works (modals, artifact tracking, etc.)
+- [ ] Audio files load
 - [ ] All links work
-- [ ] Mobile responsive (resize browser)
 
-**Note:** You're testing the production setup, just accessing it via IP instead of domain. When you switch DNS, the same files will work at `https://odd.horse/`
+**If it works, you're done with minimal setup!** 🎉
 
 ---
 
-## Phase 4: Backend Testing (Optional)
+## Phase 2: GitHub Actions Deployment
 
-If you're adding Express backend:
+Automate deployments on push to the `digitalocean` branch.
 
-### 1. Create server.js
+### 1. Add GitHub Secrets
 
-On your local machine in the project root:
-```bash
-nano server.js
-```
+Go to: GitHub repo → `Settings` → `Secrets and variables` → `Actions` → `New repository secret`
 
-```javascript
-/**
- * server.js - Express backend for odd.horse
- */
-import express from 'express'
-import path from 'path'
-import { fileURLToPath } from 'url'
+Add these three secrets:
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+- [ ] **`DO_SSH_KEY`** - Your private SSH key
+  ```bash
+  # Get your private key:
+  cat ~/.ssh/id_rsa
+  # Copy entire output including BEGIN/END lines
+  ```
 
-const app = express()
-const PORT = process.env.PORT || 3000
+- [ ] **`DO_SERVER_IP`** - Your droplet IP address
+  ```
+  Example: 143.198.123.45
+  ```
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+- [ ] **`DO_USER`** - SSH username
+  ```
+  Probably: root
+  ```
 
-// Health check endpoint
-app.get('/api/health', (req, res) => {
-  res.json({
-    status: 'ok',
-    timestamp: Date.now(),
-    environment: 'test'
-  })
-})
-
-// Serve static 11ty build
-app.use(express.static(path.join(__dirname, 'dist')))
-
-// Fallback to index.html
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'))
-})
-
-app.listen(PORT, () => {
-  console.log(`🐴 oddhorse server running on port ${PORT}`)
-})
-```
-
-### 2. Update package.json
-
-```json
-{
-  "type": "module",
-  "scripts": {
-    "start": "node server.js",
-    "dev": "npm run build && node server.js"
-  },
-  "dependencies": {
-    "express": "^4.18.2"
-  }
-}
-```
-
-### 3. Test Locally
+### 2. Push the digitalocean Branch
 
 ```bash
-npm install
-npm run build
-npm start
+# Make sure you're on the digitalocean branch
+git branch --show-current  # Should say "digitalocean"
 
-# Visit http://localhost:3000
-# Test http://localhost:3000/api/health
+# Push to GitHub
+git push -u origin digitalocean
 ```
 
-### 4. Deploy Backend
+### 3. Watch Deployment
 
-Uncomment the backend sections in `.github/workflows/digitalocean-test.yml` and push:
+- [ ] Go to GitHub → Actions tab
+- [ ] Watch the workflow run
+- [ ] Verify it completes successfully
+- [ ] Visit `http://YOUR_DROPLET_IP/` to see deployed site
 
-```bash
-git add server.js package.json
-git commit -m "Add Express backend for testing"
-git push
-```
+**Now every push to `digitalocean` branch auto-deploys!**
 
-### 5. Update nginx for Backend
+---
 
-On droplet, edit the nginx config:
+## Phase 3: Testing Checklist
+
+Before switching to production, verify everything works:
+
+### Core Functionality
+- [ ] Homepage loads via `http://YOUR_DROPLET_IP/`
+- [ ] All pages work (home, treats, shop, 404)
+- [ ] CSS loads correctly (no styling issues)
+- [ ] Images load
+- [ ] Audio files load (for stampede effect)
+
+### Interactive Features
+- [ ] Artifact click tracking works
+- [ ] NEW badges show on recent items
+- [ ] SEEN badges show on clicked items
+- [ ] Click tracking persists (localStorage)
+- [ ] Modals open (contact, links)
+- [ ] Modals close via X button
+- [ ] Stampede effect works
+- [ ] Chaos hover works on footer buttons
+- [ ] Header logo tagline rotation works
+
+### Technical
+- [ ] No console errors in browser DevTools
+- [ ] Mobile responsive (resize browser window)
+- [ ] Page load time acceptable (< 3 seconds)
+
+**If everything works, you're ready for production setup!**
+
+---
+
+## Phase 4: Production Setup
+
+Add SSL, configure for Cloudflare, and switch DNS.
+
+### Step 1: Update nginx for Production
+
+Update your nginx config with Cloudflare support and security headers.
+
 ```bash
 sudo nano /etc/nginx/sites-available/odd.horse
 ```
 
-Add BEFORE the `location /` block:
+**Replace with this production config:**
+
 ```nginx
-    # Proxy API requests to Express
-    location /api/ {
-        proxy_pass http://localhost:3000;
-        proxy_http_version 1.1;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
+server {
+    listen 80;
+    listen [::]:80;
+
+    # Production: accept by domain name
+    server_name odd.horse www.odd.horse;
+
+    root /var/www/odd.horse;
+    index index.html;
+
+    # Get real visitor IP from Cloudflare (required for accurate logs)
+    set_real_ip_from 173.245.48.0/20;
+    set_real_ip_from 103.21.244.0/22;
+    set_real_ip_from 103.22.200.0/22;
+    set_real_ip_from 103.31.4.0/22;
+    set_real_ip_from 141.101.64.0/18;
+    set_real_ip_from 108.162.192.0/18;
+    set_real_ip_from 190.93.240.0/20;
+    set_real_ip_from 188.114.96.0/20;
+    set_real_ip_from 197.234.240.0/22;
+    set_real_ip_from 198.41.128.0/17;
+    set_real_ip_from 162.158.0.0/15;
+    set_real_ip_from 104.16.0.0/13;
+    set_real_ip_from 104.24.0.0/14;
+    set_real_ip_from 172.64.0.0/13;
+    set_real_ip_from 131.0.72.0/22;
+    real_ip_header CF-Connecting-IP;
+
+    # Security headers
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+
+    # SPA fallback
+    location / {
+        try_files $uri $uri/ /index.html;
     }
+
+    # Cache static assets (Cloudflare caches at edge, so shorter TTL)
+    location ~* \.(jpg|jpeg|png|gif|ico|css|js|svg|woff|woff2|ogg|mp3)$ {
+        expires 7d;
+        add_header Cache-Control "public";
+    }
+
+    # Gzip compression
+    gzip on;
+    gzip_vary on;
+    gzip_comp_level 6;
+    gzip_min_length 1024;
+    gzip_types text/plain text/css text/xml text/javascript
+               application/x-javascript application/xml+rss
+               application/javascript application/json;
+}
 ```
 
-Reload nginx:
+**Reload nginx:**
+
 ```bash
 sudo nginx -t
 sudo systemctl reload nginx
 ```
 
-### 6. Test Backend
+### Step 2: Install SSL Certificate
+
+**Install certbot:**
 
 ```bash
-# Test health endpoint
-curl http://YOUR_DROPLET_IP/api/health
-
-# Should return:
-# {"status":"ok","timestamp":1234567890,"environment":"test"}
+sudo apt install certbot python3-certbot-nginx -y
 ```
 
----
-
-## Phase 5: Performance Testing
-
-### Load Time Test
+**Get SSL certificate:**
 
 ```bash
-# Test page load time
-curl -w "@-" -o /dev/null -s http://YOUR_DROPLET_IP/ <<'EOF'
-    time_namelookup:  %{time_namelookup}\n
-       time_connect:  %{time_connect}\n
-    time_appconnect:  %{time_appconnect}\n
-   time_pretransfer:  %{time_pretransfer}\n
-      time_redirect:  %{time_redirect}\n
- time_starttransfer:  %{time_starttransfer}\n
-                    ----------\n
-         time_total:  %{time_total}\n
-EOF
+sudo certbot --nginx -d odd.horse -d www.odd.horse
 ```
 
-### Browser DevTools
+**Prompts:**
+- Email: (your email for renewal notices)
+- Agree to terms: Y
+- Share email with EFF: (your choice)
 
-- [ ] Open browser DevTools (F12)
-- [ ] Network tab → Reload page
-- [ ] Check total load time
-- [ ] Verify all assets load (no 404s)
-- [ ] Check file sizes
+**Certbot will:**
+- Get SSL cert from Let's Encrypt
+- Update nginx config automatically
+- Enable HTTPS redirect
+
+**Test auto-renewal:**
+
+```bash
+sudo certbot renew --dry-run
+```
+
+### Step 3: Configure Cloudflare SSL
+
+**In Cloudflare dashboard → SSL/TLS:**
+
+- **SSL/TLS encryption mode:** Full (Strict) ✅
+  - Visitor → Cloudflare: HTTPS
+  - Cloudflare → Droplet: HTTPS (verified)
+
+- **Always Use HTTPS:** On
+- **Automatic HTTPS Rewrites:** On
+
+### Step 4: Switch DNS in Cloudflare
+
+**IMPORTANT: Do this in Cloudflare dashboard, NOT at your domain registrar**
+
+**In Cloudflare dashboard → odd.horse → DNS:**
+
+1. Update A records:
+   ```
+   Type    Name    IPv4 address        Proxy status
+   A       @       YOUR_DROPLET_IP     Proxied (🟠 orange cloud)
+   A       www     YOUR_DROPLET_IP     Proxied (🟠 orange cloud)
+   ```
+
+2. **Keep proxy status = Proxied** (orange cloud)
+
+3. Save
+
+**DNS propagation:**
+- Cloudflare: 1-5 minutes (fast!)
+- You'll see Cloudflare IPs when you dig (this is correct - Cloudflare proxies to your droplet)
+
+### Step 5: Test Production
+
+**Visit your site:**
+
+```
+https://odd.horse
+```
+
+**Checklist:**
+- [ ] Site loads via HTTPS
+- [ ] SSL certificate valid (green padlock in browser)
+- [ ] All features work (run through Phase 3 checklist again)
+- [ ] Test from different devices/locations
+- [ ] Check mobile
+
+**You're live!** 🎉
 
 ---
 
-## Phase 6: Final Checklist Before DNS Switch
+## Phase 5: Update Main Branch Deployment
 
-- [ ] Site loads via droplet IP
-- [ ] All pages work (home, treats, shop, 404)
-- [ ] All interactive features work:
-  - [ ] Artifact click tracking
-  - [ ] Modals (contact, links)
-  - [ ] Stampede effect
-  - [ ] Chaos hover
-  - [ ] Header logo tagline rotation
-  - [ ] Audio playback
-- [ ] Mobile responsive (test on phone or resize browser)
-- [ ] No console errors in browser
-- [ ] Backend API works (if applicable)
-- [ ] SSL certificate ready (certbot installed)
-- [ ] Performance acceptable (load time < 3 seconds)
-
----
-
-## Phase 7: Switch to Production
-
-Once everything works on the test branch:
+Once production is working on the `digitalocean` branch:
 
 ### 1. Merge to Main
 
@@ -343,102 +372,164 @@ git merge digitalocean
 git push origin main
 ```
 
-### 2. Update Production Workflow
+### 2. Update main.yml Workflow
 
-Update `.github/workflows/main.yml` to deploy to DigitalOcean:
+Edit `.github/workflows/main.yml`:
+
+**Change the rsync line to:**
+
 ```yaml
-# Change rsync target from old server to DO
-rsync -avz --delete ./dist/ ${{ secrets.DO_USER }}@${{ secrets.DO_SERVER_IP }}:/var/www/odd.horse/
+- name: Deploy with rsync
+  run: rsync -avz --delete ./dist/ ${{ secrets.DO_USER }}@${{ secrets.DO_SERVER_IP }}:/var/www/odd.horse/
 ```
 
-### 3. Setup Production nginx Config
+**Update secrets used:**
+- Change `SSH_KEY` → `DO_SSH_KEY`
+- Change `SSH_SERVER` → `DO_SERVER_IP`
+- Change `SSH_USER` → `DO_USER`
 
-On droplet:
-```bash
-sudo nano /etc/nginx/sites-available/odd.horse
-```
+(Or rename the secrets in GitHub to match)
 
-Same config as test, but with production domain:
-```nginx
-server_name odd.horse www.odd.horse;
-root /var/www/odd.horse;
-```
-
-Enable:
-```bash
-sudo ln -s /etc/nginx/sites-available/odd.horse /etc/nginx/sites-enabled/
-sudo nginx -t
-sudo systemctl reload nginx
-```
-
-### 4. Setup Production SSL
+### 3. Push and Test
 
 ```bash
-sudo certbot --nginx -d odd.horse -d www.odd.horse
+git add .github/workflows/main.yml
+git commit -m "Update main workflow for DigitalOcean"
+git push origin main
 ```
 
-### 5. Switch DNS
+**Watch GitHub Actions deploy to production!**
 
-At your domain registrar:
-```
-Type    Name    Value                   TTL
-A       @       YOUR_DROPLET_IP         3600
-A       www     YOUR_DROPLET_IP         3600
-```
+---
 
-### 6. Wait for DNS Propagation
+## Cloudflare Recommended Settings
 
-```bash
-# Check DNS (takes 5-60 minutes)
-dig odd.horse
+Configure these in Cloudflare dashboard for best performance:
 
-# When it shows your droplet IP, you're live!
-```
+### SSL/TLS
+- **Encryption mode:** Full (Strict) ✅
+- **Always Use HTTPS:** On
+- **Automatic HTTPS Rewrites:** On
+- **Minimum TLS Version:** 1.2
 
-### 7. Test Production
+### Speed
+- **Auto Minify:** CSS, JavaScript, HTML (all On)
+- **Brotli:** On
+- **Rocket Loader:** Off (can break your site)
+- **Early Hints:** On
 
-- [ ] Visit https://odd.horse
-- [ ] Run through all tests again
-- [ ] Verify SSL certificate is valid
-- [ ] Check from different devices/locations
+### Caching
+- **Caching Level:** Standard
+- **Browser Cache TTL:** Respect Existing Headers
+- **Always Online:** On
+
+### Security
+- **Security Level:** Medium
+- **Challenge Passage:** 30 minutes
+- **Browser Integrity Check:** On
 
 ---
 
 ## Rollback Plan
 
-If something goes wrong after DNS switch:
+If something goes wrong:
 
-```bash
-# At domain registrar, point DNS back to old server
-# Wait 5-10 minutes for DNS to propagate back
-```
+### In Cloudflare Dashboard
+
+1. **DNS → Update A records** back to old server IP
+2. Wait 1-2 minutes
+3. Test old server works
+
+### Emergency: Disable Cloudflare Proxy
+
+- Click orange cloud → turns gray (DNS only)
+- Bypasses Cloudflare while you fix issues
 
 ---
 
 ## Maintenance Commands
 
-**View nginx logs:**
+### nginx
+
 ```bash
+# Test config
+sudo nginx -t
+
+# Reload (no downtime)
+sudo systemctl reload nginx
+
+# Restart
+sudo systemctl restart nginx
+
+# View logs
 sudo tail -f /var/log/nginx/access.log
 sudo tail -f /var/log/nginx/error.log
 ```
 
-**Restart services:**
+### SSL
+
 ```bash
-sudo systemctl restart nginx
-pm2 restart oddhorse-test
+# Renew certificates (auto, but you can force)
+sudo certbot renew
+
+# Test renewal
+sudo certbot renew --dry-run
+
+# List certificates
+sudo certbot certificates
 ```
 
-**View PM2 logs:**
+### System
+
 ```bash
-pm2 logs oddhorse-test
-pm2 list
+# Update system
+sudo apt update && sudo apt upgrade -y
+
+# Check disk space
+df -h
+
+# Check memory
+free -h
 ```
 
-**Update SSL:**
+---
+
+## Troubleshooting
+
+### Site shows nginx default page
+
 ```bash
-sudo certbot renew --dry-run  # Test renewal
-sudo certbot renew            # Actually renew
+# Check if your site is enabled
+ls -la /etc/nginx/sites-enabled/
+
+# Should show: odd.horse -> ../sites-available/odd.horse
+
+# If not:
+sudo ln -s /etc/nginx/sites-available/odd.horse /etc/nginx/sites-enabled/
+sudo rm /etc/nginx/sites-enabled/default
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+### 404 errors
+
+```bash
+# Check files exist
+ls -la /var/www/odd.horse/
+
+# Check permissions
+sudo chown -R www-data:www-data /var/www/odd.horse
+sudo chmod -R 755 /var/www/odd.horse
+```
+
+### SSL certificate issues
+
+```bash
+# Check certificate status
+sudo certbot certificates
+
+# Force renewal
+sudo certbot renew --force-renewal
 ```
 
 ---
@@ -449,7 +540,7 @@ sudo certbot renew            # Actually renew
 - [ ] Backups (optional): +$1.20/month
 - [ ] Total: ~$6-7/month
 
-Compare to current hosting: $___/month
+vs. Current hosting: $___/month
 
 ---
 
