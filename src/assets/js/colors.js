@@ -1,10 +1,25 @@
+/**
+ * colors.js
+ * Dynamic color system that derives all interactive colors from a base page color
+ *
+ * Each page can define a --page-color CSS variable (typically set inline in the template).
+ * This module converts that base color to HSL and derives hover states, backgrounds,
+ * and accents by adjusting lightness. This ensures visual consistency across the site
+ * while allowing each page to have its own color identity.
+ */
+
+/**
+ * Convert hex color to HSL object
+ * @param {string} hex - Hex color string (e.g., "#ff00bb")
+ * @returns {{h: number, s: string, l: string}} HSL object with hue (0-360), saturation (%), lightness (%)
+ */
 function hexToHSL(hex) {
-	// Convert HEX to RGB
+	// Convert HEX to RGB values (0-1 range)
 	const r = Number.parseInt(hex.slice(1, 3), 16) / 255
 	const g = Number.parseInt(hex.slice(3, 5), 16) / 255
 	const b = Number.parseInt(hex.slice(5, 7), 16) / 255
 
-	// Find min and max values
+	// Find min and max RGB values to calculate lightness and saturation
 	const max = Math.max(r, g, b)
 	const min = Math.min(r, g, b)
 	let h
@@ -12,10 +27,13 @@ function hexToHSL(hex) {
 	const l = (max + min) / 2
 
 	if (max === min) {
-		h = s = 0 // Achromatic
+		// Achromatic (gray) - no hue or saturation
+		h = s = 0
 	} else {
 		const d = max - min
+		// Saturation depends on lightness
 		s = l > 0.5 ? d / (2 - max - min) : d / (max + min)
+		// Calculate hue based on which RGB component is dominant
 		h =
 			60 *
 			(r === max
@@ -32,34 +50,52 @@ function hexToHSL(hex) {
 	}
 }
 
-// Helper function to darken the color (adjust lightness)
+/**
+ * Darken a color by reducing lightness
+ * @param {string} hex - Hex color string
+ * @param {number} percent - Percentage to darken (default 10)
+ * @returns {string} HSL color string
+ */
 function darkenColor(hex, percent = 10) {
 	const hsl = hexToHSL(hex)
-	const newLightness = Math.max(0, Number.parseInt(hsl.l) - percent) // Ensure no negative lightness
+	// Reduce lightness, ensuring it doesn't go below 0
+	const newLightness = Math.max(0, Number.parseInt(hsl.l) - percent)
 	return `hsl(${hsl.h}, ${hsl.s}, ${newLightness}%)`
 }
 
-// Helper function to lighten the color (adjust lightness)
+/**
+ * Lighten a color by increasing lightness
+ * @param {string} hex - Hex color string
+ * @param {number} percent - Percentage to lighten (default 10)
+ * @returns {string} HSL color string
+ */
 function lightenColor(hex, percent = 10) {
 	const hsl = hexToHSL(hex)
-	const newLightness = Math.min(100, Number.parseInt(hsl.l) + percent) // Ensure no lightness > 100
+	// Increase lightness, ensuring it doesn't exceed 100
+	const newLightness = Math.min(100, Number.parseInt(hsl.l) + percent)
 	return `hsl(${hsl.h}, ${hsl.s}, ${newLightness}%)`
 }
 
+/**
+ * Define all derived colors based on the page's base color
+ * Sets CSS variables for links, buttons, and backgrounds
+ *
+ * @param {string} [color] - Optional hex color to use as base (overrides --page-color)
+ */
 export function defineColors(color) {
 	const doc = document.documentElement
 	let pageColor
+
 	if (color) {
-		// Set CSS variables dynamically
+		// Explicitly set page color (used for programmatic color changes)
 		doc.style.setProperty('--page-color', color)
 		pageColor = color
 	} else {
+		// Use the page color already defined in CSS
 		pageColor = getComputedStyle(doc).getPropertyValue('--page-color')
 	}
 
-	// Convert the HEX color to HSL for dynamic adjustments (computed but not used currently)
-
-	// Set CSS variables dynamically
+	// Derive all interactive colors from the base page color
 	doc.style.setProperty('--link-color', pageColor)
 	doc.style.setProperty('--link-hover-color', darkenColor(pageColor))
 	doc.style.setProperty('--button-background-color', pageColor)

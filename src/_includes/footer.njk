@@ -1,17 +1,21 @@
 <footer>
-    {% include "mailchimp.njk" %}
-    {% if gitInfo.branch == 'beta' %}
-        <p id="beta-notice">beta preview @ <a>https://beta.odd.horse</a>. <a href="https://odd.horse/" target="_blank">click to visit the current version!</a>
-        </p>
-    {% endif %}
-    {% if draft %}
-        <p>this page is unlisted! sneaky sneaky...</p>
-    {% endif %}
-    <p>
-        <i>copyright {% year %} oddhorse •
-            <a href="https://github.com/oddhorse/odd.horse/tree/{{ gitInfo.branch }}" target="_blank">github
-             {% include "logos/github.svg" %}
-            </a> - <a href="https://github.com/oddhorse/odd.horse/commit/{{ gitInfo.commit }}" target="_blank">{{ gitInfo.shortcommit }}</a>
-        </i>
-    </p>
+	{# Icon-only social links (centered, inline, SVG icons) #}
+	<div class="footer-social-icons">
+		<a href="{{ links.spotify.url }}" target="_blank" rel="noopener noreferrer" class="footer-social-icon hoverwink" aria-label="Spotify" style="--footer-icon-color: {{ links.spotify.color }};">
+			{% include "icons/spotify.svg" %}
+		</a>
+		<a href="{{ links.instagram.url }}" target="_blank" rel="noopener noreferrer" class="footer-social-icon hoverwink" aria-label="Instagram" style="--footer-icon-color: {{ links.instagram.color }};">
+			{% include "icons/instagram.svg" %}
+		</a>
+		<a href="{{ links.tiktok.url }}" target="_blank" rel="noopener noreferrer" class="footer-social-icon hoverwink" aria-label="TikTok" style="--footer-icon-color: {{ links.tiktok.color }};">
+			{% include "icons/tiktok.svg" %}
+		</a>
+	</div>
+
+	{# Modal trigger buttons (centered) #}
+	<div class="footer-modal-buttons">
+		<button data-modal-trigger="stream" class="footer-button floating chaos-hover" style="--footer-button-color: #1db954;">stream!</button>
+		<button data-modal-trigger="socials" class="footer-button floating chaos-hover" style="--footer-button-color: #e4405f;">socials</button>
+		<button data-modal-trigger="contact" class="footer-button floating chaos-hover" style="--footer-button-color: #d76aff;">contact</button>
+	</div>
 </footer>

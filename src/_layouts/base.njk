@@ -2,16 +2,6 @@
 <html lang="{{ meta.lang }}">
     {% include "head.njk" %}
     <body>
-        {# put header for every page but index #}
-        {% if page.url != "/" %}
-            {% include "header.njk" %}
-        {% endif %}
-        <main>
-            {{ content | safe }}
-        </main>
-        {% include "footer.njk" %}
-
-        {# add-ins #}
-        {% include "background.njk" %}
+        {{ content | safe }}
     </body>
 </html>

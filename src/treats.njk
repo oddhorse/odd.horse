@@ -1,17 +1,21 @@
 ---
 title: treats
 color: "#d76aff"
-layout: landing
+layout: base
 #tags: main
 ---
 
-<link rel="stylesheet" href="/assets/css/pages/treats.scss">
-<a href="/" class="logo-link logo-container">
-    {% include "logos/OH-thick.svg" %}
-</a>
-{% include "mailchimp.njk" %}
-<p class="more">
-    <a href="/" >
-    ...click for more oddhorse !
-</a>
-</p>
+{# Treats-specific CSS #}
+<link rel="stylesheet" href="/assets/css/pages/treats.css">
+
+<main>
+	<a href="/" class="logo-link logo-container">
+		{% include "icons/OH-thick.svg" %}
+	</a>
+	{% include "mailchimp.njk" %}
+	<p class="more">
+		<a href="/" >
+        ...click for more oddhorse !
+    </a>
+	</p>
+</main>

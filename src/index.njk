@@ -1,9 +1,60 @@
 ---
-title: home
+title: oddhorse
+layout: base
 ---
 
-<link rel="stylesheet" href="/assets/css/pages/index.scss">
-{#{% include "background.njk" %}#}
-{% include "navbar.njk" %}
-{% include "header-logo.njk" %}
-{% include "links.njk" %}
+{# Homepage-specific CSS and JavaScript #}
+<link rel="stylesheet" href="/assets/css/pages/index.css">
+<script type="module" src="/assets/js/homepage.js"></script>
+
+{# Beta menu - only shows on beta branch #}
+{% include "beta-menu.njk" %}
+
+{# Modal system for contact and links #}
+{% include "modals.njk" %}
+
+{% include "header.njk" %}
+
+<main>
+	<ul class="artifact-list">
+		{# Sort artifacts by date, newest first #}
+		{% for artifact in artifacts | sort(reverse = true, attribute = 'dateAdded') %}
+			{% if not artifact.hidden %}
+				<li class="artifact-item"
+				data-artifact-id="{{ artifact.id }}"
+				data-date-added="{{ artifact.dateAdded }}">
+					<span class="artifact-badge artifact-badge-clicked">SEEN</span>
+					<span class="artifact-badge artifact-badge-new">NEW!</span>
+					<a href="{{ artifact.url }}"
+					class="artifact-link"
+					{% if artifact.newtab %}
+						target="_blank"
+						rel="noopener noreferrer"
+					{% endif %}
+					style="--artifact-color: {{ artifact.color or '#ff00bb' }};">
+						<span class="artifact-status"></span>
+						<span class="artifact-description">{{ artifact.description }}</span>
+						<span class="artifact-date">{{ artifact.dateAdded }}</span>
+					</a>
+				</li>
+			{% endif %}
+		{% endfor %}
+	</ul>
+</main>
+
+{# Artifact tracking - only used on homepage #}
+<script type="module">
+	import {initArtifactTracking, wipeClickData, refreshArtifactUI} from '/assets/js/artifacts.js'
+
+	// Initialize artifact tracking on page load
+	initArtifactTracking()
+
+	// Expose functions to window for debugging and beta menu access
+	window.wipeClickData = wipeClickData
+	window.refreshArtifactUI = refreshArtifactUI
+</script>
+
+{% include "footer.njk" %}
+
+{# add-ins #}
+{# {% include "background.njk" %} #}

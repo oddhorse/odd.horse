@@ -1,0 +1,71 @@
+[
+	{
+		"id": "system-prompt",
+		"description": "oddhorse leaked system prompt",
+		"url": "/artifacts/system-prompt.pdf",
+		"type": "pdf",
+		"dateAdded": "2025-12-15",
+		"color": "#ff00bb",
+		"hidden": true
+	},
+	{
+		"id": "new-site-info",
+		"description": "README",
+		"url": "/artifacts/new-site-info",
+		"type": "link",
+		"dateAdded": "2026-02-01",
+		"color": "#bbff00"
+	},
+	{
+		"id": "stampede",
+		"description": "STAMPEDE!!!",
+		"url": "#",
+		"type": "link",
+		"dateAdded": "2026-01-28",
+		"color": "#00ffbb"
+	},
+	{
+		"id": "treats",
+		"description": "tap in for treats 📲",
+		"url": "/treats",
+		"type": "link",
+		"dateAdded": "2026-01-30",
+		"color": "#ff00bb"
+	},
+	{
+		"id": "blog-1",
+		"description": "on the cusp",
+		"url": "/artifacts/on-the-cusp",
+		"type": "text",
+		"dateAdded": "2026-01-04",
+		"color": "#31ddff",
+		"newtab": true
+	},
+	{
+		"id": "horse-cube",
+		"description": "horsecube.pdf",
+		"url": "/artifacts/horsecube.pdf",
+		"type": "pdf",
+		"dateAdded": "2026-01-18",
+		"color": "#6369bb",
+		"newtab": true
+	},
+	{
+		"id": "toogetherrr-link",
+		"description": "LAST NORMAL SONG",
+		"url": "https://too.fm/oddhorse-toogetherrr",
+		"type": "link",
+		"dateAdded": "2026-01-19",
+		"color": "#d76aff",
+		"newtab": true
+	},
+	{
+		"id": "so-far-from-home",
+		"description": "it's an underrated album (old)",
+		"url": "https://too.fm/oddhorse-sffh",
+		"type": "link",
+		"dateAdded": "2026-01-27",
+		"color": "#d76aff",
+		"newtab": true
+	}
+]

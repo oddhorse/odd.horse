@@ -1,7 +1,0 @@
-<nav class="navbar">
-    {%- for mainpage in collections.main %}
-        <a href="/{{ mainpage.fileSlug }}/" title="{{ mainpage.data.title }}" class="{{ mainpage.data.title }} navlink floating" {% if title == mainpage.data.title or parent == mainpage.data.title %} aria-current="page" {% endif %} style="--navbar-link-color: {{ mainpage.data.color }};">
-            {{ mainpage.data.title }}
-        </a>
-    {%- endfor %}
-</nav>

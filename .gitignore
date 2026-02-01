@@ -17,6 +17,7 @@ dist-ssr
 !.vscode/extensions.json
 .idea
 .DS_Store
+Icon?
 *.suo
 *.ntvs*
 *.njsproj
@@ -26,5 +27,13 @@ dist-ssr
 unused
 .htaccess
 
+<<<<<<< HEAD
 SITE ASSETS
 Icon?
+=======
+# Claude Code hooks generated files
+.dev-server.pid
+.dev-server.log
+
+SITE ASSETS
+>>>>>>> beta

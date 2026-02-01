@@ -1,6 +1,6 @@
 {
 	"name": "odd.horse",
-	"version": "6.1.4",
+	"version": "7.1",
 	"type": "module",
 	"description": "website for the music artist [oddhorse](https://odd.horse)",
 	"scripts": {
@@ -8,11 +8,14 @@
 		"watch": "npx @11ty/eleventy --watch",
 		"serve": "npx @11ty/eleventy --serve",
 		"bench": "DEBUG=Eleventy:Benchmark* npx @11ty/eleventy",
-		"build": "npx @11ty/eleventy",
+		"build": "del-cli dist && npx @11ty/eleventy",
 		"build-ghpages": "npx @11ty/eleventy --pathprefix=/odd.horse/",
 		"start-ghpages": "npx @11ty/eleventy --pathprefix=/odd.horse/ --serve --quiet",
 		"clean": "del-cli dist",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"prepare": "husky",
+		"version:bump": "node scripts/bump-version.js",
+		"compress": "node scripts/compress-images.js"
 	},
 	"keywords": [],
 	"repository": {
@@ -24,23 +27,14 @@
 	"devDependencies": {
 		"@11ty/eleventy": "^3.0.0",
 		"@11ty/eleventy-img": "^4.0.2",
-		"@11ty/eleventy-navigation": "^0.3.5",
-		"@11ty/eleventy-plugin-rss": "^2.0.2",
-		"@11ty/eleventy-plugin-syntaxhighlight": "^5.0.0",
-		"@11ty/eleventy-plugin-vite": "^5.0.0-alpha.1",
+		"husky": "^9.1.7",
 		"markdown-it": "^14.1.0",
-		"markdown-it-anchor": "^9.2.0",
-		"npm-run-all": "^4.1.5",
-		"rollup-plugin-critical": "^1.0.14",
-		"sass": "^1.83.1",
-		"vite": "^6.0.7"
-	},
-	"optionalDependencies": {
-		"@rollup/rollup-linux-x64-gnu": "4.30.1"
+		"markdown-it-anchor": "^9.2.0"
 	},
 	"dependencies": {
 		"del-cli": "^6.0.0",
 		"sharp": "^0.33.5",
 		"simple-git": "^3.27.0"
-	}
+	},
+	"packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

@@ -1,0 +1,647 @@
+/**
+ * GLOBAL STYLES
+ *
+ * All site-wide editable styles in one maintainable file.
+ * This combines what was previously split across base.css, layout.css, and components.css
+ *
+ * Contents:
+ * 1. CSS Custom Properties (color system, transitions, animations)
+ * 2. Fonts (Karrik typeface declarations)
+ * 3. Semantic HTML Elements (a, p, h1, img with site-wide styles)
+ * 4. Print Styles (optimized for printing pages)
+ * 5. Page Structure (flexbox sticky footer layout)
+ * 6. Header (logo and navigation positioning)
+ * 7. Footer (copyright, links, GitHub info)
+ * 8. Navbar (navigation links with hover animations)
+ * 9. Background Container (fixed container for floating elements)
+ * 10. Logo Container (text logo and SVG with color system)
+ * 11. Artifact List (homepage links with click tracking)
+ * 12. Email Signup Form (Mailchimp styling)
+ * 13. Utility Classes (brand name styling, video embeds, images)
+ * 14. Animations (float, fade, hoverwink effects)
+ */
+
+/* ===== 0. BOX SIZING ===== */
+
+/**
+ * Universal border-box sizing
+ * Ensures padding is included in element width calculations
+ * Prevents overflow issues when adding padding to full-width elements
+ */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+/* ===== 1. CSS CUSTOM PROPERTIES ===== */
+
+/**
+ * Color System & Design Tokens
+ *
+ * All colors are defined as CSS variables for consistency and easy theming.
+ * JavaScript modifies these variables to create dynamic color effects.
+ *
+ * Color hierarchy:
+ * - Base colors: Fixed brand colors (black, white, pink)
+ * - Page theme: --page-color set per-page via inline script
+ * - Derived colors: --link-color, --link-hover-color computed by colors.js
+ * - Logo colors: --logo-color modified by navbar.js on hover
+ *
+ * Transition system: All animations use consistent timing variables
+ */
+:root {
+	/* Base colors - fixed brand palette */
+	--text-color: #000000;
+	--background-color: #ffffff;
+	--oddhorse-color: #ff00bb;
+	--lighter-text-color: #7e7e7e;
+	--even-lighter-text-color: #bbbbbb;
+
+	/* Page theme color - dynamically set per page */
+	--page-color: #000000;
+
+	/* Link colors - modified by colors.js based on --page-color */
+	--link-color: #000000;
+	--link-hover-color: #ff00bb;
+
+	/* Button and background colors - for future use */
+	--button-background-color: #ff00bb;
+	--accent-background-color: #ff00bb;
+	--hover-background-color: #ff00bb;
+
+	/* Logo colors - modified by navbar.js on navlink hover */
+	--logo-color: var(--page-color);
+	--logo-shadow-color: #00000000;
+
+	/* Transition timing - consistent across site */
+	--link-hover-transition-speed: 0.07s;
+	--link-hover-transition-timing-function: cubic-bezier(0.18, 0.89, 0.32, 1.5);
+
+	/* Animation timing for hoverwink and other effects */
+	--hoverwink-transition-speed: 0.2s;
+	--hoverwink-transition-timing-function: cubic-bezier(0.18, 0.89, 0.32, 1.5);
+	--translation-animation-amount: 1rem;
+}
+
+/* ===== 2. FONTS ===== */
+
+/**
+ * Karrik Typeface
+ *
+ * Custom font family by Jean-Baptiste Morizot & Lucas Le Bihan (velvetyne.fr)
+ * Used throughout the site for distinctive brand identity
+ *
+ * font-display: swap - show fallback font immediately while loading
+ * This prevents invisible text during font load (FOIT)
+ */
+@font-face {
+	font-family: "Karrik";
+	src: url("/assets/fonts/Karrik-Regular.woff2") format("woff2");
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Karrik";
+	src: url("/assets/fonts/Karrik-Italic.woff2") format("woff2");
+	font-weight: normal;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "FT88";
+	src: url("/assets/fonts/FT88-Regular.woff2") format("woff2");
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "FT88";
+	src: url("/assets/fonts/FT88-Bold.woff2") format("woff2");
+	font-weight: bold;
+	font-style: normal;
+	font-display: swap;
+}
+
+/* Apply Karrik font to entire site with sans-serif fallback */
+body {
+	font-family: Karrik, sans-serif;
+}
+
+/* ===== 3. SEMANTIC HTML ELEMENTS ===== */
+
+/**
+ * Base styles for semantic HTML elements
+ * These apply site-wide and create a consistent foundation
+ * Page-specific overrides are inlined in templates
+ */
+
+/* Links - wavy underline is signature brand style */
+a {
+	color: var(--link-color);
+	text-decoration-style: wavy;
+}
+
+a:hover {
+	color: var(--link-hover-color);
+	text-decoration-color: var(--link-hover-color);
+}
+
+/* Paragraphs - comfortable reading size with slight letter spacing */
+p {
+	color: var(--text-color);
+	letter-spacing: 0.01rem;
+	font-size: 1.4rem;
+	font-weight: normal;
+}
+
+/* Images - responsive by default, never overflow container */
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+/* Main heading - large, centered, tight letter-spacing for impact */
+h1 {
+	font-size: 3rem;
+	text-align: center;
+	margin: 0 0 1rem 0;
+	letter-spacing: -0.1rem;
+}
+
+/* Responsive typography - smaller text on mobile */
+@media (max-width: 768px) {
+	p {
+		font-size: 1.1rem;
+	}
+}
+
+/* ===== 4. PRINT STYLES ===== */
+
+/**
+ * Optimized styles for printing pages
+ * Removes colors, shadows, and backgrounds to save ink
+ * Shows link URLs for reference
+ * Prevents awkward page breaks
+ */
+@media print {
+
+	*,
+	*::before,
+	*::after {
+		background: transparent !important;
+		color: #000 !important;
+		box-shadow: none !important;
+		text-shadow: none !important;
+	}
+
+	/* Show URLs after links for print reference */
+	a,
+	a:visited {
+		text-decoration: underline;
+	}
+
+	a[href]:after {
+		content: " (" attr(href) ")";
+	}
+
+	/* Don't show URLs for fragment links or javascript */
+	a[href^="#"]:after,
+	a[href^="javascript:"]:after {
+		content: "";
+	}
+
+	/* Code blocks - wrap long lines */
+	pre {
+		white-space: pre-wrap !important;
+	}
+
+	/* Prevent page breaks inside these elements */
+	pre,
+	blockquote,
+	tr,
+	img {
+		border: 1px solid #999;
+		page-break-inside: avoid;
+	}
+
+	/* Prevent orphans and widows in text */
+	p,
+	h2,
+	h3 {
+		orphans: 3;
+		widows: 3;
+	}
+
+	/* Keep headings with following content */
+	h2,
+	h3 {
+		page-break-after: avoid;
+	}
+
+	/* Tables - proper header grouping */
+	thead {
+		display: table-header-group;
+	}
+}
+
+/* ===== 5. PAGE STRUCTURE ===== */
+
+/**
+ * Sticky footer flexbox layout
+ * Ensures footer stays at bottom even with minimal content
+ * html and body set to full height, flexbox column direction
+ * main takes all available space (flex: 1), pushing footer down
+ */
+html,
+body {
+	height: 100%;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	overflow-x: hidden;
+}
+
+/**
+ * Main content area
+ * Takes all available vertical space, pushing footer to bottom
+ * Horizontal padding for comfortable reading width
+ */
+main {
+	flex: 1;
+	padding: 0 3.5rem;
+}
+
+/* Mobile: reduce padding for smaller screens */
+@media (max-width: 768px) {
+	main {
+		padding: 0 1rem;
+	}
+}
+
+/* ===== 6. HEADER ===== */
+
+/**
+ * Header layout
+ * Desktop: horizontal flexbox with logo left, navbar right
+ * Mobile: vertical stack with centered content
+ *
+ * Logo sizing uses scoped CSS variables (--logo-size, --tagline-size)
+ * These can be overridden on specific pages like homepage
+ */
+header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 2rem;
+	padding: 2rem 3rem;
+}
+
+/* Default logo sizing for header (smaller than homepage) */
+header .logo-container {
+	--logo-size: 5rem;
+	--tagline-size: 1rem;
+}
+
+/* Mobile header: reduce sizes and spacing */
+@media (max-width: 768px) {
+	header {
+		padding: 1rem;
+		padding-top: 0;
+	}
+
+	header .logo-container {
+		margin-bottom: 1rem;
+	}
+}
+
+/* ===== 7. FOOTER ===== */
+
+/**
+ * Footer with social icons and modal trigger buttons
+ * Two rows: social icons on top, modal buttons below
+ * All centered, scales down on mobile
+ */
+footer {
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1.5rem;
+	padding: 2rem 1rem;
+}
+
+/* Footer social icons row */
+.footer-social-icons {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Individual social icon link */
+.footer-social-icon {
+	display: inline-block;
+	color: var(--text-color);
+	text-decoration: none;
+	transition: color var(--link-hover-transition-speed);
+}
+
+/* SVG inside social icon - sized at 1.5rem */
+.footer-social-icon svg {
+	width: 1.6rem;
+	height: 100%;
+	display: block;
+}
+
+/* Hover effect for social icons */
+.footer-social-icon:hover {
+	color: var(--footer-icon-color, var(--link-hover-color));
+}
+
+/* Footer modal buttons row */
+.footer-modal-buttons {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+/* Individual footer button - similar to navbar buttons */
+.footer-button {
+	background: none;
+	border: none;
+	color: var(--text-color);
+	font-family: inherit;
+	font-size: 1.4rem;
+	cursor: pointer;
+	padding: 0.5rem 1rem;
+	text-decoration: none;
+	transition: color var(--link-hover-transition-speed);
+}
+
+/* Hover effect for footer buttons */
+.footer-button:hover {
+	color: var(--footer-button-color, var(--link-hover-color));
+}
+
+/* Mobile footer: scale down to fit */
+@media (max-width: 768px) {
+	footer {
+		gap: 1rem;
+		padding: 1.5rem;
+	}
+
+	.footer-social-icons {
+		gap: 0.75rem;
+	}
+
+	.footer-social-icon svg {
+		width: 2rem;
+	}
+
+	.footer-modal-buttons {
+		gap: 0.75rem;
+	}
+
+	.footer-button {
+		font-size: 1.5rem;
+		padding: 0.4rem 0.75rem;
+	}
+}
+
+/* ===== 8. BACKGROUND CONTAINER ===== */
+
+/**
+ * Fixed container for floating background elements
+ * Used by background.njk to display decorative floating horses
+ * Full viewport size, fixed position, pointer-events: none so it doesn't block clicks
+ * Low opacity and negative z-index keeps it in background
+ */
+.floating-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	pointer-events: none;
+	opacity: 0.1;
+	z-index: -10;
+}
+
+/* Children positioned absolutely within container */
+.floating-container>* {
+	position: absolute;
+	opacity: 1;
+}
+
+/* ===== 9. LOGO CONTAINER ===== */
+
+/**
+ * Logo container holds both text logo ("oddhorse") and SVG logo
+ * Color system:
+ * - --logo-color: Defaults to page color, changes on navbar hover (via navbar.js)
+ * - --logo-shadow-color: Shadow with transparency, modified on hover
+ * - SVG logo uses fill="currentColor" to inherit color from parent
+ *
+ * Sizing uses scoped variables --logo-size and --tagline-size
+ * These are set by the page (e.g., homepage sets larger size)
+ */
+.logo-container {
+	--logo-color: var(--page-color);
+	--logo-shadow-color: #00000000;
+	user-select: none;
+	-webkit-user-select: none;
+	cursor: pointer;
+	width: fit-content;
+}
+
+/* Logo link - flexbox centers both text and SVG */
+.logo-container .logo-link {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-decoration: none;
+	color: var(--logo-color);
+	transition: color 0.1s ease-in-out;
+}
+
+/**
+ * Text logo - "oddhorse" text
+ * Uses --logo-size for fluid responsive sizing
+ * Text shadow animates on navbar hover
+ */
+.logo-container .text-logo {
+	margin: 0;
+	font-weight: normal;
+	letter-spacing: -0.08em;
+	font-size: var(--logo-size);
+	line-height: 1;
+	transition: text-shadow var(--link-hover-transition-speed);
+	transition-timing-function: var(--link-hover-transition-timing-function);
+	text-shadow: calc(var(--logo-size) / 2) 0px calc(var(--logo-size) * 0.5) var(--logo-shadow-color);
+	display: inline-flex;
+	gap: 0;
+	align-items: baseline;
+}
+
+/* Individual letter spans - must be inline-block for transforms to work */
+.logo-container .text-logo span {
+	display: inline-block;
+}
+
+/* SVG logo - sized with --logo-size, inherits color from parent */
+.logo-container .oddhorse-logo {
+	width: var(--logo-size);
+	height: auto;
+	border-radius: 2px;
+}
+
+/* Logo hover - changes to link hover color */
+.logo-container .logo-link:hover {
+	color: var(--link-hover-color);
+}
+
+/**
+ * Tagline - random rotating text below logo
+ * Positioned absolutely relative to logo container
+ * Controlled by JavaScript in header-logo.njk
+ * Clickable to cycle through taglines, auto-rotates every 10 seconds
+ */
+.logo-container #tagline {
+	position: absolute;
+	margin: 0;
+	line-height: 1;
+	color: var(--lighter-text-color);
+	font-size: var(--tagline-size);
+	font-weight: normal;
+	/* Override default h2 bold weight */
+	translate: 0 calc(var(--tagline-size) / 2 * -1);
+	padding-left: var(--tagline-size);
+	cursor: pointer;
+}
+
+/* ===== 10. UTILITY CLASSES ===== */
+
+/**
+ * .oddhorse-inline - special styling for "oddhorse" brand name in content
+ * Compressed horizontally (70%), stretched vertically (140%)
+ * Italic with brand color, wavy underline
+ * Negative margin compensates for transform scaling
+ */
+.oddhorse-inline {
+	display: inline-block;
+	font-size: 1.4rem;
+	transform: scaleX(70%) scaleY(140%) translateY(-4%);
+	margin: 0 -0.8rem;
+	text-decoration: inherit;
+	text-decoration-style: wavy;
+	color: var(--oddhorse-color);
+	font-style: italic;
+}
+
+/* YouTube video embed container - rounded corners */
+.yt-video {
+	border-radius: 4px;
+	overflow: hidden;
+	margin: 1.5rem;
+}
+
+/* Fluid image - constrained max width for large images */
+.img-fluid {
+	width: 35rem;
+}
+
+/* ===== 11. ANIMATIONS ===== */
+
+/**
+ * Float up and down animation
+ * Used for floating background elements (horses, decorations)
+ * Amount controlled by --translation-animation-amount variable
+ */
+@keyframes floatUpDown {
+	0% {
+		transform: translateY(0);
+	}
+
+	50% {
+		transform: translateY(var(--translation-animation-amount));
+	}
+
+	100% {
+		transform: translateY(0);
+	}
+}
+
+/**
+ * Fade out with sustain
+ * Used for Easter egg images that appear then fade
+ * Stays opaque for 20% of duration, then fades out
+ */
+@keyframes fadeOutSustain {
+	0% {
+		opacity: 1;
+	}
+
+	20% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+	}
+}
+
+/**
+ * Hoverwink - bounce/pop animation
+ * Two versions:
+ * 1. CSS :hover for simple hover effects
+ * 2. JavaScript-controlled via .hoverwink-animate class
+ */
+.hoverwink {
+	transition: transform var(--hoverwink-transition-speed);
+	transition-timing-function: var(--hoverwink-transition-timing-function);
+}
+
+.hoverwink:hover {
+	transform: scale(1.05) translateY(-0.02rem);
+}
+
+/* Programmatically controlled hoverwink animation */
+@keyframes hoverwink {
+	0% {
+		transform: scale(1) translateY(0);
+	}
+
+	100% {
+		transform: scale(1.06) translateY(-0.02rem);
+	}
+}
+
+/* Add this class via JavaScript to trigger animation */
+.hoverwink-animate {
+	animation: hoverwink var(--hoverwink-transition-speed) var(--hoverwink-transition-timing-function) forwards;
+}
+
+/* Reverse animation - animates back to original state */
+.hoverwink-reset {
+	animation: hoverwink var(--hoverwink-transition-speed) var(--hoverwink-transition-timing-function) reverse forwards;
+}
+
+/* ===== 12. END OF GLOBAL STYLES ===== */
+
+/**
+ * Page-specific styles (modals, chaos hover, etc.) have been moved to:
+ * - pages/index.css (homepage only)
+ * - pages/treats.css (treats page only)
+ *
+ * Logo sizing defaults:
+ * - Header logos use 5rem (global default)
+ * - Homepage main logo overrides to 7rem (see pages/index.css)
+ * - Treats page overrides to 6rem (see pages/treats.css)
+ */
