@@ -130,16 +130,17 @@ export default async function (eleventyConfig) {
 		html: true, // Allow HTML tags in markdown
 		breaks: true, // Convert line breaks to <br>
 		linkify: true, // Auto-convert URLs to links
-	}).use(markdownItAnchor, {
-		// Add anchor links to headings for easy linking
-		permalink: markdownItAnchor.permalink.ariaHidden({
-			placement: 'after',
-			class: 'direct-link',
-			symbol: '#',
-			level: [1, 2, 3, 4], // Add anchors to h1-h4
-		}),
-		slugify: eleventyConfig.getFilter('slug'),
 	})
+	// .use(markdownItAnchor, {
+	// 	// Add anchor links to headings for easy linking
+	// 	permalink: markdownItAnchor.permalink.ariaHidden({
+	// 		placement: 'after',
+	// 		class: 'direct-link',
+	// 		symbol: '#',
+	// 		level: [1, 2, 3, 4], // Add anchors to h1-h4
+	// 	}),
+	// 	slugify: eleventyConfig.getFilter('slug'),
+	// })
 	eleventyConfig.setLibrary('md', markdownLibrary)
 
 	// ===== LAYOUT ALIASES =====

@@ -41,12 +41,16 @@ version 5 was trying to be a single page app lmao
 [ ] make background with canvas
 [ ] make little pixel icons
 [ ] make on hover effects clearer for logo pieces
+[ ] make sitemap.xml generated
 
 ### bigger fish and also things i'm kicking down the roooooadddd
 
 [ ] notification opt-in for new updates
 [ ] further consolidate files and improve structure. too cluttered and big for such a small site!!!
 [ ] guestbook
+[ ] pharaoh (clippy-style guy) who gives you hints. "have you seen the STAMPEDE yet?"
+[ ] user login so they can collect easter eggs? idk
+[ ] jukebox page
 [ ] osu!mania-style rhythm game (vertical scrolling, multiple lanes, timing-based)
 [ ] make contact page template-based
 [ ] rank streaming service list by least to most evil

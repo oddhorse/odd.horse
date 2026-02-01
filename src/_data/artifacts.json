@@ -9,6 +9,14 @@
 		"hidden": true
 	},
 	{
+		"id": "new-site-info",
+		"description": "README",
+		"url": "/artifacts/new-site-info",
+		"type": "link",
+		"dateAdded": "2026-02-01",
+		"color": "#bbff00"
+	},
+	{
 		"id": "stampede",
 		"description": "STAMPEDE!!!",
 		"url": "#",
