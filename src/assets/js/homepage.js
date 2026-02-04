@@ -16,6 +16,7 @@ import { initAudioCtx, loadAudio } from './audio.js'
 import { initHeaderLogo } from './header-logo.js'
 import { initStampede } from './stampede.js'
 import { initChaosHover } from './chaos-hover.js'
+import { wipeClickData, refreshArtifactUI } from './artifacts.js'
 
 /**
  * Initialize homepage features when DOM is ready
@@ -39,4 +40,17 @@ document.addEventListener('DOMContentLoaded', () => {
 	loadAudio('e', ['/assets/audio/e.ogg', '/assets/audio/e.mp3']).catch(() => { })
 	loadAudio('wheel-of-fortune', ['/assets/audio/yeah-thats-it.ogg', '/assets/audio/yeah-thats-it.mp3']).catch(() => { })
 	loadAudio('stampede', ['/assets/audio/elephant.ogg', '/assets/audio/elephant.mp3']).catch(() => { })
+
+	// Expose beta/debug functions on window for console access (works in production without beta menu)
+	window.wipeClickData = wipeClickData
+	window.refreshArtifactUI = refreshArtifactUI
+	window.wipe = function () {
+		wipeClickData()
+		refreshArtifactUI()
+		console.log('Click data cleared and UI refreshed')
+	}
+	window.help = function () {
+		console.log("debug functions available:\n  wipeClickData() - clear all click data\n  refreshArtifactUI() - refresh artifact ui\n  wipe() - clear click data and refresh ui\n  help() - show this help message")
+	}
+
 })

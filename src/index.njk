@@ -44,14 +44,10 @@ layout: base
 
 {# Artifact tracking - only used on homepage #}
 <script type="module">
-	import {initArtifactTracking, wipeClickData, refreshArtifactUI} from '/assets/js/artifacts.js'
+	import {initArtifactTracking} from '/assets/js/artifacts.js'
 
 	// Initialize artifact tracking on page load
 	initArtifactTracking()
-
-	// Expose functions to window for debugging and beta menu access
-	window.wipeClickData = wipeClickData
-	window.refreshArtifactUI = refreshArtifactUI
 </script>
 
 {% include "footer.njk" %}
