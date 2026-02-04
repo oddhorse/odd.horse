@@ -28,7 +28,6 @@ function getStampedeLink() {
  */
 function spawnHorses(horseNums) {
 	const frag = document.createDocumentFragment()
-	console.log(horseNums)
 	for (let i = 0; i < horseNums.length; i++) {
 		const horse = document.createElement('img')
 		horse.src = `/assets/images/stampede/horse-${horseNums[i]}.png`
@@ -42,7 +41,6 @@ function spawnHorses(horseNums) {
 
 		horse.addEventListener('animationend', () => {
 			horse.remove()
-			console.log(`Horse ${i + 1} finished`)
 			reenableStampedeButtonIfNoHorses()
 		})
 		frag.appendChild(horse)
@@ -54,13 +52,10 @@ function spawnHorses(horseNums) {
 
 function reenableStampedeButtonIfNoHorses() {
 	const horses = document.getElementsByClassName("stampede-horse")
-	console.log("testing if no horses")
 	if (!horses[0]) {
-		console.log("no more horses")
 		const stampedeLink = getStampedeLink()
 		if (stampedeLink) {
 			stampedeLink.style.pointerEvents = 'auto'
-			console.log("reenabled stampede link")
 		}
 	}
 }
@@ -100,13 +95,6 @@ async function stampede() {
 
 
 
-}
-
-//[TODO] remove this!!!
-// Expose helpers for quick console testing
-if (typeof window !== 'undefined') {
-	window.pickRandHorses = pickRandHorses
-	window.randIntBtwn = randIntBtwn
 }
 
 // Eagerly load all horses after page loads
