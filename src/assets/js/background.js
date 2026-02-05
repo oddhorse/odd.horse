@@ -1,31 +1,67 @@
 /**
  * background.js
- * True infinite scrolling grid of SVG icons with dynamic direction control
+ * Canvas-based infinite scrolling grid with SVG icons
  *
- * Uses a tiling approach: create one tile, duplicate it, scroll both together
- * When the first tile scrolls off screen, reset position for seamless loop
+ * Optimizations:
+ * - 1x resolution (not retina) for performance
+ * - 30fps frame limiting
+ * - Pre-rendered icon textures
+ * - Efficient tiling pattern
+ *
+ * Interactive hooks ready for:
+ * - Click reactions
+ * - Mouse trails
+ * - Particle effects
+ * - Dynamic behaviors
  */
+
+const canvas = document.getElementById('background');
+const ctx = canvas.getContext('2d', {
+	alpha: true,
+	willReadFrequently: false
+});
+
+// Disable anti-aliasing for crisp rendering
+ctx.imageSmoothingEnabled = false;
 
 // Export controls for beta menu
 window.backgroundControls = {
 	direction: 'diagonal', // 'diagonal', 'horizontal', 'vertical', 'rotate'
-	speed: 1.0, // Speed multiplier
+	speed: 1.0,
 	paused: false
 };
 
 // Export stats for beta menu
 window.backgroundStats = {
-	fps: 60, // CSS animations run at display refresh rate
+	fps: 0,
 	frameCount: 0,
 	lastFpsUpdate: 0
 };
 
 (() => {
-	const background = document.getElementById('background');
-	if (!background) return;
+	// Cached dimensions
+	let canvasWidth = 0;
+	let canvasHeight = 0;
 
-	// SVG icon definitions - simple geometric shapes on-brand for oddhorse
-	const icons = [
+	// Frame rate limiting - 30fps
+	const targetFPS = 30;
+	const frameInterval = 1000 / targetFPS;
+	let lastFrameTime = 0;
+
+	// Grid configuration
+	const iconSize = 120; // px
+	let cols = 0;
+	let rows = 0;
+
+	// Pre-rendered icon textures
+	const iconTextures = [];
+	let texturesReady = false;
+
+	/**
+	 * SVG icon definitions
+	 * These will be converted to canvas image data for fast rendering
+	 */
+	const iconSVGs = [
 		// Horse silhouette (simplified)
 		`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
 			<path d="M20,80 L20,50 Q20,30 40,30 L50,30 L50,20 L60,30 L70,30 Q80,30 80,50 L80,80 L70,80 L70,50 L60,50 L60,80 L50,80 L50,50 L40,50 L40,80 Z"
@@ -52,185 +88,232 @@ window.backgroundStats = {
 		</svg>`
 	];
 
-	// Grid configuration
-	const iconSize = 120; // px
-	const cols = Math.ceil(window.innerWidth / iconSize) + 2;
-	const rows = Math.ceil(window.innerHeight / iconSize) + 2;
+	/**
+	 * Convert SVG string to canvas Image
+	 * Uses page color for icon color
+	 */
+	async function svgToImage(svgString) {
+		return new Promise((resolve, reject) => {
+			// Get page color from CSS variable
+			const pageColor = getComputedStyle(document.documentElement)
+				.getPropertyValue('--page-color').trim() || '#ff00bb';
 
-	// Store the icon pattern for consistency
+			// Replace currentColor with actual color
+			const coloredSVG = svgString.replace(/currentColor/g, pageColor);
+
+			// Create blob and object URL
+			const blob = new Blob([coloredSVG], { type: 'image/svg+xml' });
+			const url = URL.createObjectURL(blob);
+
+			// Load as image
+			const img = new Image();
+			img.onload = () => {
+				URL.revokeObjectURL(url);
+				resolve(img);
+			};
+			img.onerror = reject;
+			img.src = url;
+		});
+	}
+
+	/**
+	 * Pre-render all icons to canvas textures
+	 * Much faster than rendering SVG data URLs every frame
+	 */
+	async function preRenderIcons() {
+		const promises = iconSVGs.map(async (svg) => {
+			const img = await svgToImage(svg);
+
+			// Create offscreen canvas for this icon
+			const offscreen = document.createElement('canvas');
+			offscreen.width = iconSize;
+			offscreen.height = iconSize;
+			const offCtx = offscreen.getContext('2d');
+			offCtx.imageSmoothingEnabled = false;
+
+			// Draw SVG to offscreen canvas
+			offCtx.drawImage(img, 0, 0, iconSize, iconSize);
+
+			return offscreen;
+		});
+
+		iconTextures.push(...await Promise.all(promises));
+		texturesReady = true;
+	}
+
+	/**
+	 * Set up canvas sizing
+	 * Uses 1x resolution for performance
+	 */
+	function resizeCanvas() {
+		canvasWidth = window.innerWidth;
+		canvasHeight = window.innerHeight;
+
+		canvas.width = canvasWidth;
+		canvas.height = canvasHeight;
+
+		// Calculate grid dimensions
+		cols = Math.ceil(canvasWidth / iconSize) + 2;
+		rows = Math.ceil(canvasHeight / iconSize) + 2;
+
+		ctx.imageSmoothingEnabled = false;
+	}
+
+	/**
+	 * Generate icon pattern for consistent tiling
+	 * Returns a 2D array of icon indices
+	 */
+	function generateIconPattern() {
+		const pattern = [];
+		for (let row = 0; row < rows; row++) {
+			pattern[row] = [];
+			for (let col = 0; col < cols; col++) {
+				pattern[row][col] = Math.floor(Math.random() * iconTextures.length);
+			}
+		}
+		return pattern;
+	}
+
+	// Store the icon pattern
 	let iconPattern = [];
 
 	/**
-	 * Generate a consistent icon pattern
-	 * This pattern will be reused to ensure seamless tiling
+	 * Draw the icon grid at a given offset
+	 * Uses pre-rendered textures for speed
 	 */
-	function generateIconPattern() {
-		iconPattern = [];
-		const totalIcons = cols * rows;
-		for (let i = 0; i < totalIcons; i++) {
-			iconPattern.push(icons[Math.floor(Math.random() * icons.length)]);
+	function drawGrid(offsetX, offsetY) {
+		if (!texturesReady) return;
+
+		// Calculate which grid cells are visible
+		const startCol = Math.floor(offsetX / iconSize);
+		const startRow = Math.floor(offsetY / iconSize);
+
+		// Draw grid with wrapping
+		for (let row = 0; row < rows + 1; row++) {
+			for (let col = 0; col < cols + 1; col++) {
+				const patternRow = (startRow + row) % rows;
+				const patternCol = (startCol + col) % cols;
+				const iconIndex = iconPattern[patternRow][patternCol];
+
+				const x = col * iconSize - (offsetX % iconSize);
+				const y = row * iconSize - (offsetY % iconSize);
+
+				ctx.drawImage(iconTextures[iconIndex], x, y, iconSize, iconSize);
+			}
 		}
 	}
 
 	/**
-	 * Create a single grid tile using the icon pattern
-	 */
-	function createGridTile(className) {
-		const grid = document.createElement('div');
-		grid.className = className;
-		grid.style.cssText = `
-			display: grid;
-			grid-template-columns: repeat(${cols}, ${iconSize}px);
-			grid-template-rows: repeat(${rows}, ${iconSize}px);
-			position: absolute;
-			top: 0;
-			left: 0;
-			will-change: transform;
-		`;
-
-		// Fill grid with icons using the consistent pattern
-		for (let i = 0; i < iconPattern.length; i++) {
-			const cell = document.createElement('div');
-			cell.className = 'bg-icon';
-			cell.style.cssText = `
-				width: ${iconSize}px;
-				height: ${iconSize}px;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-			`;
-			cell.innerHTML = iconPattern[i];
-			grid.appendChild(cell);
-		}
-
-		return grid;
-	}
-
-	/**
-	 * Create the tiled background (2 identical grids for seamless scrolling)
-	 */
-	function createBackground() {
-		// Clear existing content
-		background.innerHTML = '';
-
-		// Generate consistent pattern
-		generateIconPattern();
-
-		// Create container for both grid tiles
-		const container = document.createElement('div');
-		container.className = 'bg-container';
-		container.style.cssText = `
-			position: absolute;
-			inset: 0;
-		`;
-
-		// Create two identical grids
-		const grid1 = createGridTile('bg-grid bg-grid-1');
-		const grid2 = createGridTile('bg-grid bg-grid-2');
-
-		container.appendChild(grid1);
-		container.appendChild(grid2);
-		background.appendChild(container);
-
-		return { grid1, grid2 };
-	}
-
-	/**
-	 * Animation loop - updates transforms and handles infinite scroll reset
+	 * Main animation loop
+	 * Throttled to 30fps with FPS tracking
 	 */
 	let animationId;
-	let startTime = performance.now();
-	const tileWidth = cols * iconSize;
-	const tileHeight = rows * iconSize;
+	let startTime = 0;
 
 	function animate(currentTime) {
+		// Throttle to target frame rate
+		const elapsed = currentTime - lastFrameTime;
+		if (elapsed < frameInterval) {
+			animationId = requestAnimationFrame(animate);
+			return;
+		}
+
+		lastFrameTime = currentTime - (elapsed % frameInterval);
+
+		// Calculate actual FPS for beta menu
+		window.backgroundStats.frameCount++;
+		if (currentTime - window.backgroundStats.lastFpsUpdate >= 1000) {
+			window.backgroundStats.fps = window.backgroundStats.frameCount;
+			window.backgroundStats.frameCount = 0;
+			window.backgroundStats.lastFpsUpdate = currentTime;
+		}
+
 		if (window.backgroundControls.paused) {
 			animationId = requestAnimationFrame(animate);
 			return;
 		}
 
-		const elapsed = (currentTime - startTime) * window.backgroundControls.speed * 0.02;
-		const grids = background.querySelectorAll('.bg-grid');
-		if (!grids.length) return;
+		// Clear canvas
+		ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-		const [grid1, grid2] = grids;
+		// Calculate scroll offset based on direction
+		const time = (currentTime - startTime) * window.backgroundControls.speed * 0.02;
+		let offsetX = 0;
+		let offsetY = 0;
 
 		switch (window.backgroundControls.direction) {
-			case 'diagonal': {
-				// Calculate offset that wraps at tile size
-				let offsetX = elapsed % tileWidth;
-				let offsetY = elapsed % tileHeight;
-
-				// Position first grid
-				grid1.style.transform = `translate(${-offsetX}px, ${-offsetY}px)`;
-
-				// Position second grid offset by tile size (creates seamless loop)
-				grid2.style.transform = `translate(${tileWidth - offsetX}px, ${tileHeight - offsetY}px)`;
+			case 'diagonal':
+				offsetX = time;
+				offsetY = time;
 				break;
-			}
-			case 'horizontal': {
-				let offsetX = elapsed % tileWidth;
-
-				grid1.style.transform = `translate(${-offsetX}px, 0px)`;
-				grid2.style.transform = `translate(${tileWidth - offsetX}px, 0px)`;
+			case 'horizontal':
+				offsetX = time;
+				offsetY = 0;
 				break;
-			}
-			case 'vertical': {
-				let offsetY = elapsed % tileHeight;
-
-				grid1.style.transform = `translate(0px, ${-offsetY}px)`;
-				grid2.style.transform = `translate(0px, ${tileHeight - offsetY}px)`;
+			case 'vertical':
+				offsetX = 0;
+				offsetY = time;
 				break;
-			}
-			case 'rotate': {
-				// Rotation doesn't scroll infinitely, just rotates in place
-				const rotation = (elapsed * 0.5) % 360;
-				const centerX = window.innerWidth / 2;
-				const centerY = window.innerHeight / 2;
-
-				grid1.style.transform = `translate(${centerX - tileWidth/2}px, ${centerY - tileHeight/2}px) rotate(${rotation}deg)`;
-				grid2.style.display = 'none'; // Hide second grid for rotation
-				break;
-			}
+			case 'rotate':
+				// For rotation, draw grid centered and rotate canvas
+				const rotation = (time * 0.5) % 360;
+				ctx.save();
+				ctx.translate(canvasWidth / 2, canvasHeight / 2);
+				ctx.rotate((rotation * Math.PI) / 180);
+				ctx.translate(-canvasWidth / 2, -canvasHeight / 2);
+				drawGrid(0, 0);
+				ctx.restore();
+				animationId = requestAnimationFrame(animate);
+				return;
 		}
 
-		// Show grid2 for scrolling modes, hide for rotate
-		if (window.backgroundControls.direction !== 'rotate') {
-			grid2.style.display = 'grid';
-		}
+		// Draw the scrolling grid
+		drawGrid(offsetX, offsetY);
 
+		// Continue animation
 		animationId = requestAnimationFrame(animate);
 	}
 
 	/**
 	 * Initialize on DOM load
 	 */
-	document.addEventListener('DOMContentLoaded', () => {
-		createBackground();
+	document.addEventListener('DOMContentLoaded', async () => {
+		resizeCanvas();
 
-		// Start animation
-		requestAnimationFrame(animate);
+		try {
+			// Pre-render all icon textures
+			await preRenderIcons();
+
+			// Generate icon pattern
+			iconPattern = generateIconPattern();
+
+			// Start animation
+			startTime = performance.now();
+			requestAnimationFrame(animate);
+
+			// Fade in
+			canvas.style.opacity = 1;
+		} catch (error) {
+			console.error('Failed to initialize background:', error);
+		}
 
 		// Handle window resize
 		let resizeTimeout;
 		window.addEventListener('resize', () => {
 			clearTimeout(resizeTimeout);
 			resizeTimeout = setTimeout(() => {
-				const currentTime = performance.now();
 				cancelAnimationFrame(animationId);
-				createBackground();
-				startTime = currentTime;
+				resizeCanvas();
+				iconPattern = generateIconPattern();
+				startTime = performance.now();
 				requestAnimationFrame(animate);
 			}, 250);
 		});
-
-		// Fade in
-		setTimeout(() => {
-			background.style.opacity = 1;
-		}, 100);
 	});
 
-	// Expose controls for debugging
+	/**
+	 * Expose controls for beta menu
+	 */
 	window.backgroundControls.setDirection = (dir) => {
 		if (['diagonal', 'horizontal', 'vertical', 'rotate'].includes(dir)) {
 			window.backgroundControls.direction = dir;
@@ -245,5 +328,39 @@ window.backgroundStats = {
 		window.backgroundControls.paused = !window.backgroundControls.paused;
 		return window.backgroundControls.paused;
 	};
+
+	/**
+	 * Interactive hooks for future features
+	 * These can be extended for click reactions, particles, etc.
+	 */
+	window.backgroundInteractive = {
+		// Click handler - ready for particle effects, ripples, etc.
+		onClick: (x, y) => {
+			console.log('Background clicked at:', x, y);
+			// TODO: spawn particles, ripple effect, etc.
+		},
+
+		// Mouse move handler - ready for trails, proximity effects, etc.
+		onMouseMove: (x, y) => {
+			// TODO: mouse trail, icon reactions, etc.
+		}
+	};
+
+	// Wire up event listeners (disabled by default, enable when implementing features)
+	/*
+	canvas.addEventListener('click', (e) => {
+		const rect = canvas.getBoundingClientRect();
+		const x = e.clientX - rect.left;
+		const y = e.clientY - rect.top;
+		window.backgroundInteractive.onClick(x, y);
+	});
+
+	canvas.addEventListener('mousemove', (e) => {
+		const rect = canvas.getBoundingClientRect();
+		const x = e.clientX - rect.left;
+		const y = e.clientY - rect.top;
+		window.backgroundInteractive.onMouseMove(x, y);
+	});
+	*/
 
 })();
