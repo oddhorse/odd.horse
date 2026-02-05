@@ -23,6 +23,8 @@ version 5 was trying to be a single page app lmao
 
 [ ] fix mobile layout
 [ ] make envelope gacha mechanic artifact
+[ ] fix debug functions not present in production
+[ ] make back button close modal on modal click
 [ ] make fortune generator
 [ ] make oddhorse logo do price is right thing if clicked in right order
 [ ] hardcode artifact urls to not have a subfolder.
