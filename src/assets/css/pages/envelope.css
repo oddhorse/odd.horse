@@ -1,0 +1,225 @@
+/**
+ * pages/envelope.css
+ * Red envelope (hongbao) artifact page for odd.horse
+ *
+ * Single-image envelope: idle float → click → jittery shake + slow size growth
+ * → shrink + rush to bottom → loot card bounces in.
+ *
+ * State classes on .envelope-wrapper (applied by envelope.js):
+ *   .shaking  → jitter + grow animations active
+ *   .opened   → final persisted state; envelope hidden, card visible
+ *
+ * The shake uses two independent CSS animations on translate and scale
+ * (individual transform properties, so they don't conflict).
+ * The rush is driven by JS inline transitions — see envelope.js startRush()
+ * for why we can't use a class for that phase.
+ */
+
+/* ===== PAGE LAYOUT =====
+ * Full-viewport vertical centering.
+ * overflow-x: hidden catches any edge case where the shake's horizontal
+ * displacement might create a scrollbar at narrow viewport widths. */
+main {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	margin: 0;
+	padding: 20px;
+	flex: 1;
+	overflow-x: hidden;
+}
+
+/* Vertical stack: envelope image, hint text, reveal card */
+.envelope-wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20px;
+}
+
+/* ===== ENVELOPE IMAGE =====
+ * Single <img> element. Idle state has a gentle vertical bob.
+ * -webkit-user-drag: none blocks the iOS image-drag handle on long-press. */
+.envelope-img {
+	width: 220px;
+	height: auto;
+	cursor: pointer;
+	-webkit-user-drag: none;
+	user-select: none;
+	/* Idle float — overridden by shake when .shaking is added */
+	animation: envelope-float 3s ease-in-out infinite;
+}
+
+/* ===== IDLE FLOAT =====
+ * Gentle bob using the individual translate property.
+ * translate and scale are separate animatable properties, so the shake
+ * phase can run independent animations on each without conflicts. */
+@keyframes envelope-float {
+	0%, 100% { translate: 0px 0px; }
+	50%      { translate: 0px -4px; }
+}
+
+/* ===== SHAKING STATE =====
+ * Two animations run simultaneously on the same element:
+ *   jitter → fluid translateX oscillation, amplitude grows then decays
+ *   grow   → smooth scale 1 → 1.4
+ *
+ * ease-in-out on jitter smoothly curves between each keyframe. Each
+ * keyframe is a swing peak or trough — ease-in-out decelerates into each
+ * extreme and accelerates out, which reads as a physical spring.
+ * ease-in on grow makes size increase accelerate — builds momentum.
+ * Both durations must match SHAKE_DURATION in envelope.js (2500ms).
+ * forwards fill holds end-values (translate 0, scale 1.4) for the
+ * clean handoff into the rush phase. */
+.envelope-wrapper.shaking .envelope-img {
+	animation: jitter 2.5s ease-in-out forwards,
+			   grow   2.5s ease-in forwards;
+}
+
+/* Jitter keyframes: each is a swing peak or trough, ~200ms apart.
+ * That spacing gives ease-in-out enough room to feel fluid — the
+ * envelope smoothly arcs through each swing rather than jumping.
+ * Amplitude ramps ±4 → ±14 (peak at 50–58%), then decays back to 0
+ * so the envelope is centered when the rush fires.
+ * Alternating ±1px Y keeps it from feeling purely mechanical. */
+@keyframes jitter {
+	0%   { translate: 0px 0px; }
+	8%   { translate: -4px 1px; }
+	17%  { translate: 6px -1px; }
+	25%  { translate: -8px 0px; }
+	33%  { translate: 10px 1px; }
+	42%  { translate: -12px -1px; }
+	50%  { translate: 14px 0px; }
+	58%  { translate: -14px 1px; }
+	67%  { translate: 12px -1px; }
+	75%  { translate: -8px 0px; }
+	83%  { translate: 4px 1px; }
+	92%  { translate: -1px 0px; }
+	100% { translate: 0px 0px; }
+}
+
+/* Scale growth: ease-in so it starts slow and accelerates.
+ * The envelope "swells" with increasing urgency right before the rush. */
+@keyframes grow {
+	0%   { scale: 1; }
+	100% { scale: 1.4; }
+}
+
+/* ===== RUSH =====
+ * Not a CSS class — applied as inline styles by envelope.js.
+ * See startRush() comments for why: we need the exact shake end-values
+ * as the transition origin, which a class can't provide cleanly. */
+
+/* ===== TAP HINT =====
+ * Fades out when shake begins. JS adds .hidden. */
+.envelope-hint {
+	color: var(--lighter-text-color);
+	font-size: 0.9rem;
+	text-align: center;
+	margin: 0;
+	user-select: none;
+	transition: opacity 0.3s ease;
+}
+
+.envelope-hint.hidden {
+	opacity: 0;
+}
+
+/* ===== REVEAL CARD =====
+ * Starts collapsed (scale 0.3, opacity 0). JS adds .visible after rush.
+ * Overshoot cubic-bezier bounces past scale 1.0 then settles — gives
+ * the loot reveal a satisfying "pop". */
+.reveal-card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 8px;
+	padding: 28px 36px;
+	background: #fff;
+	border: 2px solid #d4af37;
+	border-radius: 12px;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+	/* Collapsed — .visible triggers the bounce */
+	transform: scale(0.3);
+	opacity: 0;
+	transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+			    opacity 0.3s ease;
+}
+
+.reveal-card.visible {
+	transform: scale(1);
+	opacity: 1;
+}
+
+/* Emoji — large for visual punch */
+.reveal-emoji {
+	font-size: 3rem;
+	line-height: 1;
+}
+
+/* Loot label */
+.reveal-label {
+	font-size: 1.1rem;
+	font-weight: bold;
+	color: var(--text-color);
+}
+
+/* Optional claim link — only rendered if loot has a url */
+.reveal-claim {
+	font-size: 0.9rem;
+	color: #d4af37;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.reveal-claim:hover {
+	color: #b8960c;
+}
+
+/* ===== RESET BUTTON =====
+ * Fixed in the bottom-right corner. Very subtle at rest — becomes
+ * more visible on hover. Always present so the envelope can be
+ * reset before or after opening. */
+.reset-btn {
+	position: fixed;
+	bottom: 24px;
+	right: 24px;
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	border: 1.5px solid rgba(0, 0, 0, 0.12);
+	background: rgba(255, 255, 255, 0.8);
+	backdrop-filter: blur(4px);
+	color: rgba(0, 0, 0, 0.35);
+	font-size: 18px;
+	line-height: 1;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 50;
+	transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.reset-btn:hover {
+	color: rgba(0, 0, 0, 0.7);
+	border-color: rgba(0, 0, 0, 0.3);
+	background: rgba(255, 255, 255, 0.95);
+}
+
+/* ===== OPENED STATE =====
+ * Envelope has already rushed off-screen. Hide it so it doesn't
+ * flash back in if the page is restored from localStorage. */
+.envelope-wrapper.opened .envelope-img {
+	visibility: hidden;
+	animation: none;
+}
+
+/* ===== MOBILE =====
+ * Scale envelope down on narrow screens. */
+@media (max-width: 480px) {
+	.envelope-img {
+		width: 180px;
+	}
+}

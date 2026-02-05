@@ -1,5 +1,13 @@
 [
 	{
+		"id": "envelope",
+		"description": "red envelope",
+		"url": "/artifacts/envelope",
+		"type": "link",
+		"dateAdded": "2026-02-04",
+		"color": "#c41e3a"
+	},
+	{
 		"id": "system-prompt",
 		"description": "oddhorse leaked system prompt",
 		"url": "/artifacts/system-prompt.pdf",

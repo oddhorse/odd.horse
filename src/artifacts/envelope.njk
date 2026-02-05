@@ -1,0 +1,35 @@
+---
+title: red envelope
+color: "#c41e3a"
+layout: base
+noindex: true
+---
+
+{# Envelope-specific CSS #}
+<link rel="stylesheet" href="/assets/css/pages/envelope.css">
+
+{# Envelope JS — state machine, persistence, reset handler #}
+<script type="module" src="/assets/js/envelope.js"></script>
+
+<main>
+	{# Wrapper receives .shaking and .opened state classes from envelope.js #}
+	<div class="envelope-wrapper">
+
+		{# Single envelope image. Drop closed.png and open.png into
+		   src/assets/images/envelope/ — JS swaps src to open on rush. #}
+		<img class="envelope-img" src="/assets/images/envelope/closed.png" alt="red envelope">
+
+		{# "tap to open" — fades out when shake begins #}
+		<p class="envelope-hint">tap to open</p>
+
+		{# Loot card — content filled by JS, bounces in after rush #}
+		<div class="reveal-card">
+			<span class="reveal-emoji"></span>
+			<span class="reveal-label"></span>
+			<a class="reveal-claim" href="#" style="display: none;"></a>
+		</div>
+	</div>
+
+	{# Reset button — fixed corner, clears localStorage for a fresh envelope #}
+	<button class="reset-btn" aria-label="reset envelope">↺</button>
+</main>
