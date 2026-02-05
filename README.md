@@ -22,6 +22,8 @@ version 5 was trying to be a single page app lmao
 ### before first release
 
 [ ] fix mobile layout
+[ ] make envelope gacha mechanic artifact
+[ ] make fortune generator
 [ ] make oddhorse logo do price is right thing if clicked in right order
 [ ] hardcode artifact urls to not have a subfolder.
 [ ] make new layout page for artifacts that just embeds the head in there with no header/whatever, in case we need to make artifacts that are actual pages themselves
@@ -40,7 +42,6 @@ version 5 was trying to be a single page app lmao
 [ ] make background with canvas
 [ ] make little pixel icons
 [ ] make on hover effects clearer for logo pieces
-[ ] make sitemap.xml generated
 
 ### bigger fish and also things i'm kicking down the roooooadddd
 
