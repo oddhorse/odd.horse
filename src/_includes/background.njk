@@ -1,11 +1,11 @@
 {# background code - fully self-contained #}
 
-<canvas id="background"></canvas>
+<div id="background"></div>
 
 <style>
 	#background {
 		/* places bg under everything, takes up whole page */
-		position: absolute;
+		position: fixed;
 		inset: 0;
 		z-index: -999;
 		pointer-events: none;
@@ -13,15 +13,29 @@
 		width: 100vw;
 		height: 100vh;
 
-		/* crisp pixel art rendering */
-		image-rendering: -moz-crisp-edges;
-		image-rendering: -webkit-crisp-edges;
-		image-rendering: pixelated;
-		image-rendering: crisp-edges;
+		/* use page color for icons */
+		color: var(--page-color);
+
+		/* performance hints - tells browser to optimize this layer */
+		will-change: transform;
+		contain: strict;
 
 		/* starts background invisible */
 		opacity: 0;
 		transition: opacity 2s ease-in-out;
+	}
+
+	/* Grid icons inherit color from parent */
+	#background .bg-icon {
+		/* smooth sub-pixel rendering */
+		transform: translateZ(0);
+	}
+
+	/* SVG fills use currentColor */
+	#background svg {
+		width: 100%;
+		height: 100%;
+		display: block;
 	}
 </style>
 

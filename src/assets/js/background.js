@@ -1,229 +1,249 @@
-/* background — isolated ES‑module extracted from background.njk
- * Keeps behavior identical to the inline `{% js %}` block but as
- * an external module so the code is easier to edit and indexed by IDEs.
+/**
+ * background.js
+ * True infinite scrolling grid of SVG icons with dynamic direction control
+ *
+ * Uses a tiling approach: create one tile, duplicate it, scroll both together
+ * When the first tile scrolls off screen, reset position for seamless loop
  */
 
-const canvas = document.getElementById("background");
-const ctx = canvas.getContext("2d");
+// Export controls for beta menu
+window.backgroundControls = {
+	direction: 'diagonal', // 'diagonal', 'horizontal', 'vertical', 'rotate'
+	speed: 1.0, // Speed multiplier
+	paused: false
+};
+
+// Export stats for beta menu
+window.backgroundStats = {
+	fps: 60, // CSS animations run at display refresh rate
+	frameCount: 0,
+	lastFpsUpdate: 0
+};
 
 (() => {
-	// Canvas utilities for handling DPI correctly
-	let dpr = 1;
+	const background = document.getElementById('background');
+	if (!background) return;
 
-	// Helper functions for coordinate conversion
-	const canvasUtils = {
-		// Convert mouse/screen coordinates to canvas coordinates
-		screenToCanvas: (screenX, screenY) => ({ x: screenX, y: screenY }),
-		// Get actual canvas dimensions in CSS pixels
-		getCanvasSize: () => ({ width: window.innerWidth, height: window.innerHeight }),
-		// Get device pixel ratio
-		getDPR: () => dpr
-	};
+	// SVG icon definitions - simple geometric shapes on-brand for oddhorse
+	const icons = [
+		// Horse silhouette (simplified)
+		`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+			<path d="M20,80 L20,50 Q20,30 40,30 L50,30 L50,20 L60,30 L70,30 Q80,30 80,50 L80,80 L70,80 L70,50 L60,50 L60,80 L50,80 L50,50 L40,50 L40,80 Z"
+				fill="currentColor" opacity="0.15"/>
+		</svg>`,
+		// Star
+		`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+			<path d="M50,10 L61,40 L92,40 L68,58 L78,88 L50,68 L22,88 L32,58 L8,40 L39,40 Z"
+				fill="currentColor" opacity="0.15"/>
+		</svg>`,
+		// Circle
+		`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+			<circle cx="50" cy="50" r="35" fill="none" stroke="currentColor" stroke-width="3" opacity="0.15"/>
+		</svg>`,
+		// Diamond
+		`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+			<path d="M50,10 L90,50 L50,90 L10,50 Z"
+				fill="currentColor" opacity="0.15"/>
+		</svg>`,
+		// Triangle
+		`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+			<path d="M50,15 L85,85 L15,85 Z"
+				fill="currentColor" opacity="0.15"/>
+		</svg>`
+	];
 
-	// Set up canvas sizing with proper pixel ratio
-	function resizeCanvas() {
-		const rect = canvas.getBoundingClientRect();
-		dpr = window.devicePixelRatio || 1;
+	// Grid configuration
+	const iconSize = 120; // px
+	const cols = Math.ceil(window.innerWidth / iconSize) + 2;
+	const rows = Math.ceil(window.innerHeight / iconSize) + 2;
 
-		// Set the internal size to the display size times device pixel ratio
-		canvas.width = rect.width * dpr;
-		canvas.height = rect.height * dpr;
+	// Store the icon pattern for consistency
+	let iconPattern = [];
 
-		// Scale the context back down using CSS pixels
-		ctx.scale(dpr, dpr);
-
-		// Ensure crisp rendering
-		ctx.imageSmoothingEnabled = false;
+	/**
+	 * Generate a consistent icon pattern
+	 * This pattern will be reused to ensure seamless tiling
+	 */
+	function generateIconPattern() {
+		iconPattern = [];
+		const totalIcons = cols * rows;
+		for (let i = 0; i < totalIcons; i++) {
+			iconPattern.push(icons[Math.floor(Math.random() * icons.length)]);
+		}
 	}
 
-	const horsedata = {
-		0: {
-			name: "Thunder Hooves",
-			img: "/assets/images/bg/horse-1-",
-			frm: "idle",
-			images: {}, // Store loaded images
-			posx: 0,
-			posy: 0,
-			facing: 1,
-			size: 100, // Horse size in pixels
-			mvdat: {
-				walking: false,
-				tarx: 0,
-				tary: 0,
-				bobval: 0,
-				bobvec: 0.075,
-				speedmult: 0.9,
-				stepsize: 0.2
-			}
-		},
-		1: {
-			name: "Celestial Mane",
-			img: "/assets/images/bg/horse-1-",
-			frm: "idle",
-			images: {},
-			posx: 0,
-			posy: 0,
-			facing: 1,
-			size: 100,
-			mvdat: {
-				walking: false,
-				tarx: 0,
-				tary: 0,
-				bobval: 0,
-				bobvec: 0.1,
-				speedmult: 1,
-				stepsize: 0.2
-			}
-		}
-	};
+	/**
+	 * Create a single grid tile using the icon pattern
+	 */
+	function createGridTile(className) {
+		const grid = document.createElement('div');
+		grid.className = className;
+		grid.style.cssText = `
+			display: grid;
+			grid-template-columns: repeat(${cols}, ${iconSize}px);
+			grid-template-rows: repeat(${rows}, ${iconSize}px);
+			position: absolute;
+			top: 0;
+			left: 0;
+			will-change: transform;
+		`;
 
-	// Preload all horse images
-	async function preloadImages() {
-		const frames = ["idle", "walk1", "walk2"];
-		const promises = [];
-
-		for (const [id, horse] of Object.entries(horsedata)) {
-			for (const frame of frames) {
-				const img = new Image();
-				const promise = new Promise((resolve, reject) => {
-					img.onload = () => resolve();
-					img.onerror = () => reject();
-				});
-				img.src = horse.img + frame + ".png";
-				horse.images[frame] = img;
-				promises.push(promise);
-			}
+		// Fill grid with icons using the consistent pattern
+		for (let i = 0; i < iconPattern.length; i++) {
+			const cell = document.createElement('div');
+			cell.className = 'bg-icon';
+			cell.style.cssText = `
+				width: ${iconSize}px;
+				height: ${iconSize}px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			`;
+			cell.innerHTML = iconPattern[i];
+			grid.appendChild(cell);
 		}
 
-		return Promise.all(promises);
+		return grid;
 	}
 
-	/* Wait for DOM to be fully loaded */
-	document.addEventListener("DOMContentLoaded", async () => {
-		resizeCanvas();
-		window.addEventListener("resize", resizeCanvas);
+	/**
+	 * Create the tiled background (2 identical grids for seamless scrolling)
+	 */
+	function createBackground() {
+		// Clear existing content
+		background.innerHTML = '';
 
-		try {
-			await preloadImages();
-			canvas.style.opacity = 1;
+		// Generate consistent pattern
+		generateIconPattern();
 
-			// Initialize horse positions (use CSS pixel coordinates)
-			for (const [id, horse] of Object.entries(horsedata)) {
-				horse.posx = getRandPos() * window.innerWidth / 100;
-				horse.posy = getRandPos() * window.innerHeight / 100;
-			}
+		// Create container for both grid tiles
+		const container = document.createElement('div');
+		container.className = 'bg-container';
+		container.style.cssText = `
+			position: absolute;
+			inset: 0;
+		`;
 
-			// Start animation loop
-			requestAnimationFrame(onTick);
-		} catch (error) {
-			console.error("Failed to load horse images:", error);
+		// Create two identical grids
+		const grid1 = createGridTile('bg-grid bg-grid-1');
+		const grid2 = createGridTile('bg-grid bg-grid-2');
+
+		container.appendChild(grid1);
+		container.appendChild(grid2);
+		background.appendChild(container);
+
+		return { grid1, grid2 };
+	}
+
+	/**
+	 * Animation loop - updates transforms and handles infinite scroll reset
+	 */
+	let animationId;
+	let startTime = performance.now();
+	const tileWidth = cols * iconSize;
+	const tileHeight = rows * iconSize;
+
+	function animate(currentTime) {
+		if (window.backgroundControls.paused) {
+			animationId = requestAnimationFrame(animate);
+			return;
 		}
+
+		const elapsed = (currentTime - startTime) * window.backgroundControls.speed * 0.02;
+		const grids = background.querySelectorAll('.bg-grid');
+		if (!grids.length) return;
+
+		const [grid1, grid2] = grids;
+
+		switch (window.backgroundControls.direction) {
+			case 'diagonal': {
+				// Calculate offset that wraps at tile size
+				let offsetX = elapsed % tileWidth;
+				let offsetY = elapsed % tileHeight;
+
+				// Position first grid
+				grid1.style.transform = `translate(${-offsetX}px, ${-offsetY}px)`;
+
+				// Position second grid offset by tile size (creates seamless loop)
+				grid2.style.transform = `translate(${tileWidth - offsetX}px, ${tileHeight - offsetY}px)`;
+				break;
+			}
+			case 'horizontal': {
+				let offsetX = elapsed % tileWidth;
+
+				grid1.style.transform = `translate(${-offsetX}px, 0px)`;
+				grid2.style.transform = `translate(${tileWidth - offsetX}px, 0px)`;
+				break;
+			}
+			case 'vertical': {
+				let offsetY = elapsed % tileHeight;
+
+				grid1.style.transform = `translate(0px, ${-offsetY}px)`;
+				grid2.style.transform = `translate(0px, ${tileHeight - offsetY}px)`;
+				break;
+			}
+			case 'rotate': {
+				// Rotation doesn't scroll infinitely, just rotates in place
+				const rotation = (elapsed * 0.5) % 360;
+				const centerX = window.innerWidth / 2;
+				const centerY = window.innerHeight / 2;
+
+				grid1.style.transform = `translate(${centerX - tileWidth/2}px, ${centerY - tileHeight/2}px) rotate(${rotation}deg)`;
+				grid2.style.display = 'none'; // Hide second grid for rotation
+				break;
+			}
+		}
+
+		// Show grid2 for scrolling modes, hide for rotate
+		if (window.backgroundControls.direction !== 'rotate') {
+			grid2.style.display = 'grid';
+		}
+
+		animationId = requestAnimationFrame(animate);
+	}
+
+	/**
+	 * Initialize on DOM load
+	 */
+	document.addEventListener('DOMContentLoaded', () => {
+		createBackground();
+
+		// Start animation
+		requestAnimationFrame(animate);
+
+		// Handle window resize
+		let resizeTimeout;
+		window.addEventListener('resize', () => {
+			clearTimeout(resizeTimeout);
+			resizeTimeout = setTimeout(() => {
+				const currentTime = performance.now();
+				cancelAnimationFrame(animationId);
+				createBackground();
+				startTime = currentTime;
+				requestAnimationFrame(animate);
+			}, 250);
+		});
+
+		// Fade in
+		setTimeout(() => {
+			background.style.opacity = 1;
+		}, 100);
 	});
 
-	function getRandPos() {
-		const min = -2;
-		const max = 102;
-		const diff = max - min;
-		return Math.random() * diff + min;
-	}
-
-	function bobHorse(horse) {
-		let workval = horse.mvdat.bobval + horse.mvdat.bobvec;
-		if (workval >= 0.5 || workval <= 0)
-			horse.mvdat.bobvec *= -1;
-
-		if (workval <= 0) {
-			if (horse.frm !== "walk1")
-				horse.frm = "walk1";
-			else if (horse.frm !== "walk2")
-				horse.frm = "walk2";
+	// Expose controls for debugging
+	window.backgroundControls.setDirection = (dir) => {
+		if (['diagonal', 'horizontal', 'vertical', 'rotate'].includes(dir)) {
+			window.backgroundControls.direction = dir;
 		}
+	};
 
-		horse.mvdat.bobval = workval;
-	}
+	window.backgroundControls.setSpeed = (speed) => {
+		window.backgroundControls.speed = Math.max(0, speed);
+	};
 
-	function drawHorse(horse) {
-		const img = horse.images[horse.frm];
-		if (!img || !img.complete)
-			return;
-
-		ctx.save();
-
-		// Calculate position with bob effect
-		const x = horse.posx;
-		const y = horse.posy + (horse.mvdat.bobval * horse.size * 0.1);
-
-		// Handle facing direction
-		if (horse.facing === -1) {
-			ctx.scale(-1, 1);
-			ctx.drawImage(img, -x - horse.size, y, horse.size, horse.size);
-		} else {
-			ctx.drawImage(img, x, y, horse.size, horse.size);
-		}
-
-		ctx.restore();
-	}
-
-	// Animation tick function
-	function onTick() {
-		// Clear canvas (use CSS pixel dimensions)
-		ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-
-		// Update and draw each horse
-		for (const [id, horse] of Object.entries(horsedata)) {
-			// If horse is walking, move towards target
-			if (horse.mvdat.walking) {
-				// Calculate direction vector
-				const dx = horse.mvdat.tarx - horse.posx;
-				const dy = horse.mvdat.tary - horse.posy;
-
-				// Set the horse facing direction based on movement
-				if (dx < 0 && horse.facing !== -1)
-					horse.facing = -1;
-				else if (dx >= 0 && horse.facing !== 1)
-					horse.facing = 1;
-
-				// Calculate distance
-				const distance = Math.sqrt(dx * dx + dy * dy);
-
-				// If close enough to target, stop walking
-				if (distance < 5) {
-					horse.mvdat.walking = false;
-					horse.mvdat.bobval = 0;
-					if (horse.mvdat.bobvec < 0)
-						horse.mvdat.bobvec *= -1;
-					horse.frm = "idle";
-				} else {
-					// Move a small step toward target
-					const step = horse.mvdat.stepsize * horse.mvdat.speedmult * 10; // Scale for pixel movement
-					const ratio = step / distance;
-
-					horse.posx += dx * ratio;
-					horse.posy += dy * ratio;
-
-					// update bob value
-					bobHorse(horse);
-				}
-
-				// small chance to pick new location mid-walk
-				if (Math.random() < 0.005) {
-					horse.mvdat.tarx += (Math.random() * 80 - 40);
-					horse.mvdat.tary += (Math.random() * 80 - 40);
-				}
-			} else if (Math.random() < 0.005) {
-				// Small chance to start walking to a new location
-				horse.mvdat.walking = true;
-				horse.mvdat.tarx = getRandPos() * window.innerWidth / 100;
-				horse.mvdat.tary = getRandPos() * window.innerHeight / 100;
-				horse.mvdat.stepsize = Math.random() * 0.1 + 0.1;
-			}
-
-			// Draw the horse
-			drawHorse(horse);
-		}
-
-		// Continue animation
-		requestAnimationFrame(onTick);
-	}
+	window.backgroundControls.togglePause = () => {
+		window.backgroundControls.paused = !window.backgroundControls.paused;
+		return window.backgroundControls.paused;
+	};
 
 })();
