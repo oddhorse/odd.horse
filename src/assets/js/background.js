@@ -60,31 +60,34 @@ window.backgroundStats = {
 	/**
 	 * SVG icon definitions
 	 * These will be converted to canvas image data for fast rendering
+	 * Adjust opacity value to make lighter (lower) or darker (higher)
 	 */
+	const iconOpacity = 0.08; // Lower = lighter, higher = darker (0.0 - 1.0)
+
 	const iconSVGs = [
 		// Horse silhouette (simplified)
 		`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
 			<path d="M20,80 L20,50 Q20,30 40,30 L50,30 L50,20 L60,30 L70,30 Q80,30 80,50 L80,80 L70,80 L70,50 L60,50 L60,80 L50,80 L50,50 L40,50 L40,80 Z"
-				fill="currentColor" opacity="0.15"/>
+				fill="currentColor" opacity="${iconOpacity}"/>
 		</svg>`,
 		// Star
 		`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
 			<path d="M50,10 L61,40 L92,40 L68,58 L78,88 L50,68 L22,88 L32,58 L8,40 L39,40 Z"
-				fill="currentColor" opacity="0.15"/>
+				fill="currentColor" opacity="${iconOpacity}"/>
 		</svg>`,
 		// Circle
 		`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-			<circle cx="50" cy="50" r="35" fill="none" stroke="currentColor" stroke-width="3" opacity="0.15"/>
+			<circle cx="50" cy="50" r="35" fill="none" stroke="currentColor" stroke-width="3" opacity="${iconOpacity}"/>
 		</svg>`,
 		// Diamond
 		`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
 			<path d="M50,10 L90,50 L50,90 L10,50 Z"
-				fill="currentColor" opacity="0.15"/>
+				fill="currentColor" opacity="${iconOpacity}"/>
 		</svg>`,
 		// Triangle
 		`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
 			<path d="M50,15 L85,85 L15,85 Z"
-				fill="currentColor" opacity="0.15"/>
+				fill="currentColor" opacity="${iconOpacity}"/>
 		</svg>`
 	];
 
