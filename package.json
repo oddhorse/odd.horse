@@ -1,6 +1,6 @@
 {
 	"name": "odd.horse",
-	"version": "7.5",
+	"version": "7.6",
 	"type": "module",
 	"description": "website for the music artist [oddhorse](https://odd.horse)",
 	"scripts": {
