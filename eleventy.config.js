@@ -73,6 +73,15 @@ export default async function (eleventyConfig) {
 		return match ? match[0] : ''
 	})
 
+	/**
+	 * Format a Date object as ISO 8601 string for sitemap <lastmod>
+	 * Usage: {{ page.date | toISOString }}
+	 * Example: 2025-12-17T00:00:00.000Z
+	 */
+	eleventyConfig.addFilter('toISOString', function (date) {
+		return DateTime.fromJSDate(date).toISO()
+	})
+
 	// ===== PLUGINS =====
 
 	// Bundling removed: inline script/style extraction no longer used

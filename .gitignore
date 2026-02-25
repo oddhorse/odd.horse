@@ -35,5 +35,8 @@ Icon?
 .dev-server.pid
 .dev-server.log
 
+# Git worktrees
+.worktrees
+
 SITE ASSETS
 >>>>>>> beta

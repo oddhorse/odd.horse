@@ -8,17 +8,44 @@ This is the website for music artist [oddhorse](https://odd.horse), built as a s
 
 ## Development Commands
 
+**Package Manager:** This project uses **Bun** (not npm). All commands use `bun run`.
+
 ### Building and Serving
 
-- `npm run build` - Build the static site to `dist/` folder
-- `npm run serve` - Build and serve the site locally with live reload
-- `npm run start` - Alias for serve
-- `npm run watch` - Build and watch for changes without serving
-- `npm run clean` - Clean the dist folder
-- `npm run build-ghpages` - Build with GitHub Pages path prefix
-- `npm run bench` - Run with benchmark debugging enabled
+- `bun run build` - Build the static site to `dist/` folder
+- `bun run serve` - Build and serve the site locally with live reload
+- `bun run start` - Alias for serve
+- `bun run watch` - Build and watch for changes without serving
+- `bun run clean` - Clean the dist folder
+- `bun run build-ghpages` - Build with GitHub Pages path prefix
+- `bun run bench` - Run with benchmark debugging enabled
 
 No test suite or linting is currently configured.
+
+### Git Worktrees
+
+**Worktree Directory:** `.worktrees/` (project-local, in .gitignore)
+
+**CRITICAL GOTCHA:** When creating multiple worktrees, always run `git worktree add` from the **main repo root**, not from within another worktree. If you cd into a worktree to run `bun install`, cd back to the main repo before creating the next worktree, or they will nest inside each other instead of being siblings.
+
+```bash
+# WRONG - creates nested worktrees
+git worktree add .worktrees/branch-a -b branch-a
+cd .worktrees/branch-a && bun install
+git worktree add .worktrees/branch-b -b branch-b  # Creates branch-a/.worktrees/branch-b!
+
+# RIGHT - creates sibling worktrees
+git worktree add .worktrees/branch-a -b branch-a
+git worktree add .worktrees/branch-b -b branch-b
+cd .worktrees/branch-a && bun install
+cd ../branch-b && bun install
+```
+
+**Setup in each worktree:**
+1. `cd .worktrees/<branch-name>`
+2. `bun install` - Install dependencies
+3. `bun run build` - Verify site builds
+4. Ready to work!
 
 ## Architecture
 
