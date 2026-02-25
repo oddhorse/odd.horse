@@ -1,6 +1,6 @@
-# Only bump version on main branch
+# pin beta to main+1 so merging beta into main carries the right version
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
-if [ "$BRANCH" = "main" ]; then
-  node scripts/bump-version.js
+if [ "$BRANCH" = "beta" ]; then
+  node scripts/sync-version.js
   git add package.json
 fi
