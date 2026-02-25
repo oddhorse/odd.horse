@@ -48,7 +48,11 @@ version 5 was trying to be a single page app lmao
 ### bigger fish and also things i'm kicking down the roooooadddd
 
 [ ] notification opt-in for new updates
-[ ] further consolidate files and improve structure. too cluttered and big for such a small site!!!
+[ ] **ARCHITECTURE REFACTORING** - simplify overcomplicated systems (est 4-6hrs, -40% complexity)
+  [ ] move core.js loading from head.njk to index.njk only (shop/404/treats don't need it)
+  [ ] consolidate logo hover system - 4x duplicated code (130L) → unified module (30L)
+  [ ] delete colors.js (104L of hex→HSL math for 2 static colors) → use static CSS instead
+  [ ] consider inlining header/footer/modals into index.njk if never adding to other pages
 [ ] guestbook
 [ ] pharaoh (clippy-style guy) who gives you hints. "have you seen the STAMPEDE yet?"
 [ ] user login so they can collect easter eggs? idk
