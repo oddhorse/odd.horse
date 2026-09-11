@@ -1,16 +1,11 @@
 /**
  * Eleventy Configuration for odd.horse
  *
- * This configuration sets up a static site generator with:
- * - Plain CSS and ES modules (no preprocessing)
- * - Image optimization with multiple formats
- * - Git integration for deployment info
- * - Custom filters and plugins
+ * Deliberately thin: 11ty here only renders templates, copies assets through,
+ * and exposes a little global data. CSS and JS ship as-is, no build step.
  */
 
 // ===== IMPORTS =====
-import { eleventyImageTransformPlugin } from '@11ty/eleventy-img'
-import { DateTime } from 'luxon'
 import markdownIt from 'markdown-it'
 import simpleGit from 'simple-git'
 
@@ -52,85 +47,17 @@ export default async function (eleventyConfig) {
 	// ===== CUSTOM FILTERS =====
 
 	/**
-	 * Extract domain from URL for dns-prefetch
-	 * Usage: {{ url | getDomain }}
-	 * Example: "https://open.spotify.com/artist/123" -> "open.spotify.com"
-	 */
-	eleventyConfig.addFilter('getDomain', function (url) {
-		if (!url) return ''
-		return url.replace(/^https?:\/\//, '').split('/')[0]
-	})
-
-	/**
-	 * Extract origin (protocol + domain) from URL for preconnect
-	 * Usage: {{ url | getOrigin }}
-	 * Example: "https://open.spotify.com/artist/123" -> "https://open.spotify.com"
-	 */
-	eleventyConfig.addFilter('getOrigin', function (url) {
-		if (!url) return ''
-		const match = url.match(/^https?:\/\/[^\/]+/)
-		return match ? match[0] : ''
-	})
-
-	/**
 	 * Format a Date object as ISO 8601 string for sitemap <lastmod>
 	 * Usage: {{ page.date | toISOString }}
 	 * Example: 2025-12-17T00:00:00.000Z
 	 */
-	eleventyConfig.addFilter('toISOString', function (date) {
-		return DateTime.fromJSDate(date).toISO()
-	})
-
-	// ===== PLUGINS =====
-
-	/**
-	 * Image optimization plugin
-	 * Automatically generates responsive image formats (WebP, JPEG) and sizes
-	 * Images are lazy-loaded and decoded asynchronously for performance
-	 */
-	eleventyConfig.addPlugin(eleventyImageTransformPlugin, {
-		// Output formats (SVG kept as-is, WebP for photos)
-		formats: ['webp', 'svg', 'jpeg'],
-
-		// Responsive image widths for mobile/tablet/desktop
-		widths: [400, 800, 1200],
-
-		// Output directory for optimized images
-		outputDir: './dist/img/',
-		urlPath: '/img/',
-
-		// Default attributes for generated images
-		htmlOptions: {
-			imgAttributes: {
-				loading: 'lazy', // Lazy load images below the fold
-				decoding: 'async', // Async decoding for better performance
-			},
-			pictureAttributes: {},
-		},
-
-		// SVG optimization settings
-		svgShortCircuit: true, // Don't generate raster formats for SVG inputs
-		svgAllowUpscale: false, // Prevent SVG upscaling
-
-		// Performance optimizations
-		useCache: true, // Cache processed images to skip unchanged files
-		hashLength: 10, // Shorter hashes for cleaner filenames
-	})
-
-	// ===== SHORTCODES & UTILITIES =====
-
-	/**
-	 * Year shortcode
-	 * Returns current year for copyright notices
-	 * Usage: {% year %} in templates
-	 */
-	eleventyConfig.addShortcode('year', () => `${new Date().getFullYear()}`)
+	eleventyConfig.addFilter('toISOString', (date) => date.toISOString())
 
 	// ===== MARKDOWN CONFIGURATION =====
 
 	/**
 	 * Markdown processor configuration
-	 * Enables HTML in markdown, auto-linkification, and heading anchors
+	 * Enables HTML in markdown and auto-linkification
 	 */
 	const markdownLibrary = markdownIt({
 		html: true, // Allow HTML tags in markdown
@@ -161,18 +88,6 @@ export default async function (eleventyConfig) {
 	 */
 	eleventyConfig.addGlobalData('gitInfo', gitInfo)
 
-	// ===== DATE HANDLING =====
-
-	/**
-	 * Custom date parsing for frontmatter
-	 * Allows dates in M/d/yyyy format (e.g., "12/31/2025")
-	 */
-	eleventyConfig.addDateParsing((dateValue) => {
-		if (typeof dateValue === 'string') {
-			return DateTime.fromFormat(dateValue, 'M/d/yyyy')
-		}
-	})
-
 	// ===== ASSET HANDLING =====
 
 	/**
@@ -193,19 +108,6 @@ export default async function (eleventyConfig) {
 	 */
 	eleventyConfig.addWatchTarget('src/assets/css/**/*.css')
 	eleventyConfig.addWatchTarget('src/assets/js/**/*.js')
-
-	// ===== PREPROCESSING =====
-
-	/**
-	 * Draft pages preprocessor
-	 * Hides pages with draft: true from production builds
-	 * Draft pages still visible during development
-	 */
-	eleventyConfig.addPreprocessor('drafts', '*', (data, _content) => {
-		if (data.draft && process.env.ELEVENTY_RUN_MODE === 'build') {
-			return false
-		}
-	})
 
 	// ===== RETURN CONFIGURATION =====
 	return {

@@ -36,16 +36,13 @@ main {
 	padding: 0 1rem 2rem;
 }
 
-/* Logo customization for homepage */
+/* Logo customization for homepage.
+ * NOTE: this used to also set --logo-size: 7rem, but `header .logo-container`
+ * in global.css outranked it, so the logo has actually been rendering at the
+ * 5rem default. That override is removed rather than silently resized — to
+ * make the logo bigger, add `font-size: 7rem;` here and it will now work. */
 .logo-container {
 	margin: 0 auto 1rem;
-	--logo-size: 7rem;
-	--tagline-size: 1.1rem;
-}
-
-.logo-container .logo {
-	width: 5rem;
-	height: auto;
 }
 
 /* Navbar spacing */
@@ -490,12 +487,8 @@ body.modal-open .modal-container {
 		padding: 0 1.5rem 1rem;
 	}
 
-	header .logo-container {
-		--logo-size: 3.5rem;
-	}
-
-	.logo-container .logo {
-		width: 4rem;
+	.logo-container {
+		font-size: 3.5rem;
 	}
 
 	.artifact-list {

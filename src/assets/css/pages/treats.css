@@ -3,7 +3,7 @@
  * Treats page styling for odd.horse
  *
  * Simple centered layout with:
- * - Logo at 6rem size
+ * - Logo at 6rem (set via font-size on .logo-container)
  * - Mailchimp signup form
  * - "More" link back to homepage
  */
@@ -16,9 +16,9 @@ main {
 	flex: 0;
 }
 
-/* Logo size override for treats page */
+/* Logo size override for treats page - one knob, see global.css section 9 */
 .logo-container {
-	--logo-size: 6rem;
+	font-size: 6rem;
 }
 
 /* "More" link styling */

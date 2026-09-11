@@ -26,7 +26,6 @@
 	"license": "ISC",
 	"devDependencies": {
 		"@11ty/eleventy": "^3.0.0",
-		"@11ty/eleventy-img": "^4.0.2",
 		"husky": "^9.1.7",
 		"markdown-it": "^14.1.0"
 	},

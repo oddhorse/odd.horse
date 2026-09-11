@@ -14,7 +14,8 @@
 		"url": "/artifacts/church",
 		"type": "link",
 		"dateAdded": "2026-09-11",
-		"color": "#ff00bb"
+		"color": "#ff00bb",
+		"newtab": true
 	},
 	{
 		"id": "new-site-info",

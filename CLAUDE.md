@@ -49,7 +49,7 @@ Plain CSS and native ES modules — no preprocessing, no bundling, no build step
 src/
   index.njk  treats.njk  shop.njk  404.njk  1.njk  sitemap.xml.njk
   _layouts/base.njk            page shell
-  _includes/                   head, header, header-logo, footer, modals,
+  _includes/                   head, header, logo, footer, modals,
                                background, beta-menu, mailchimp, gtag, icons/
   _data/                       artifacts, links, taglines, meta
   artifacts/                   artifact content (md, pdf, standalone pages)
@@ -62,9 +62,10 @@ src/
   assets/js/
     core.js                    loaded on ALL pages -> logo-hover, modals
     logo-hover.js              delegated logo tinting (see below)
+    logo.js                    logo component behaviour, self-initialising
     modals.js                  modal open/close
     homepage.js                loaded on index.njk only -> everything below
-    artifacts.js  header-logo.js  stampede.js  chaos-hover.js  audio.js
+    artifacts.js  stampede.js  chaos-hover.js  audio.js
     background.js              canvas horses (currently disabled in index.njk)
     beta-menu.js               dev tools, beta branch only
 ```
@@ -81,6 +82,35 @@ Pages pull in what they need with plain tags — there is no bundler and no mani
 → `pages/<page>.css` / `<page>.js`. Self-contained component → inline in that component's
 `.njk` (wrap inline scripts in an IIFE). Needs to run before first paint → inline
 non-module script in `head.njk`.
+
+### The logo component
+
+`_includes/logo.njk` is drop-in. Include it anywhere, any number of times:
+
+```njk
+{% include "logo.njk" %}                              full logo + tagline
+{% set logoTagline = false %}{% include "logo.njk" %} logo, no tagline
+{% set logoMark = true %}{% include "logo.njk" %}     just the horse mark
+```
+
+**Sizing is font-size and nothing else.** Everything inside is in `em`, so one
+number scales the whole thing: `.hero .logo-container { font-size: 8rem; }`.
+There is deliberately no `header .logo-container` size rule — one used to exist
+and silently outranked every page-level override.
+
+The tagline is `max(1rem, 0.157em)`: it scales with the logo but stops shrinking
+at 1rem, so small logos keep a readable tagline without a mobile override.
+
+`logo.js` finds every `.logo-container` and wires each independently — per-logo
+tagline state, per-logo letter handlers. Audio is the one shared thing: `audio.js`
+is a module singleton, so N logos still means one AudioContext and one download
+of each clip. Clips preload after the page's `load` event, in idle time, and only
+for letters actually on the page (a mark-only logo fetches one clip, not nine).
+
+**Audio gotcha:** click handlers must call `playAudio()` synchronously. Browsers
+only allow audio to start inside a user gesture, and any `await` before playing
+leaves that gesture — the context stays suspended and the click is silent (the
+tab may even show an audio icon). Check `hasAudio(key)` and play immediately.
 
 ### The colour system
 

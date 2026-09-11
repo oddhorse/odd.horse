@@ -1,0 +1,49 @@
+{#
+	logo.njk — the oddhorse logo, as a drop-in component.
+
+	Usage:
+		{% include "logo.njk" %}                              full logo + tagline
+		{% set logoTagline = false %}{% include "logo.njk" %} logo, no tagline
+		{% set logoMark = true %}{% include "logo.njk" %}     just the horse mark
+
+	Sizing is font-size driven. Everything inside scales from one number, so
+	to resize a logo anywhere, just set font-size on .logo-container:
+		.hero .logo-container { font-size: 8rem; }
+
+	Behaviour (tagline rotation, letter bounces, sounds) is wired by logo.js,
+	which finds every logo on the page. Several logos on one page is fine —
+	they share one audio context and one set of clips.
+#}
+{% set markOnly = logoMark | default(false) %}
+{# A mark-only logo has no wordmark, so it has no tagline either #}
+{% set showTagline = false if markOnly else logoTagline | default(true) %}
+
+<div class="logo-container">
+	{# Homepage logo isn't a link to itself #}
+	<a {% if page.url != "/" %}href="/"{% endif %} class="logo-link">
+		{% if not markOnly %}
+			<h1 class="text-logo">
+				<span class="header-logo-piece letter-o1 hoverwink">o</span>
+				<span class="header-logo-piece letter-d1 hoverwink">d</span>
+				<span class="header-logo-piece letter-d2 hoverwink">d</span>
+				<span class="header-logo-piece letter-h hoverwink">h</span>
+				<span class="header-logo-piece letter-o2 hoverwink">o</span>
+				<span class="header-logo-piece letter-r hoverwink">r</span>
+				<span class="header-logo-piece letter-s hoverwink">s</span>
+				<span class="header-logo-piece letter-e hoverwink">e</span>
+			</h1>
+		{% endif %}
+		<span class="header-logo-piece letter-icon hoverwink">{% include "icons/OH-thick.svg" %}</span>
+	</a>
+
+	{# Tagline is optional so the logo can be dropped in as a plain mark.
+	   Starts at opacity 0 and is revealed by logo.js once text is set,
+	   which avoids a flash of the placeholder. #}
+	{% if showTagline %}
+		<h2 class="tagline hoverwink" data-taglines="{{ taglines | dump }}" style="opacity: 0;">is him!</h2>
+	{% endif %}
+</div>
+
+{# Self-contained behaviour. Duplicate module scripts are deduped by the
+   browser, so including this component twice still runs logo.js once. #}
+<script type="module" src="/assets/js/logo.js"></script>

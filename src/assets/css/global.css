@@ -301,7 +301,7 @@ main {
  * Desktop: horizontal flexbox with logo left, navbar right
  * Mobile: vertical stack with centered content
  *
- * Logo sizing uses scoped CSS variables (--logo-size, --tagline-size)
+ * Logo sizing is driven by font-size on .logo-container (see section 9)
  * These can be overridden on specific pages like homepage
  */
 header {
@@ -312,11 +312,11 @@ header {
 	padding: 2rem 3rem;
 }
 
-/* Default logo sizing for header (smaller than homepage) */
-header .logo-container {
-	--logo-size: 5rem;
-	--tagline-size: 1rem;
-}
+/* NOTE: deliberately no `header .logo-container { font-size }` rule here.
+ * It used to set --logo-size, and because `header .logo-container` outranks a
+ * plain `.logo-container`, it silently beat every page-level override no
+ * matter the file order. The logo's default size now lives on .logo-container
+ * itself (section 9), so pages can override it with plain .logo-container. */
 
 /* Mobile header: reduce sizes and spacing */
 @media (max-width: 768px) {
@@ -460,12 +460,18 @@ footer {
  * - --logo-shadow-color: Shadow with transparency, modified on hover
  * - SVG logo uses fill="currentColor" to inherit color from parent
  *
- * Sizing uses scoped variables --logo-size and --tagline-size
- * These are set by the page (e.g., homepage sets larger size)
+ * SIZING: everything inside is expressed in em, so the whole logo scales from
+ * the container's font-size. That is the only knob — drop the component
+ * anywhere and set font-size to resize it:
+ *     .hero .logo-container { font-size: 8rem; }
  */
 .logo-container {
 	--logo-color: var(--page-color);
 	--logo-shadow-color: #00000000;
+
+	/* Default size. Override with font-size, not a custom property. */
+	font-size: 5rem;
+
 	user-select: none;
 	-webkit-user-select: none;
 	cursor: pointer;
@@ -484,18 +490,18 @@ footer {
 
 /**
  * Text logo - "oddhorse" text
- * Uses --logo-size for fluid responsive sizing
- * Text shadow animates on navbar hover
+ * 1em = the container's font-size, so it scales with the component.
+ * Text shadow animates on link hover.
  */
 .logo-container .text-logo {
 	margin: 0;
 	font-weight: normal;
 	letter-spacing: -0.08em;
-	font-size: var(--logo-size);
+	font-size: 1em;
 	line-height: 1;
 	transition: text-shadow var(--link-hover-transition-speed);
 	transition-timing-function: var(--link-hover-transition-timing-function);
-	text-shadow: calc(var(--logo-size) / 2) 0px calc(var(--logo-size) * 0.5) var(--logo-shadow-color);
+	text-shadow: 0.5em 0px 0.5em var(--logo-shadow-color);
 	display: inline-flex;
 	gap: 0;
 	align-items: baseline;
@@ -506,9 +512,9 @@ footer {
 	display: inline-block;
 }
 
-/* SVG logo - sized with --logo-size, inherits color from parent */
+/* SVG logo - matches the text logo's size, inherits color from parent */
 .logo-container .oddhorse-logo {
-	width: var(--logo-size);
+	width: 1em;
 	height: auto;
 	border-radius: 2px;
 }
@@ -520,20 +526,22 @@ footer {
 
 /**
  * Tagline - random rotating text below logo
- * Positioned absolutely relative to logo container
- * Controlled by JavaScript in header-logo.njk
- * Clickable to cycle through taglines, auto-rotates every 10 seconds
+ * Controlled by logo.js. Clickable to cycle, auto-rotates every 10 seconds.
+ *
+ * Scales with the logo (0.157em reproduces the old 1.1rem-against-7rem ratio)
+ * but never below 1rem, so a small logo keeps a readable tagline instead of
+ * needing a separate mobile override.
  */
-.logo-container #tagline {
+.logo-container .tagline {
 	position: absolute;
 	margin: 0;
 	line-height: 1;
 	color: var(--lighter-text-color);
-	font-size: var(--tagline-size);
+	font-size: max(1rem, 0.157em);
 	font-weight: normal;
 	/* Override default h2 bold weight */
-	translate: 0 calc(var(--tagline-size) / 2 * -1);
-	padding-left: var(--tagline-size);
+	translate: 0 -0.5em;
+	padding-left: 1em;
 	cursor: pointer;
 }
 

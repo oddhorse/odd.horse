@@ -9,9 +9,9 @@ layout: base
 <link rel="stylesheet" href="/assets/css/pages/treats.css">
 
 <main>
-	<a href="/" class="logo-link logo-container">
-		{% include "icons/OH-thick.svg" %}
-	</a>
+	{# Just the horse mark, no wordmark or tagline #}
+	{% set logoMark = true %}
+	{% include "logo.njk" %}
 	{% include "mailchimp.njk" %}
 	<p class="more">
 		<a href="/" >

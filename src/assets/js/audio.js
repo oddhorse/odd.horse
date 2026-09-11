@@ -34,7 +34,10 @@ export async function loadAudio(key, urls) {
 	const audio = new Audio()
 	const prefer = urls.find(u => {
 		const ext = u.split('.').pop()
-		if (ext === 'ogg') return audio.canPlayType('audio/ogg; codecs="opus"') !== ''
+		// Probe the container, not a specific codec: these .ogg files are
+		// Vorbis, but the old check asked about Opus. Safari answers "" for
+		// audio/ogg either way and correctly falls through to mp3.
+		if (ext === 'ogg') return audio.canPlayType('audio/ogg') !== ''
 		if (ext === 'mp3') return audio.canPlayType('audio/mpeg') !== ''
 		return true
 	}) || urls[0]
@@ -44,6 +47,16 @@ export async function loadAudio(key, urls) {
 	const buf = await audioCtx.decodeAudioData(arrayBuffer)
 	buffers.set(key, buf)
 	return buf
+}
+
+/**
+ * Whether a clip is decoded and ready to play right now.
+ * Lets callers play synchronously inside a user gesture instead of awaiting.
+ * @param {string} key - Identifier for the sound
+ * @returns {boolean} True if the buffer is cached
+ */
+export function hasAudio(key) {
+	return buffers.has(key)
 }
 
 /**

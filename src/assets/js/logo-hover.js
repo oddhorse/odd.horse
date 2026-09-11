@@ -21,24 +21,30 @@ const HOVER_SELECTOR =
  * Safe to call on pages with no logo — it simply does nothing.
  */
 export function setupLogoHover() {
-	const logoContainer = document.querySelector('.logo-container')
-	if (!logoContainer) return
+	// Every logo on the page tints, not just the first — the logo is a
+	// drop-in component and a page may hold more than one.
+	const logos = document.querySelectorAll('.logo-container')
+	if (logos.length === 0) return
 
 	/**
 	 * Tint the logo to match a hovered element's colour.
 	 * @param {string} color - Hex colour from the element's --hover-color
 	 */
 	const tintLogo = (color) => {
-		logoContainer.style.setProperty('--logo-color', color)
-		// 33 = 20% alpha. Assumes 6-digit hex, which is what every colour
-		// in links.json and artifacts.json uses.
-		logoContainer.style.setProperty('--logo-shadow-color', `${color}33`)
+		for (const logo of logos) {
+			logo.style.setProperty('--logo-color', color)
+			// 33 = 20% alpha. Assumes 6-digit hex, which is what every colour
+			// in links.json and artifacts.json uses.
+			logo.style.setProperty('--logo-shadow-color', `${color}33`)
+		}
 	}
 
 	/** Drop back to the page's default logo colour. */
 	const resetLogo = () => {
-		logoContainer.style.setProperty('--logo-color', '')
-		logoContainer.style.setProperty('--logo-shadow-color', '')
+		for (const logo of logos) {
+			logo.style.setProperty('--logo-color', '')
+			logo.style.setProperty('--logo-shadow-color', '')
+		}
 	}
 
 	// mouseover/mouseout (not mouseenter/leave) because only these bubble,
