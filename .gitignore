@@ -17,26 +17,26 @@ dist-ssr
 !.vscode/extensions.json
 .idea
 .DS_Store
-Icon?
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
 
+# macOS custom folder icon file, which is literally named "Icon\r".
+# The line below is "Icon" + TWO carriage returns (git strips one trailing CR),
+# and editors may silently delete them. Do NOT "simplify" it to "Icon?": on
+# case-insensitive macOS that also matched our icons/ folders, so new icons
+# were silently left out of git and missing from deploys.
+Icon
+
 unused
 .htaccess
-
-<<<<<<< HEAD
 SITE ASSETS
-Icon?
-=======
+
 # Claude Code hooks generated files
 .dev-server.pid
 .dev-server.log
 
 # Git worktrees
 .worktrees
-
-SITE ASSETS
->>>>>>> beta
