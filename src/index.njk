@@ -31,7 +31,7 @@ layout: base
 						target="_blank"
 						rel="noopener noreferrer"
 					{% endif %}
-					style="--artifact-color: {{ artifact.color or '#ff00bb' }};">
+					style="--hover-color: {{ artifact.color or '#ff00bb' }};">
 						<span class="artifact-status"></span>
 						<span class="artifact-description">{{ artifact.description }}</span>
 						<span class="artifact-date">{{ artifact.dateAdded }}</span>
@@ -41,14 +41,6 @@ layout: base
 		{% endfor %}
 	</ul>
 </main>
-
-{# Artifact tracking - only used on homepage #}
-<script type="module">
-	import {initArtifactTracking} from '/assets/js/artifacts.js'
-
-	// Initialize artifact tracking on page load
-	initArtifactTracking()
-</script>
 
 {% include "footer.njk" %}
 

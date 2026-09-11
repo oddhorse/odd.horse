@@ -44,9 +44,10 @@
  *
  * Color hierarchy:
  * - Base colors: Fixed brand colors (black, white, pink)
- * - Page theme: --page-color set per-page via inline script
- * - Derived colors: --link-color, --link-hover-color computed by colors.js
- * - Logo colors: --logo-color modified by navbar.js on hover
+ * - Page theme: --page-color set per-page via inline script in head.njk
+ * - Derived colors: --link-color, --link-hover-color derived from --page-color
+ *   right here in CSS, using relative color syntax
+ * - Logo colors: --logo-color tinted by logo-hover.js on hover
  *
  * Transition system: All animations use consistent timing variables
  */
@@ -61,16 +62,13 @@
 	/* Page theme color - dynamically set per page */
 	--page-color: #000000;
 
-	/* Link colors - modified by colors.js based on --page-color */
-	--link-color: #000000;
+	/* Link colors, derived from the page colour.
+	 * Fallback here is the old static pink; the @supports block just below
+	 * upgrades it to a real derivation on browsers that can do the maths. */
+	--link-color: var(--page-color);
 	--link-hover-color: #ff00bb;
 
-	/* Button and background colors - for future use */
-	--button-background-color: #ff00bb;
-	--accent-background-color: #ff00bb;
-	--hover-background-color: #ff00bb;
-
-	/* Logo colors - modified by navbar.js on navlink hover */
+	/* Logo colors - tinted by logo-hover.js on hover */
 	--logo-color: var(--page-color);
 	--logo-shadow-color: #00000000;
 
@@ -82,6 +80,19 @@
 	--hoverwink-transition-speed: 0.2s;
 	--hoverwink-transition-timing-function: cubic-bezier(0.18, 0.89, 0.32, 1.5);
 	--translation-animation-amount: 1rem;
+}
+
+/* Derive the link hover colour from --page-color instead of hard-coding it.
+ * hsl(from ...) is relative color syntax: keep the page colour's hue and
+ * saturation, drop its lightness by 10. Note `l` resolves to a NUMBER here
+ * (0-100), not a percentage - calc(l - 10%) silently fails.
+ *
+ * This replaces colors.js, which did the same hex->HSL maths by hand in JS.
+ * Browsers without relative color syntax keep the static fallback above. */
+@supports (color: hsl(from red h s calc(l - 10))) {
+	:root {
+		--link-hover-color: hsl(from var(--page-color) h s calc(l - 10));
+	}
 }
 
 /* ===== 2. FONTS ===== */
@@ -360,7 +371,7 @@ footer {
 
 /* Hover effect for social icons */
 .footer-social-icon:hover {
-	color: var(--footer-icon-color, var(--link-hover-color));
+	color: var(--hover-color, var(--link-hover-color));
 }
 
 /* Footer modal buttons row */
@@ -387,7 +398,7 @@ footer {
 
 /* Hover effect for footer buttons */
 .footer-button:hover {
-	color: var(--footer-button-color, var(--link-hover-color));
+	color: var(--hover-color, var(--link-hover-color));
 }
 
 /* Mobile footer: scale down to fit */
@@ -445,7 +456,7 @@ footer {
 /**
  * Logo container holds both text logo ("oddhorse") and SVG logo
  * Color system:
- * - --logo-color: Defaults to page color, changes on navbar hover (via navbar.js)
+ * - --logo-color: Defaults to page color, tinted on link hover (via logo-hover.js)
  * - --logo-shadow-color: Shadow with transparency, modified on hover
  * - SVG logo uses fill="currentColor" to inherit color from parent
  *

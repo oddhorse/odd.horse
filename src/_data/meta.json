@@ -4,5 +4,6 @@
 	"url": "https://odd.horse",
 	"lang": "en",
 	"locale": "en_us",
-	"author": "oddhorse (John Trinh)"
+	"author": "oddhorse (John Trinh)",
+	"ogImage": "/assets/favicon/android-chrome-512x512.png"
 }

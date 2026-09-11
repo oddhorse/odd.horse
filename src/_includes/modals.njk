@@ -10,16 +10,16 @@
 			<p>let's talk!</p>
 			<p>fans and friendly people
 				<span class="emoticon">:3</span>, come say
-				<a href="mailto:hi@odd.horse" class="modal-link" style="--modal-link-color: #d76aff;">hi<span class="darker">@odd.horse</span></a>!
+				<a href="mailto:hi@odd.horse" class="modal-link" style="--hover-color: #d76aff;">hi<span class="darker">@odd.horse</span></a>!
 			</p>
 			<p>for bookings, business, or otherwise serious matters
 				<span class="emoticon">:(</span>,
 				<span class="oddhorse-inline">oddhorse</span>
 				is
-				<a href="mailto:him@odd.horse" class="modal-link" style="--modal-link-color: #d76aff;">him@odd.horse</a>!
+				<a href="mailto:him@odd.horse" class="modal-link" style="--hover-color: #d76aff;">him@odd.horse</a>!
 			</p>
 			<p>if you like instagram, i'm also
-				<a href="{{ links.instagram.url }}" target="_blank" class="modal-link" style="--modal-link-color: {{ links.instagram.color }};">there too</a>!</p>
+				<a href="{{ links.instagram.url }}" target="_blank" class="modal-link" style="--hover-color: {{ links.instagram.color }};">there too</a>!</p>
 		</div>
 
 		{# Stream Modal Content - Streaming platforms #}
@@ -30,7 +30,7 @@
 			{% for name, data in links %}
 				{% if name == "spotify" or name == "apple music" or name == "soundcloud" or name == "nina protocol" %}
 				<li>
-					<a href="{{ data.url }}" target="_blank" rel="noopener noreferrer" class="modal-link" style="--modal-link-color: {{ data.color }};">
+					<a href="{{ data.url }}" target="_blank" rel="noopener noreferrer" class="modal-link" style="--hover-color: {{ data.color }};">
 						<span class="link-icon">{{ data.icon }}</span>
 						<span class="link-name">{{ name }}</span>
 					</a>
@@ -48,7 +48,7 @@
 			{% for name, data in links %}
 				{% if name == "instagram" or name == "youtube" or name == "tiktok" %}
 				<li>
-					<a href="{{ data.url }}" target="_blank" rel="noopener noreferrer" class="modal-link" style="--modal-link-color: {{ data.color }};">
+					<a href="{{ data.url }}" target="_blank" rel="noopener noreferrer" class="modal-link" style="--hover-color: {{ data.color }};">
 						<span class="link-icon">{{ data.icon }}</span>
 						<span class="link-name">{{ name }}</span>
 					</a>

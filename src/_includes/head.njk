@@ -4,105 +4,77 @@
 	<title>{{ title }}</title>
 	<meta name="theme-color" content="{{ color }}">
 
-	{# ========================
-	   EDITABLE HEAD SECTIONS
-	   The blocks below are grouped and clearly commented so you can adapt them.
-	   - SEO / social: description, canonical, og, twitter
-	   - Performance: preconnect, preload LCP image
-	   - PWA / mobile: apple meta, mask-icon
-	   - Security / privacy: referrer-policy, color-scheme
-	   Edit values or remove blocks as needed.
-	======================== #}
+	{# Page values resolved once here so the tags below stay readable.
+	   Per-page frontmatter (description, ogImage) wins; meta.json is the fallback. #}
+	{% set pageUrl = meta.url + page.url %}
+	{% set pageDescription = description or meta.description %}
+	{% set pageImage = ogImage or (meta.url + meta.ogImage) %}
 
-	<!-- === SEO (editable) === -->
-	<meta name="description" content="{{ description | default(meta.description | default('')) }}">
-	<link rel="canonical" href="{{ site.url | default('') }}{{ page.url }}">
-	{# hide pages from indexing #}
-	{% if noindex %}
-		<meta name="robots" content="noindex, nofollow">
-	{% else %}
-		<meta name="robots" content="index, follow">
-	{% endif %}
-	<!-- === /SEO === -->
+	<!-- === SEO === -->
+	<meta name="description" content="{{ pageDescription }}">
+	<link rel="canonical" href="{{ pageUrl }}">
+	{# noindex: true in frontmatter hides a page from search engines #}
+	<meta name="robots" content="{% if noindex %}noindex, nofollow{% else %}index, follow{% endif %}">
 
 	<!-- === Social (Open Graph & Twitter) === -->
-	<meta property="og:type" content="{{ og.type | default('website') }}">
-	<meta property="og:title" content="{{ og.title | default(title) }}">
-	<meta property="og:description" content="{{ og.description | default(description | default(meta.description | default(''))) }}">
-	<meta property="og:image" content="{{ og.image | default(ogImage | default(meta.ogImage | default(''))) }}">
-	<meta property="og:url" content="{{ (site.url | default('')) }}{{ page.url }}">
-	<meta property="og:site_name" content="{{ site.title | default('') }}">
+	<meta property="og:type" content="website">
+	<meta property="og:title" content="{{ title }}">
+	<meta property="og:description" content="{{ pageDescription }}">
+	<meta property="og:image" content="{{ pageImage }}">
+	<meta property="og:url" content="{{ pageUrl }}">
+	<meta property="og:site_name" content="{{ meta.title }}">
+	<meta property="og:locale" content="{{ meta.locale }}">
 
-	<meta name="twitter:card" content="{{ twitter.card | default('summary_large_image') }}">
-	<meta name="twitter:site" content="{{ site.twitter | default('') }}">
-	<meta name="twitter:title" content="{{ twitter.title | default(title) }}">
-	<meta name="twitter:description" content="{{ twitter.description | default(description | default(meta.description | default(''))) }}">
-	<meta name="twitter:image" content="{{ twitter.image | default(og.image | default(ogImage | default(meta.ogImage | default('')))) }}">
-	<!-- === /Social === -->
+	{# No Twitter/X account, so twitter:site is omitted deliberately.
+	   These tags still drive the link preview card on X and elsewhere. #}
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="{{ title }}">
+	<meta name="twitter:description" content="{{ pageDescription }}">
+	<meta name="twitter:image" content="{{ pageImage }}">
 
 	<!-- === Performance Hints === -->
-	{# Preconnect to external origins if configured #}
-	{% if site.preconnect %}
-		{% for host in site.preconnect %}
-			<link rel="preconnect" href="{{ host }}" crossorigin>
-		{% endfor %}
-	{% endif %}
-
-	{# Preload critical fonts #}
+	{# Preload the two Karrik weights used for body text (FT88 is display-only
+	   and loads late enough that preloading it would compete with these). #}
 	<link rel="preload" href="/assets/fonts/Karrik-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
 	<link rel="preload" href="/assets/fonts/Karrik-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
 
-	{# Preload LCP image if specified in frontmatter #}
-	{% if page.lcpImage %}
-		<link rel="preload" as="image" href="{{ page.lcpImage }}" imagesrcset="{{ page.lcpImageSrcset | default('') }}" imagesizes="{{ page.lcpImageSizes | default('') }}" fetchpriority="high">
-	{% endif %}
-
-	{# Prefetch internal artifact pages for faster navigation #}
+	{# Prefetch internal artifact pages — the whole site is a list of these,
+	   so a click is likely and these are cheap same-origin fetches.
+	   External origins are deliberately NOT preconnected: they sit behind
+	   modals most visitors never open, and 7 idle TLS handshakes cost more
+	   than they save. #}
 	{% for artifact in artifacts %}
-		{% if artifact.url and artifact.url != '#' and not artifact
-			.url
-			.startsWith('http')and not artifact
-			.hidden %}
+		{% if artifact.url and artifact.url != '#' and not artifact.url.startsWith('http') and not artifact.hidden %}
 			<link rel="prefetch" href="{{ artifact.url }}">
 		{% endif %}
 	{% endfor %}
-
-	{# Preconnect to external links for instant loading #}
-	{% for key, link in links %}
-		{% set origin = link.url | getOrigin %}
-		<link rel="preconnect" href="{{ origin }}">
-	{% endfor %}
-	<!-- === /Performance === -->
 
 	<!-- === Favicons === -->
 	<link rel="icon" type="image/x-icon" href="/assets/favicon/favicon.ico">
 	<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png">
-	<!-- === /Favicons === -->
+	<link rel="apple-touch-icon" href="/assets/favicon/apple-touch-icon.png">
 
-	<!-- === Security & Privacy (editable) === -->
+	<!-- === Security & Privacy === -->
+	{# Hard security headers (CSP etc.) belong at the server, not here. #}
 	<meta name="referrer" content="strict-origin-when-cross-origin">
 	<meta name="color-scheme" content="light">
 	<meta name="format-detection" content="telephone=no">
-	<!-- Note: set CSP and other hard security headers at the server level; inline scripts may require CSP hashes/nonces. -->
-	<!-- === /Security & Privacy === -->
 
 	{# Main stylesheet - plain CSS with modern features #}
 	<link rel="stylesheet" href="/assets/css/main.css">
 
-	{# Core JavaScript - ES module loaded on ALL pages (navbar, colors, modals) #}
+	{# Core JavaScript - ES module loaded on ALL pages (logo hover, modals) #}
 	<script type="module" src="/assets/js/core.js"></script>
 
-	{# Set page color variable - defaults to black if not defined #}
+	{# Set page color before first paint, so nothing flashes the default.
+	   Deliberately NOT a module: modules defer, which would be too late. #}
 	<script>
-		document
-			.documentElement
-			.style
-			.setProperty("--page-color", "{{ color or '#000000' }}");
+		document.documentElement.style.setProperty("--page-color", "{{ color or '#000000' }}");
 	</script>
-	{# if it isn't local dev server, add gtag #}
+
+	{# Skip analytics on the local dev server #}
 	{% if eleventy.env.runMode != 'serve' %}
 		{% include "gtag.njk" %}
 	{% endif %}
-
 </head>

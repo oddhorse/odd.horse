@@ -3,6 +3,7 @@
  * JavaScript loaded ONLY on the homepage (index.njk)
  *
  * Initializes homepage-specific features:
+ * - Artifact click tracking (localStorage "seen" state)
  * - Header logo tagline rotation and audio
  * - Stampede effect on logo click
  * - Chaos hover effects on navbar links
@@ -16,13 +17,14 @@ import { initAudioCtx, loadAudio } from './audio.js'
 import { initHeaderLogo } from './header-logo.js'
 import { initStampede } from './stampede.js'
 import { initChaosHover } from './chaos-hover.js'
-import { wipeClickData, refreshArtifactUI } from './artifacts.js'
+import { initArtifactTracking, wipeClickData, refreshArtifactUI } from './artifacts.js'
 
 /**
  * Initialize homepage features when DOM is ready
  */
 document.addEventListener('DOMContentLoaded', () => {
 	// Initialize homepage features
+	initArtifactTracking()
 	initHeaderLogo()
 	initStampede()
 	initChaosHover()

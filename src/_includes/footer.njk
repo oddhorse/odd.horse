@@ -1,21 +1,21 @@
 <footer>
 	{# Icon-only social links (centered, inline, SVG icons) #}
 	<div class="footer-social-icons">
-		<a href="{{ links.spotify.url }}" target="_blank" rel="noopener noreferrer" class="footer-social-icon hoverwink" aria-label="Spotify" style="--footer-icon-color: {{ links.spotify.color }};">
+		<a href="{{ links.spotify.url }}" target="_blank" rel="noopener noreferrer" class="footer-social-icon hoverwink" aria-label="Spotify" style="--hover-color: {{ links.spotify.color }};">
 			{% include "icons/spotify.svg" %}
 		</a>
-		<a href="{{ links.instagram.url }}" target="_blank" rel="noopener noreferrer" class="footer-social-icon hoverwink" aria-label="Instagram" style="--footer-icon-color: {{ links.instagram.color }};">
+		<a href="{{ links.instagram.url }}" target="_blank" rel="noopener noreferrer" class="footer-social-icon hoverwink" aria-label="Instagram" style="--hover-color: {{ links.instagram.color }};">
 			{% include "icons/instagram.svg" %}
 		</a>
-		<a href="{{ links.tiktok.url }}" target="_blank" rel="noopener noreferrer" class="footer-social-icon hoverwink" aria-label="TikTok" style="--footer-icon-color: {{ links.tiktok.color }};">
+		<a href="{{ links.tiktok.url }}" target="_blank" rel="noopener noreferrer" class="footer-social-icon hoverwink" aria-label="TikTok" style="--hover-color: {{ links.tiktok.color }};">
 			{% include "icons/tiktok.svg" %}
 		</a>
 	</div>
 
 	{# Modal trigger buttons (centered) #}
 	<div class="footer-modal-buttons">
-		<button data-modal-trigger="stream" class="footer-button floating chaos-hover" style="--footer-button-color: #1db954;">stream!</button>
-		<button data-modal-trigger="socials" class="footer-button floating chaos-hover" style="--footer-button-color: #e4405f;">socials</button>
-		<button data-modal-trigger="contact" class="footer-button floating chaos-hover" style="--footer-button-color: #d76aff;">contact</button>
+		<button data-modal-trigger="stream" class="footer-button floating chaos-hover" style="--hover-color: #1db954;">stream!</button>
+		<button data-modal-trigger="socials" class="footer-button floating chaos-hover" style="--hover-color: #e4405f;">socials</button>
+		<button data-modal-trigger="contact" class="footer-button floating chaos-hover" style="--hover-color: #d76aff;">contact</button>
 	</div>
 </footer>

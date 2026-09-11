@@ -12,7 +12,6 @@
 import { eleventyImageTransformPlugin } from '@11ty/eleventy-img'
 import { DateTime } from 'luxon'
 import markdownIt from 'markdown-it'
-import markdownItAnchor from 'markdown-it-anchor'
 import simpleGit from 'simple-git'
 
 // ===== GIT INTEGRATION =====
@@ -84,8 +83,6 @@ export default async function (eleventyConfig) {
 
 	// ===== PLUGINS =====
 
-	// Bundling removed: inline script/style extraction no longer used
-
 	/**
 	 * Image optimization plugin
 	 * Automatically generates responsive image formats (WebP, JPEG) and sizes
@@ -140,16 +137,6 @@ export default async function (eleventyConfig) {
 		breaks: true, // Convert line breaks to <br>
 		linkify: true, // Auto-convert URLs to links
 	})
-	// .use(markdownItAnchor, {
-	// 	// Add anchor links to headings for easy linking
-	// 	permalink: markdownItAnchor.permalink.ariaHidden({
-	// 		placement: 'after',
-	// 		class: 'direct-link',
-	// 		symbol: '#',
-	// 		level: [1, 2, 3, 4], // Add anchors to h1-h4
-	// 	}),
-	// 	slugify: eleventyConfig.getFilter('slug'),
-	// })
 	eleventyConfig.setLibrary('md', markdownLibrary)
 
 	// ===== LAYOUT ALIASES =====

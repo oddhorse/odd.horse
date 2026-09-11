@@ -62,7 +62,7 @@ main {
  * - Filled dot for clicked items
  * - "NEW" badge for items added within 30 days
  * - "SEEN" badge for clicked items
- * - Custom color per artifact via --artifact-color inline style
+ * - Custom color per artifact via --hover-color inline style
  *
  * JavaScript in artifacts.js handles:
  * - Adding .clicked or .unclicked classes
@@ -102,7 +102,7 @@ main {
 /* Hover changes to artifact's custom color */
 .artifact-item.clicked .artifact-link:hover,
 .artifact-link:hover {
-	color: var(--artifact-color, var(--link-hover-color));
+	color: var(--hover-color, var(--link-hover-color));
 }
 
 /* Hide the artifact status dot */
@@ -424,7 +424,7 @@ body.modal-open .modal-container {
 }
 
 .modal-content#modal-links .links-list a:hover {
-	color: var(--modal-link-color, var(--link-hover-color));
+	color: var(--hover-color, var(--link-hover-color));
 }
 
 .modal-content#modal-links .link-icon {
@@ -438,7 +438,7 @@ body.modal-open .modal-container {
 }
 
 .modal-link:hover {
-	color: var(--modal-link-color, var(--link-hover-color));
+	color: var(--hover-color, var(--link-hover-color));
 }
 
 /* ===== CHAOS HOVER ===== */

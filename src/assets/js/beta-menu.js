@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			li.innerHTML = `
                 <span class="artifact-badge artifact-badge-clicked">SEEN</span>
                 <span class="artifact-badge artifact-badge-new">NEW!</span>
-                <a href="#" class="artifact-link" style="--artifact-color: ${randomColor};">
+                <a href="#" class="artifact-link" style="--hover-color: ${randomColor};">
                     <span class="artifact-status"></span>
                     <span class="artifact-description">test artifact ${dummyCounter}</span>
                     <span class="artifact-date">${dummyDate}</span>
@@ -87,21 +87,8 @@ document.addEventListener('DOMContentLoaded', () => {
 				})
 			}
 
-			// Set up logo hover for new link
-			const logoContainer = document.querySelector('.logo-container')
-			if (logoContainer && link) {
-				const artifactColor = randomColor
-				const shadowColor = `${artifactColor}33`
-
-				link.addEventListener('mouseenter', () => {
-					logoContainer.style.setProperty('--logo-color', artifactColor)
-					logoContainer.style.setProperty('--logo-shadow-color', shadowColor)
-				})
-				link.addEventListener('mouseleave', () => {
-					logoContainer.style.setProperty('--logo-color', '')
-					logoContainer.style.setProperty('--logo-shadow-color', '')
-				})
-			}
+			// No logo-hover wiring needed: logo-hover.js delegates from
+			// document, so this new link is picked up automatically.
 
 			dummyCounter++
 			console.log(`Added dummy artifact ${dummyCounter - 1}`)
