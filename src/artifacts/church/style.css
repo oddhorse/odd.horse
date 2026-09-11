@@ -1,0 +1,235 @@
+/* church
+	by john trinh
+	style.css */
+
+@font-face {
+	font-family: "Karrik";
+	src: url("fonts/Karrik-Regular.woff2") format("woff2");
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Karrik";
+	src: url("fonts/Karrik-Italic.woff2") format("woff2");
+	font-weight: normal;
+	font-style: italic;
+	font-display: swap;
+}
+
+body {
+	/* https://stackoverflow.com/questions/2284562/absolutely-positioned-div-on-right-causing-scrollbar-when-the-left-doesnt */
+	/* for hiding congregation in the wings */
+	overflow: hidden;
+}
+
+button {
+	cursor: pointer;
+}
+
+#demo-toggle {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 20px;
+	height: 20px;
+	z-index: 10;
+	opacity: 0;
+	cursor: help;
+}
+
+#demo-toggle:hover {
+	opacity: 100%;
+}
+
+#demo-toggle:hover+#demo-box {
+	opacity: 100%;
+}
+
+#demo-box {
+	opacity: 40%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: fit-content;
+}
+
+#demo-box:hover {
+	opacity: 100%;
+}
+
+
+
+#light {
+	position: absolute;
+	translate: -50% 0;
+	top: -100px;
+	left: calc(50% - 15px);
+	pointer-events: none;
+	opacity: 0;
+
+	/* transition: scale 0.1s; */
+
+	/* animation-name: church-waggle;
+	animation-duration: 1s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+	animation-direction: alternate; */
+
+}
+
+#world {
+
+	position: absolute;
+	translate: -50% -50%;
+	top: calc(50% - 10px);
+	left: calc(50% - 10px);
+	cursor: grabbing;
+}
+
+#church {}
+
+#world:hover {
+	scale: 102%;
+}
+
+#bush {
+	position: absolute;
+	top: 178px;
+	left: 49px;
+	cursor: help;
+}
+
+#bush:hover {
+	scale: 110%;
+}
+
+#door {
+	position: absolute;
+	top: 171px;
+	left: 111px;
+	pointer-events: none;
+}
+
+#hammer {
+	position: absolute;
+	top: 178px;
+	left: 49px;
+	opacity: 0;
+	cursor: grab;
+}
+
+#hammer:hover {
+	scale: 110%;
+}
+
+#theses {
+	position: absolute;
+	top: 173px;
+	left: 114px;
+	cursor: zoom-in;
+}
+
+#theses:hover {
+	scale: 120%;
+}
+
+/* stops images from being dragged */
+img {
+	-webkit-user-drag: none;
+	-webkit-user-select: none;
+	user-select: none;
+	touch-action: manipulation;
+}
+
+#congregation {
+	position: absolute;
+	translate: 0 -50%;
+	top: 50%;
+	left: 100%;
+}
+
+#congregation.walking {
+	animation-name: walk-bob;
+	animation-duration: 0.1s;
+	animation-timing-function: ease-in;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+}
+
+img.popup {
+	position: absolute;
+	translate: -50% -50%;
+	top: 50%;
+	left: 50%;
+	opacity: 0;
+	width: auto;
+	height: auto;
+	max-width: calc(100svw - 20px);
+	max-height: calc(100svh - 20px);
+}
+
+#martin {
+	cursor: url('images/hammer.png'), auto;
+}
+
+#theses-big {}
+
+#footer {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	font-size: 12px;
+	margin: 7px 10px;
+	font-family: Karrik, Helvetica, sans-serif;
+	opacity: 20%;
+	color: #888;
+}
+
+#footer:hover {
+	opacity: 100%;
+}
+
+#footer>a {
+	text-decoration: none;
+	color: black;
+}
+
+#shroud {
+	position: fixed;
+	inset: 0;
+	z-index: 999;
+	backdrop-filter: blur(8px);
+	background: rgba(1, 1, 1, 0);
+	cursor: help;
+	opacity: 1;
+	transition: opacity 40ms linear;
+}
+
+#shroud.gone {
+	opacity: 0;
+	pointer-events: none;
+}
+
+@keyframes church-waggle {
+	0% {
+		transform: rotate(5deg);
+	}
+
+
+	100% {
+		transform: rotate(-5deg);
+	}
+
+}
+
+@keyframes walk-bob {
+	0% {
+		transform: translateY(0)
+	}
+
+	100% {
+		transform: translateY(15px);
+	}
+}

@@ -1,0 +1,50 @@
+<!-- church
+	by john trinh
+	index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title id="page-title">church</title>
+	<script src="main.js"></script>
+	<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+	<div id="demo-toggle"></div>
+	<div id="demo-box" hidden>
+		<h2>demo/test menu</h2>
+		<p id="demo-time"></p>
+		<button type="button" id="demo-ring-btn">toll</button>
+		<button type="button" id="demo-ring-twice-btn">toll twice</button>
+		<button type="button" id="demo-ring-six-btn">toll six times</button>
+		<label><input type="checkbox" id="demo-ring-often-toggle"> ring often</label>
+		<br><br>
+		<button type="button" id="demo-congregate-btn">congregate</button>
+		<button type="button" id="demo-disperse-btn">disperse</button>
+		<button type="button" id="demo-protest-early-btn">end sermon early</button>
+		<button type="button" id="demo-protest-btn">protest</button>
+	</div>
+	<div id="world">
+		<img src="images/church.png" alt="church" id="church" eleventy:ignore>
+		<img src="images/hammer.png" alt="hammer" id="hammer" hidden eleventy:ignore>
+		<img src="images/bush.png" alt="bush" id="bush" eleventy:ignore>
+		<img src="images/door.png" alt="door" id="door" eleventy:ignore>
+		<img src="images/theses-angled.png" alt="95 theses" id="theses" hidden eleventy:ignore>
+		<!-- <p id="time">00:00</p> -->
+	</div>
+
+	<img src="images/congregation.png" alt="congregation" id="congregation" class="walking" eleventy:ignore>
+	<img src="images/light.png" alt="light from heaven" id="light" eleventy:ignore>
+	<img src="images/martin.jpg" alt="martin luther" id="martin" class="popup" hidden eleventy:ignore>
+	<img src="images/theses-big.png" alt="95 theses" id="theses-big" class="popup" hidden eleventy:ignore>
+	<footer id="footer"><a href="https://github.com/oddhorse/church" target="_blank" rel="noopener noreferrer">church</a>
+		by <a href="https://odd.horse" target="_blank" rel="noopener noreferrer">oddhorse</a>
+	</footer>
+	<div id="shroud"></div>
+</body>
+
+</html>

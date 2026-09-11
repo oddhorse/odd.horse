@@ -9,6 +9,14 @@
 		"hidden": true
 	},
 	{
+		"id": "church",
+		"description": "church",
+		"url": "/artifacts/church",
+		"type": "link",
+		"dateAdded": "2026-09-11",
+		"color": "#ff00bb"
+	},
+	{
 		"id": "new-site-info",
 		"description": "README",
 		"url": "/artifacts/new-site-info",
