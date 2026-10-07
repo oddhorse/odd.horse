@@ -46,6 +46,9 @@
 		"description": "on the cusp",
 		"url": "/artifacts/on-the-cusp",
 		"type": "text",
+		"tags": [
+			"blog"
+		],
 		"dateAdded": "2026-01-04",
 		"color": "#31ddff",
 		"newtab": true
@@ -64,6 +67,9 @@
 		"description": "LAST NORMAL SONG",
 		"url": "https://too.fm/oddhorse-toogetherrr",
 		"type": "link",
+		"tags": [
+			"music"
+		],
 		"dateAdded": "2026-01-19",
 		"color": "#d76aff",
 		"newtab": true
@@ -73,6 +79,9 @@
 		"description": "it's an underrated album (old)",
 		"url": "https://too.fm/oddhorse-sffh",
 		"type": "link",
+		"tags": [
+			"music"
+		],
 		"dateAdded": "2026-01-27",
 		"color": "#d76aff",
 		"newtab": true

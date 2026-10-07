@@ -83,6 +83,18 @@ Pages pull in what they need with plain tags — there is no bundler and no mani
 `.njk` (wrap inline scripts in an IIFE). Needs to run before first paint → inline
 non-module script in `head.njk`.
 
+### Artifacts
+
+The homepage list comes from `src/_data/artifacts.json`. Fields are documented
+in `src/artifacts/README.md`, which doubles as a published artifact page, so
+update it when the schema changes.
+
+Two separate axes: `type` is the format (`pdf`/`link`/`text`), `tags` is the
+subject (`["music"]`). `tags`, `image` and `imageAlt` render as `data-*`
+attributes on each `<li>` and are **not** drawn yet — they exist for the
+planned particle system. Tags are space-separated in the attribute, so
+`[data-tags~="music"]` works in plain CSS; that requires single-word tags.
+
 ### The logo component
 
 `_includes/logo.njk` is drop-in. Include it anywhere, any number of times:

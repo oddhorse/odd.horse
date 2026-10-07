@@ -20,9 +20,16 @@ layout: base
 		{# Sort artifacts by date, newest first #}
 		{% for artifact in artifacts | sort(reverse = true, attribute = 'dateAdded') %}
 			{% if not artifact.hidden %}
+				{# data-tags / data-image carry content metadata for the particle
+				   system. Nothing renders them yet - they are data only.
+				   Tags are space-separated so CSS can match one with
+				   [data-tags~="music"], no JS needed. #}
 				<li class="artifact-item"
 				data-artifact-id="{{ artifact.id }}"
-				data-date-added="{{ artifact.dateAdded }}">
+				data-date-added="{{ artifact.dateAdded }}"
+				{%- if artifact.tags %} data-tags="{{ artifact.tags | join(' ') }}"{% endif %}
+				{%- if artifact.image %} data-image="{{ artifact.image }}"{% endif %}
+				{%- if artifact.imageAlt %} data-image-alt="{{ artifact.imageAlt }}"{% endif %}>
 					<span class="artifact-badge artifact-badge-clicked">SEEN</span>
 					<span class="artifact-badge artifact-badge-new">NEW!</span>
 					<a href="{{ artifact.url }}"
