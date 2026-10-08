@@ -122,6 +122,39 @@
 	font-display: swap;
 }
 
+/* Light and bold are not preloaded in head.njk: they download only if a page uses them */
+@font-face {
+	font-family: "Karrik";
+	src: url("/assets/fonts/Karrik-Light.woff2") format("woff2");
+	font-weight: 300;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Karrik";
+	src: url("/assets/fonts/Karrik-LightItalic.woff2") format("woff2");
+	font-weight: 300;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Karrik";
+	src: url("/assets/fonts/Karrik-Bold.woff2") format("woff2");
+	font-weight: bold;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Karrik";
+	src: url("/assets/fonts/Karrik-BoldItalic.woff2") format("woff2");
+	font-weight: bold;
+	font-style: italic;
+	font-display: swap;
+}
+
 @font-face {
 	font-family: "FT88";
 	src: url("/assets/fonts/FT88-Regular.woff2") format("woff2");
