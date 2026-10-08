@@ -1,0 +1,3 @@
+[submodule "src/artifacts/sites/church"]
+	path = src/artifacts/sites/church
+	url = https://github.com/oddhorse/church

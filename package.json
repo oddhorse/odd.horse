@@ -15,7 +15,8 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"prepare": "husky",
 		"version:bump": "node scripts/bump-version.js",
-		"compress": "node scripts/compress-images.js"
+		"compress": "node scripts/compress-images.js",
+		"sync:artifacts": "git submodule update --remote"
 	},
 	"keywords": [],
 	"repository": {

@@ -18,6 +18,13 @@ jobs:
     steps:
     - name: checkout
       uses: actions/checkout@v4
+      # contained sites in src/artifacts/sites/ are git submodules
+      with:
+        submodules: true
+
+    # deploy each site's latest main, not the commit pinned in this repo
+    - name: use latest contained sites
+      run: git submodule update --remote
 
     - name: set up bun
       uses: oven-sh/setup-bun@v2
