@@ -36,12 +36,26 @@ export default async function (eleventyConfig) {
 
 	/**
 	 * Copy static assets to dist
-	 * Fonts and images go to /assets/, artifacts to /artifacts/, manifest to root
+	 * Fonts and images go to /assets/, manifest to root
 	 */
 	eleventyConfig.addPassthroughCopy('src/assets/fonts')
 	eleventyConfig.addPassthroughCopy('src/assets/images')
 	eleventyConfig.addPassthroughCopy('src/assets/audio')
-	eleventyConfig.addPassthroughCopy({ 'src/artifacts': 'artifacts' })
+
+	/**
+	 * artifacts/sites/ holds self-contained sites (their own html, css, js).
+	 * They are not templates: each one is copied untouched to /artifacts/<name>/,
+	 * so the sites/ folder never shows up in a URL.
+	 */
+	eleventyConfig.ignores.add('src/artifacts/sites/**')
+	eleventyConfig.addPassthroughCopy(
+		{ 'src/artifacts': 'artifacts' },
+		// loose artifacts only; sites/ is copied by the mapping below
+		{ filter: (path) => path !== 'sites' && !path.startsWith('sites/') },
+	)
+	// dot: false keeps a nested repo's .git and .gitignore out of the deploy
+	eleventyConfig.addPassthroughCopy({ 'src/artifacts/sites': 'artifacts' }, { dot: false })
+
 	eleventyConfig.addPassthroughCopy({ 'src/site.webmanifest': 'site.webmanifest' })
 
 	// ===== CUSTOM FILTERS =====

@@ -20,6 +20,7 @@ The playful interactive code *is* the point of this site. Don't optimise it away
 - `bun run watch` — build and watch without serving
 - `bun run clean` — remove `dist/`
 - `bun run bench` — build with Eleventy benchmark output
+- `bun run sync:artifacts` — update contained-site submodules to their latest commit
 
 No test suite or linter is configured.
 
@@ -35,7 +36,7 @@ inside each other instead of becoming siblings.
 # RIGHT - siblings
 git worktree add .worktrees/branch-a -b branch-a
 git worktree add .worktrees/branch-b -b branch-b
-cd .worktrees/branch-a && bun install
+cd .worktrees/branch-a && bun install && git submodule update --init
 ```
 
 ## Architecture
@@ -52,7 +53,8 @@ src/
   _includes/                   head, header, logo, footer, modals,
                                background, beta-menu, mailchimp, gtag, icons/
   _data/                       artifacts, links, taglines, meta
-  artifacts/                   artifact content (md, pdf, standalone pages)
+  artifacts/                   loose artifact content (md, pdf), nest freely
+  artifacts/sites/             self-contained sites, copied untouched (see below)
   assets/css/
     main.css                   entry point; imports reset + global
     reset.css                  UNTOUCHABLE browser normalisation (modern-normalize)
@@ -82,6 +84,30 @@ Pages pull in what they need with plain tags — there is no bundler and no mani
 → `pages/<page>.css` / `<page>.js`. Self-contained component → inline in that component's
 `.njk` (wrap inline scripts in an IIFE). Needs to run before first paint → inline
 non-module script in `head.njk`.
+
+### Contained sites
+
+A folder in `src/artifacts/sites/` is a self-contained site with its own html, css
+and js (`church`). 11ty does not render these as templates; each is passthrough-copied
+to `/artifacts/<name>/`, so `sites/` never appears in a URL. They must use relative
+URLs only (`images/x.png`, not `/images/x.png`). A site folder and a loose artifact
+cannot share a name, since both would claim `/artifacts/<name>/`.
+
+Each site is a **git submodule** pointing at its own standalone repo. Never edit a
+site's files here; change the standalone repo and push it.
+
+**Deploys ignore the pinned commit.** Both workflows run `git submodule update --remote`,
+so every deploy ships each site's latest `main`. A push to a site's repo goes live on
+the next odd.horse deploy (any push, or "Run workflow" in the Actions tab). The pin only
+affects local checkouts, so committing a bump is optional tidiness.
+
+```bash
+bun run sync:artifacts                       # local: move every site to its latest main
+git submodule add <repo-url> src/artifacts/sites/<name>   # add a new site
+```
+
+A fresh clone or a new worktree has empty site folders until you run
+`git submodule update --init`.
 
 ### The logo component
 
